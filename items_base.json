@@ -1,0 +1,18 @@
+{
+  "instrument": "EC Map v2 (Beta)",
+  "version": "v2.0",
+  "sections": {
+    "1": "Foundation — intake, reproductive/medical history, safety screen",
+    "2": "Cognition — 8 executive-function domains",
+    "3": "Body, Hormones & Recovery — 9 subdomains",
+    "4": "Drift from Baseline"
+  },
+  "totalItems": 97,
+  "scaleLegends": {
+    "freq5": "0 Not at all · 1 Rarely · 2 Sometimes · 3 Often · 4 Nearly daily",
+    "sev5": "0 None · 1 Mild · 2 Moderate · 3 Severe · 4 Very severe",
+    "bother4": "0 Not at all bothered · 1 A little · 2 Moderately · 3 Extremely",
+    "utiCount": "0 None · 1 One · 2 Two · 3 Three or four · 4 Five or more"
+  },
+  "items": []
+}

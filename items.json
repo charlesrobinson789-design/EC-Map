@@ -1,0 +1,1888 @@
+{
+  "instrument": "EC Map v2 (Beta)",
+  "version": "v2.0",
+  "sections": {
+    "1": "Foundation — intake, reproductive/medical history, safety screen",
+    "2": "Cognition — 8 executive-function domains",
+    "3": "Body, Hormones & Recovery — 9 subdomains",
+    "4": "Drift from Baseline"
+  },
+  "totalItems": 97,
+  "scaleLegends": {
+    "freq5": "0 Not at all · 1 Rarely · 2 Sometimes · 3 Often · 4 Nearly daily",
+    "sev5": "0 None · 1 Mild · 2 Moderate · 3 Severe · 4 Very severe",
+    "bother4": "0 Not at all bothered · 1 A little · 2 Moderately · 3 Extremely",
+    "utiCount": "0 None · 1 One · 2 Two · 3 Three or four · 4 Five or more"
+  },
+  "items": [
+    {
+      "order": 1,
+      "id": "ECM-S0-dem-01",
+      "section": 1,
+      "subsection": "1.A — About you",
+      "stem": "Your age:",
+      "fieldType": "control_number",
+      "fieldKind": "numeric",
+      "options": [],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 2,
+      "id": "ECM-S0-rep-01",
+      "section": 1,
+      "subsection": "1.B — Reproductive and hormonal history",
+      "stem": "Are you currently having menstrual cycles?",
+      "fieldType": "control_radio",
+      "fieldKind": "single",
+      "options": [
+        "Yes — regular",
+        "Yes — irregular",
+        "No — periods have stopped",
+        "No — surgical (hysterectomy, oophorectomy)",
+        "Don’t know"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 3,
+      "id": "ECM-S0-rep-02",
+      "section": 1,
+      "subsection": "1.B — Reproductive and hormonal history",
+      "stem": "If your periods have stopped, approximately how old were you at your last period? (Enter \"N/A\" if not applicable.)",
+      "fieldType": "control_textbox",
+      "fieldKind": "short",
+      "options": [],
+      "required": true,
+      "gating": {
+        "id": "ECM-S0-rep-01",
+        "anyOf": [
+          "No — periods have stopped"
+        ]
+      },
+      "safety": null
+    },
+    {
+      "order": 4,
+      "id": "ECM-S0-rep-03",
+      "section": 1,
+      "subsection": "1.B — Reproductive and hormonal history",
+      "stem": "In the past 12 months, have your cycles become noticeably more variable — shorter, longer, or skipped — compared to your usual pattern?",
+      "fieldType": "control_radio",
+      "fieldKind": "yn-na",
+      "options": [
+        "Yes",
+        "No",
+        "N/A"
+      ],
+      "required": true,
+      "gating": {
+        "id": "ECM-S0-rep-01",
+        "anyOf": [
+          "Yes — regular",
+          "Yes — irregular"
+        ]
+      },
+      "safety": null
+    },
+    {
+      "order": 5,
+      "id": "ECM-S0-rep-04",
+      "section": 1,
+      "subsection": "1.B — Reproductive and hormonal history",
+      "stem": "In the past 12 months, have you skipped any periods of 60 or more days?",
+      "fieldType": "control_radio",
+      "fieldKind": "yn-na",
+      "options": [
+        "Yes",
+        "No",
+        "N/A"
+      ],
+      "required": true,
+      "gating": {
+        "id": "ECM-S0-rep-01",
+        "anyOf": [
+          "Yes — regular",
+          "Yes — irregular"
+        ]
+      },
+      "safety": null
+    },
+    {
+      "order": 6,
+      "id": "ECM-S0-rep-05",
+      "section": 1,
+      "subsection": "1.B — Reproductive and hormonal history",
+      "stem": "Are you currently using any of the following? (Select all that apply.)",
+      "fieldType": "control_checkbox",
+      "fieldKind": "multi",
+      "options": [
+        "Hormonal contraception (pill, patch, ring)",
+        "Hormonal IUD",
+        "Non-hormonal IUD",
+        "Menopausal hormone therapy / HRT",
+        "Local vaginal estrogen",
+        "Testosterone or DHEA",
+        "Gender-affirming hormones",
+        "None of the above",
+        "Prefer not to say"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 7,
+      "id": "ECM-S0-rep-06",
+      "section": 1,
+      "subsection": "1.B — Reproductive and hormonal history",
+      "stem": "Do you have a personal history of any of the following? (Select all that apply.)",
+      "fieldType": "control_checkbox",
+      "fieldKind": "multi",
+      "options": [
+        "Estrogen-receptor-positive breast cancer",
+        "Endometrial cancer",
+        "Blood clot, DVT, or pulmonary embolism",
+        "Stroke or TIA",
+        "Active liver disease",
+        "Migraine with aura",
+        "Undiagnosed vaginal bleeding",
+        "None of the above",
+        "Don’t know"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 8,
+      "id": "ECM-S0-trt-01",
+      "section": 1,
+      "subsection": "1.C — Treatment and medical history",
+      "stem": "Have you ever been formally diagnosed with any of the following? (Select all that apply.)",
+      "fieldType": "control_checkbox",
+      "fieldKind": "multi",
+      "options": [
+        "ADHD / ADD",
+        "Anxiety disorder",
+        "Depression",
+        "Bipolar disorder",
+        "PTSD or trauma-related disorder",
+        "PMDD",
+        "Sleep disorder",
+        "Autism / AuDHD",
+        "None of the above",
+        "Prefer not to say"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 9,
+      "id": "ECM-S0-trt-02",
+      "section": 1,
+      "subsection": "1.C — Treatment and medical history",
+      "stem": "Are you currently taking any of the following? (Select all that apply.)",
+      "fieldType": "control_checkbox",
+      "fieldKind": "multi",
+      "options": [
+        "Stimulant ADHD medication (Adderall, Vyvanse, Ritalin, Concerta, etc.)",
+        "Non-stimulant ADHD medication (Strattera, Wellbutrin, Qelbree, guanfacine)",
+        "SSRI or SNRI antidepressant",
+        "Anti-anxiety medication",
+        "Mood stabilizer",
+        "Sleep medication",
+        "Thyroid medication",
+        "None of the above",
+        "Prefer not to say"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 10,
+      "id": "ECM-S0-trt-03",
+      "section": 1,
+      "subsection": "1.C — Treatment and medical history",
+      "stem": "If you take any psychiatric or hormonal medication, in the past 6 months how often has it felt less effective than it used to?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": {
+        "id": "ECM-S0-trt-02",
+        "noneOf": [
+          "None of the above",
+          "Prefer not to say"
+        ],
+        "requireAny": true
+      },
+      "safety": null
+    },
+    {
+      "order": 11,
+      "id": "ECM-S0-trt-04",
+      "section": 1,
+      "subsection": "1.C — Treatment and medical history",
+      "stem": "Do you have a personal history of any of the following? (Select all that apply.)",
+      "fieldType": "control_checkbox",
+      "fieldKind": "multi",
+      "options": [
+        "Heart disease or coronary artery disease",
+        "Irregular heartbeat (arrhythmia)",
+        "Structural heart problem",
+        "High blood pressure (uncontrolled)",
+        "Fainting episodes of unclear cause",
+        "Family history of sudden cardiac death before age 40",
+        "None of the above",
+        "Don’t know"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 12,
+      "id": "ECM-S0-trt-05",
+      "section": 1,
+      "subsection": "1.C — Treatment and medical history",
+      "stem": "Have you had thyroid, B12, ferritin, vitamin D, or fasting glucose checked in the past 12 months?",
+      "fieldType": "control_radio",
+      "fieldKind": "single",
+      "options": [
+        "Yes — all of the above",
+        "Some of the above",
+        "No",
+        "Don’t know"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 13,
+      "id": "ECM-S0-life-01",
+      "section": 1,
+      "subsection": "1.D — Looking back",
+      "stem": "Looking back, were patterns like difficulty focusing, restlessness, disorganization, or emotional reactivity present before age 12 — even mildly?",
+      "fieldType": "control_radio",
+      "fieldKind": "single",
+      "options": [
+        "Yes — clearly present",
+        "Yes — some signs in retrospect",
+        "No — these are new in adulthood or midlife",
+        "Don’t know / can’t remember"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 14,
+      "id": "ECM-S0-life-02",
+      "section": 1,
+      "subsection": "1.D — Looking back",
+      "stem": "When did the cognitive, emotional, or capacity changes that led you here today first become noticeable?",
+      "fieldType": "control_radio",
+      "fieldKind": "single",
+      "options": [
+        "Lifelong — always been this way",
+        "Childhood / teen years",
+        "20s",
+        "30s",
+        "Past 5 years",
+        "Past 12 months",
+        "Hard to pinpoint"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 15,
+      "id": "ECM-S0-saf-01",
+      "section": 1,
+      "subsection": "1.E — Safety check",
+      "stem": "In the past 30 days, have you had thoughts of hurting yourself or ending your life — even passing ones?",
+      "fieldType": "control_radio",
+      "fieldKind": "yn-pn",
+      "options": [
+        "Yes",
+        "No",
+        "Prefer not to say"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": "halt"
+    },
+    {
+      "order": 16,
+      "id": "ECM-S0-saf-02",
+      "section": 1,
+      "subsection": "1.E — Safety check",
+      "stem": "In the past 12 months, have you felt afraid of a partner, family member, or someone in your household — or felt controlled by them in a way that limited your choices?",
+      "fieldType": "control_radio",
+      "fieldKind": "yn-pn",
+      "options": [
+        "Yes",
+        "No",
+        "Prefer not to say"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": "dv"
+    },
+    {
+      "order": 17,
+      "id": "ECM-S0-saf-03",
+      "section": 1,
+      "subsection": "1.E — Safety check",
+      "stem": "In the past 30 days, has your alcohol or substance use increased in a way that concerns you — or that someone close to you has raised concerns about?",
+      "fieldType": "control_radio",
+      "fieldKind": "yn",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": "substance"
+    },
+    {
+      "order": 18,
+      "id": "ECM-S0-saf-04",
+      "section": 1,
+      "subsection": "1.E — Safety check",
+      "stem": "In the past 30 days, have you had any periods of unusually high energy lasting several days at a time, with reduced need for sleep and rapid thoughts or speech?",
+      "fieldType": "control_radio",
+      "fieldKind": "yn",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": "mania"
+    },
+    {
+      "order": 19,
+      "id": "ECM-S0-saf-05",
+      "section": 1,
+      "subsection": "1.E — Safety check",
+      "stem": "In the past 30 days, have you experienced sounds, sights, or sensations that others did not seem to experience — or had thoughts that felt forced or placed into your mind from outside?",
+      "fieldType": "control_radio",
+      "fieldKind": "yn",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": "psychosis"
+    },
+    {
+      "order": 20,
+      "id": "ECM-S0-saf-06",
+      "section": 1,
+      "subsection": "1.E — Safety check",
+      "stem": "In the past 90 days, have you noticed an unusually rapid change in your thinking, memory, or awareness — or had moments of disorientation or confusion?",
+      "fieldType": "control_radio",
+      "fieldKind": "yn",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": "medical"
+    },
+    {
+      "order": 21,
+      "id": "ECM-S0-saf-07",
+      "section": 1,
+      "subsection": "1.E — Safety check",
+      "stem": "In the past 30 days, have you been unable to complete basic self-care — eating, hygiene, or essential daily tasks — for several days at a time?",
+      "fieldType": "control_radio",
+      "fieldKind": "yn",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": "functional"
+    },
+    {
+      "order": 22,
+      "id": "ECM-COG-act-01",
+      "section": 2,
+      "subsection": "2.A — Activation (getting started)",
+      "stem": "In the past 30 days, how often have you started something important the same day you decided to do it?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 23,
+      "id": "ECM-COG-act-02",
+      "section": 2,
+      "subsection": "2.A — Activation (getting started)",
+      "stem": "In the past 30 days, how often have you been able to start a task you were dreading without an external deadline forcing you?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 24,
+      "id": "ECM-COG-act-03",
+      "section": 2,
+      "subsection": "2.A — Activation (getting started)",
+      "stem": "In the past 30 days, how often have you been able to deliver fully on a high-stakes external deadline — even when other parts of your life were neglected to do it?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 25,
+      "id": "ECM-COG-act-04",
+      "section": 2,
+      "subsection": "2.A — Activation (getting started)",
+      "stem": "In the past 30 days, how often have you known exactly what to do and still been unable to make yourself begin?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 26,
+      "id": "ECM-COG-act-05",
+      "section": 2,
+      "subsection": "2.A — Activation (getting started)",
+      "stem": "In the past 30 days, how often have personal tasks that matter to you — your own appointments, paperwork, or health follow-up — sat untouched while tasks for other people got done?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 27,
+      "id": "ECM-COG-act-06",
+      "section": 2,
+      "subsection": "2.A — Activation (getting started)",
+      "stem": "In the past 30 days, how often have you spent more energy avoiding a task than the task itself would have taken?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 28,
+      "id": "ECM-COG-act-07",
+      "section": 2,
+      "subsection": "2.A — Activation (getting started)",
+      "stem": "In the past 30 days, how often have you struggled to act on important things because the payoff or consequence felt too far away?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 29,
+      "id": "ECM-COG-foc-01",
+      "section": 2,
+      "subsection": "2.B — Focus (sustained attention)",
+      "stem": "In the past 30 days, how often have you been able to work on one thing for 30 minutes without your attention pulling somewhere else?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 30,
+      "id": "ECM-COG-foc-02",
+      "section": 2,
+      "subsection": "2.B — Focus (sustained attention)",
+      "stem": "In the past 30 days, how often have you been able to fully tune out your environment and concentrate when you really needed to?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 31,
+      "id": "ECM-COG-foc-03",
+      "section": 2,
+      "subsection": "2.B — Focus (sustained attention)",
+      "stem": "In the past 30 days, how often have you started reading or listening to something and realized minutes in that you’ve absorbed nothing?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 32,
+      "id": "ECM-COG-foc-04",
+      "section": 2,
+      "subsection": "2.B — Focus (sustained attention)",
+      "stem": "In the past 30 days, how often have you lost the thread of a conversation, meeting, or document and had to ask someone to repeat what was just covered?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 33,
+      "id": "ECM-COG-foc-05",
+      "section": 2,
+      "subsection": "2.B — Focus (sustained attention)",
+      "stem": "In the past 30 days, how often has switching between tasks left you unable to remember what you were doing five minutes earlier?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 34,
+      "id": "ECM-COG-eff-01",
+      "section": 2,
+      "subsection": "2.C — Effort (mental stamina and recovery)",
+      "stem": "In the past 30 days, how often have you been able to sustain mental effort across the day without crashing?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 35,
+      "id": "ECM-COG-eff-02",
+      "section": 2,
+      "subsection": "2.C — Effort (mental stamina and recovery)",
+      "stem": "In the past 30 days, how often have you experienced cognitive fatigue out of proportion to what you actually did?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 36,
+      "id": "ECM-COG-eff-03",
+      "section": 2,
+      "subsection": "2.C — Effort (mental stamina and recovery)",
+      "stem": "In the past 30 days, how often has your recovery time after a demanding day or week been longer than it used to be?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 37,
+      "id": "ECM-COG-eff-04",
+      "section": 2,
+      "subsection": "2.C — Effort (mental stamina and recovery)",
+      "stem": "In the past 30 days, how often has your mental energy run out before the day’s required tasks were done?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 38,
+      "id": "ECM-COG-emo-01",
+      "section": 2,
+      "subsection": "2.D — Emotion regulation",
+      "stem": "In the past 30 days, how often have you been able to let a small criticism go within an hour of receiving it?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 39,
+      "id": "ECM-COG-emo-02",
+      "section": 2,
+      "subsection": "2.D — Emotion regulation",
+      "stem": "In the past 30 days, how often have you reacted more strongly than you wanted to when you felt criticized, dismissed, or misunderstood?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 40,
+      "id": "ECM-COG-emo-03",
+      "section": 2,
+      "subsection": "2.D — Emotion regulation",
+      "stem": "In the past 30 days, how often has a small frustration cascaded into a much bigger emotional response?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 41,
+      "id": "ECM-COG-emo-04",
+      "section": 2,
+      "subsection": "2.D — Emotion regulation",
+      "stem": "In the past 30 days, how often have you rehearsed a perceived slight or mistake long after the moment passed?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 42,
+      "id": "ECM-COG-mem-01",
+      "section": 2,
+      "subsection": "2.E — Memory (working memory and recall)",
+      "stem": "In the past 30 days, how often have you been able to follow multi-step instructions without writing them down or losing the thread?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 43,
+      "id": "ECM-COG-mem-02",
+      "section": 2,
+      "subsection": "2.E — Memory (working memory and recall)",
+      "stem": "In the past 30 days, how often have you walked into a room or opened an app and forgotten what you came for?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 44,
+      "id": "ECM-COG-mem-03",
+      "section": 2,
+      "subsection": "2.E — Memory (working memory and recall)",
+      "stem": "In the past 30 days, mid-sentence with someone who mattered — a patient, a client, your child — how often has the word you needed simply not come?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 45,
+      "id": "ECM-COG-mem-04",
+      "section": 2,
+      "subsection": "2.E — Memory (working memory and recall)",
+      "stem": "In the past 30 days, how often have you forgotten something important until the moment it was needed?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 46,
+      "id": "ECM-COG-imp-01",
+      "section": 2,
+      "subsection": "2.F — Action (pause and impulse)",
+      "stem": "In the past 30 days, how often have you been able to pause before responding when you felt the urge to react quickly?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 47,
+      "id": "ECM-COG-imp-02",
+      "section": 2,
+      "subsection": "2.F — Action (pause and impulse)",
+      "stem": "In the past 30 days, how often have you interrupted someone, blurted something out, or sent a message you wished you hadn’t?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 48,
+      "id": "ECM-COG-imp-03",
+      "section": 2,
+      "subsection": "2.F — Action (pause and impulse)",
+      "stem": "In the past 30 days, how often have you started something on impulse — a project, purchase, or decision — that you later regretted or couldn’t sustain?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 49,
+      "id": "ECM-COG-org-01",
+      "section": 2,
+      "subsection": "2.G — Organization (sequencing and systems)",
+      "stem": "In the past 30 days, how often have you been able to break a complex task into ordered steps and follow them in order?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 50,
+      "id": "ECM-COG-org-02",
+      "section": 2,
+      "subsection": "2.G — Organization (sequencing and systems)",
+      "stem": "In the past 30 days, how often have important things slipped through because you didn’t have a system to catch them?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 51,
+      "id": "ECM-COG-org-03",
+      "section": 2,
+      "subsection": "2.G — Organization (sequencing and systems)",
+      "stem": "In the past 30 days, how often have you stared at a task knowing it was important but unable to figure out where to start?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 52,
+      "id": "ECM-COG-org-04",
+      "section": 2,
+      "subsection": "2.G — Organization (sequencing and systems)",
+      "stem": "In the past 30 days, how often have piles of papers, tabs, emails, or unfinished projects accumulated faster than you could process them?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 53,
+      "id": "ECM-COG-tim-01",
+      "section": 2,
+      "subsection": "2.H — Time (estimation and time-blindness)",
+      "stem": "In the past 30 days, how often have you estimated how long a task would take and finished in the time you planned?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 54,
+      "id": "ECM-COG-tim-02",
+      "section": 2,
+      "subsection": "2.H — Time (estimation and time-blindness)",
+      "stem": "In the past 30 days, how often have you lost track of time and arrived late, rushed, or unprepared to something that mattered?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 55,
+      "id": "ECM-COG-tim-03",
+      "section": 2,
+      "subsection": "2.H — Time (estimation and time-blindness)",
+      "stem": "In the past 30 days, how often have tasks taken two or three times longer than you expected?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 56,
+      "id": "ECM-COG-tim-04",
+      "section": 2,
+      "subsection": "2.H — Time (estimation and time-blindness)",
+      "stem": "In the past 30 days, how often has “just one more thing” before you leave or transition turned into far longer than you had?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 57,
+      "id": "ECM-CHE-vms-01",
+      "section": 3,
+      "subsection": "3.A — Vasomotor symptoms",
+      "stem": "In the past 30 days, when a wave of heat has come over you in the middle of something — a meeting, a conversation, behind the wheel — how severe has it actually been?",
+      "fieldType": "control_radio",
+      "fieldKind": "sev5",
+      "options": [
+        "0 — None",
+        "1 — Mild",
+        "2 — Moderate",
+        "3 — Severe",
+        "4 — Very severe"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 58,
+      "id": "ECM-CHE-vms-02",
+      "section": 3,
+      "subsection": "3.A — Vasomotor symptoms",
+      "stem": "In the past 30 days, when night sweats have happened — whether or not they woke you fully — how severe have they been? (Damp pillow, changed pajamas, woke up overheated all count.)",
+      "fieldType": "control_radio",
+      "fieldKind": "sev5",
+      "options": [
+        "0 — None",
+        "1 — Mild",
+        "2 — Moderate",
+        "3 — Severe",
+        "4 — Very severe"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 59,
+      "id": "ECM-CHE-vms-03",
+      "section": 3,
+      "subsection": "3.A — Vasomotor symptoms",
+      "stem": "In the past 30 days, how often have hot flushes or sweats made you step away, change clothes, lose your train of thought, or quietly work around them in ways that took up real space in your day?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 60,
+      "id": "ECM-CHE-vms-04",
+      "section": 3,
+      "subsection": "3.A — Vasomotor symptoms",
+      "stem": "In the past 30 days, when your heart has felt different from baseline — racing, pounding, fluttering, or simply too loud at rest — how severe have those episodes been?",
+      "fieldType": "control_radio",
+      "fieldKind": "sev5",
+      "options": [
+        "0 — None",
+        "1 — Mild",
+        "2 — Moderate",
+        "3 — Severe",
+        "4 — Very severe"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 61,
+      "id": "ECM-CHE-vms-05",
+      "section": 3,
+      "subsection": "3.A — Vasomotor symptoms",
+      "stem": "In the past 30 days, how severe have headaches been — including any change from your prior pattern in when they happen, how they feel, or what brings them on?",
+      "fieldType": "control_radio",
+      "fieldKind": "sev5",
+      "options": [
+        "0 — None",
+        "1 — Mild",
+        "2 — Moderate",
+        "3 — Severe",
+        "4 — Very severe"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 62,
+      "id": "ECM-CHE-slp-01",
+      "section": 3,
+      "subsection": "3.B — Sleep",
+      "stem": "In the past 30 days, how often have you been awake in the middle of the night — alert, mind running — unable to settle back into sleep before the alarm?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 63,
+      "id": "ECM-CHE-slp-02",
+      "section": 3,
+      "subsection": "3.B — Sleep",
+      "stem": "In the past 30 days, how often have you woken in the morning feeling that the sleep you got didn’t actually restore you — even when the hours on paper looked fine?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 64,
+      "id": "ECM-CHE-slp-03",
+      "section": 3,
+      "subsection": "3.B — Sleep",
+      "stem": "In the past 30 days, how often have you had to actively fight off sleep during the day — in meetings, behind the wheel, sitting down for a moment — even after a full night in bed?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 65,
+      "id": "ECM-CHE-slp-04",
+      "section": 3,
+      "subsection": "3.B — Sleep",
+      "stem": "Has anyone who has shared a sleeping space with you ever told you that you snore loudly, gasp, choke, or stop breathing during sleep? (Even if it was years ago, even if you didn’t believe them.)",
+      "fieldType": "control_radio",
+      "fieldKind": "single",
+      "options": [
+        "Yes",
+        "No",
+        "Don’t know — I sleep alone or unobserved"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 66,
+      "id": "ECM-CHE-slp-05",
+      "section": 3,
+      "subsection": "3.B — Sleep",
+      "stem": "In the past 30 days, how often have temperature changes — flushes, sweats, or feeling overheated — been the actual reason your sleep broke?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 67,
+      "id": "ECM-CHE-cyc-01",
+      "section": 3,
+      "subsection": "3.C — Cycle and luteal-phase patterning",
+      "stem": "In the past 3 cycles, how often has your mood, irritability, or capacity dropped sharply in the days before your period and lifted within a few days of bleeding starting? (Time frame: 3 cycles.)",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": {
+        "id": "ECM-S0-rep-01",
+        "anyOf": [
+          "Yes — regular",
+          "Yes — irregular"
+        ]
+      },
+      "safety": null
+    },
+    {
+      "order": 68,
+      "id": "ECM-CHE-cyc-02",
+      "section": 3,
+      "subsection": "3.C — Cycle and luteal-phase patterning",
+      "stem": "In the past 3 cycles, how often have your focus, sleep, or energy followed a clear pattern tied to where you were in your cycle — sharper at one phase, dulled at another? (Time frame: 3 cycles.)",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": {
+        "id": "ECM-S0-rep-01",
+        "anyOf": [
+          "Yes — regular",
+          "Yes — irregular"
+        ]
+      },
+      "safety": null
+    },
+    {
+      "order": 69,
+      "id": "ECM-CHE-cyc-03",
+      "section": 3,
+      "subsection": "3.C — Cycle and luteal-phase patterning",
+      "stem": "In the past 12 months, which of the following bleeding changes have you experienced? (Select all that apply.)",
+      "fieldType": "control_checkbox",
+      "fieldKind": "multi",
+      "options": [
+        "Periods heavier than they used to be",
+        "Periods lasting longer than 7 days",
+        "Bleeding or spotting between periods",
+        "Cycles shorter than 21 days",
+        "Cycles longer than 38 days",
+        "Bleeding after sex",
+        "None of the above",
+        "N/A — not currently cycling"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 70,
+      "id": "ECM-CHE-cyc-04",
+      "section": 3,
+      "subsection": "3.C — Cycle and luteal-phase patterning",
+      "stem": "In the past 30 days, how severe has menstrual or pelvic pain been — including pain that no longer tracks neatly with your period?",
+      "fieldType": "control_radio",
+      "fieldKind": "sev5",
+      "options": [
+        "0 — None",
+        "1 — Mild",
+        "2 — Moderate",
+        "3 — Severe",
+        "4 — Very severe"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 71,
+      "id": "ECM-CHE-gsm-01",
+      "section": 3,
+      "subsection": "3.D — Genitourinary symptoms",
+      "stem": "In the past 30 days, how severe has vaginal or vulvar dryness been in your daily life — sitting, walking, exercising, wearing certain clothes — not only during intimacy?",
+      "fieldType": "control_radio",
+      "fieldKind": "sev5",
+      "options": [
+        "0 — None",
+        "1 — Mild",
+        "2 — Moderate",
+        "3 — Severe",
+        "4 — Very severe"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 72,
+      "id": "ECM-CHE-gsm-02",
+      "section": 3,
+      "subsection": "3.D — Genitourinary symptoms",
+      "stem": "In the past 30 days, how severe has vaginal or vulvar burning, irritation, or itching been?",
+      "fieldType": "control_radio",
+      "fieldKind": "sev5",
+      "options": [
+        "0 — None",
+        "1 — Mild",
+        "2 — Moderate",
+        "3 — Severe",
+        "4 — Very severe"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 73,
+      "id": "ECM-CHE-gsm-03",
+      "section": 3,
+      "subsection": "3.D — Genitourinary symptoms",
+      "stem": "In the past 30 days, how severe has discomfort or pain during sexual activity been — at entry, with deeper contact, or after?",
+      "fieldType": "control_radio",
+      "fieldKind": "sev5-na",
+      "options": [
+        "0 — None",
+        "1 — Mild",
+        "2 — Moderate",
+        "3 — Severe",
+        "4 — Very severe",
+        "N/A"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 74,
+      "id": "ECM-CHE-gsm-04",
+      "section": 3,
+      "subsection": "3.D — Genitourinary symptoms",
+      "stem": "In the past 30 days, how severe has urinary urgency or frequency been — sudden need to go, or going far more often than you used to?",
+      "fieldType": "control_radio",
+      "fieldKind": "sev5",
+      "options": [
+        "0 — None",
+        "1 — Mild",
+        "2 — Moderate",
+        "3 — Severe",
+        "4 — Very severe"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 75,
+      "id": "ECM-CHE-gsm-05",
+      "section": 3,
+      "subsection": "3.D — Genitourinary symptoms",
+      "stem": "In the past 30 days, how severe has unwanted urine leakage been — with cough, sneeze, exercise, urgency, or laughing?",
+      "fieldType": "control_radio",
+      "fieldKind": "sev5",
+      "options": [
+        "0 — None",
+        "1 — Mild",
+        "2 — Moderate",
+        "3 — Severe",
+        "4 — Very severe"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 76,
+      "id": "ECM-CHE-gsm-06",
+      "section": 3,
+      "subsection": "3.D — Genitourinary symptoms",
+      "stem": "In the past 12 months, how many urinary tract infections have you had?",
+      "fieldType": "control_radio",
+      "fieldKind": "utiCount",
+      "options": [
+        "0 — None",
+        "1 — One",
+        "2 — Two",
+        "3 — Three or four",
+        "4 — Five or more"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 77,
+      "id": "ECM-CHE-sex-01",
+      "section": 3,
+      "subsection": "3.E — Sexual function and intimacy",
+      "stem": "In the past 30 days, how often have you noticed a clear drop in sexual desire compared to your own prior baseline — not compared to anyone else’s, just compared to you?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5-na",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily",
+        "N/A"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 78,
+      "id": "ECM-CHE-sex-02",
+      "section": 3,
+      "subsection": "3.E — Sexual function and intimacy",
+      "stem": "In the past 30 days, how severe has difficulty with arousal, lubrication, or physical sexual response been compared to your prior baseline?",
+      "fieldType": "control_radio",
+      "fieldKind": "sev5-na",
+      "options": [
+        "0 — None",
+        "1 — Mild",
+        "2 — Moderate",
+        "3 — Severe",
+        "4 — Very severe",
+        "N/A"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 79,
+      "id": "ECM-CHE-sex-03",
+      "section": 3,
+      "subsection": "3.E — Sexual function and intimacy",
+      "stem": "If you are experiencing any sexual symptoms, how bothered are you by them — not how bothered you think you should be, just how bothered you actually are? (Mark \"Not at all\" if no symptoms.)",
+      "fieldType": "control_radio",
+      "fieldKind": "bother4",
+      "options": [
+        "0 — Not at all bothered",
+        "1 — A little",
+        "2 — Moderately",
+        "3 — Extremely"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 80,
+      "id": "ECM-CHE-msk-01",
+      "section": 3,
+      "subsection": "3.F — Musculoskeletal symptoms",
+      "stem": "In the past 30 days, how severe has joint pain been — in your hands, wrists, shoulders, hips, knees, or jaw — including pain that wasn’t there before?",
+      "fieldType": "control_radio",
+      "fieldKind": "sev5",
+      "options": [
+        "0 — None",
+        "1 — Mild",
+        "2 — Moderate",
+        "3 — Severe",
+        "4 — Very severe"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 81,
+      "id": "ECM-CHE-msk-02",
+      "section": 3,
+      "subsection": "3.F — Musculoskeletal symptoms",
+      "stem": "In the past 30 days, how severe has joint stiffness been — in the morning, after sitting, or when you first start moving?",
+      "fieldType": "control_radio",
+      "fieldKind": "sev5",
+      "options": [
+        "0 — None",
+        "1 — Mild",
+        "2 — Moderate",
+        "3 — Severe",
+        "4 — Very severe"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 82,
+      "id": "ECM-CHE-msk-03",
+      "section": 3,
+      "subsection": "3.F — Musculoskeletal symptoms",
+      "stem": "In the past 30 days, how severe has muscle pain or weakness been — including new difficulty with strength tasks (lifting, carrying, opening) you used to do without thinking?",
+      "fieldType": "control_radio",
+      "fieldKind": "sev5",
+      "options": [
+        "0 — None",
+        "1 — Mild",
+        "2 — Moderate",
+        "3 — Severe",
+        "4 — Very severe"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 83,
+      "id": "ECM-CHE-msk-04",
+      "section": 3,
+      "subsection": "3.F — Musculoskeletal symptoms",
+      "stem": "In the past 12 months, have you experienced any of the following? (Select all that apply.)",
+      "fieldType": "control_checkbox",
+      "fieldKind": "multi",
+      "options": [
+        "New shoulder pain or restricted shoulder movement (frozen-shoulder pattern)",
+        "New tendon pain (Achilles, elbow, hip)",
+        "New or accelerated low back pain",
+        "Loss of muscle tone or strength noticeable to you",
+        "Bone fracture from a low-impact fall or no clear cause",
+        "Diagnosed osteopenia or osteoporosis on DEXA",
+        "None of the above"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 84,
+      "id": "ECM-CHE-eng-01",
+      "section": 3,
+      "subsection": "3.G — Body composition, energy & metabolic recovery",
+      "stem": "In the past 30 days, how often has your physical energy felt clearly different from your prior baseline — running out earlier, recovering more slowly, or feeling depleted at rest?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 85,
+      "id": "ECM-CHE-eng-02",
+      "section": 3,
+      "subsection": "3.G — Body composition, energy & metabolic recovery",
+      "stem": "In the past 30 days, how often have you needed to lie down, nap, or stop functioning in order to recover from ordinary activity — or had a \"next-day crash\" you didn’t used to have?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 86,
+      "id": "ECM-CHE-eng-03",
+      "section": 3,
+      "subsection": "3.G — Body composition, energy & metabolic recovery",
+      "stem": "In the past 30 days, how often have you noticed unexplained changes in your body — increased belly fat, muscle loss, or weight that isn’t responding to what used to work?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 87,
+      "id": "ECM-CHE-eng-04",
+      "section": 3,
+      "subsection": "3.G — Body composition, energy & metabolic recovery",
+      "stem": "When did you last have a complete metabolic panel, thyroid panel, B12, ferritin, vitamin D, and HbA1c checked?",
+      "fieldType": "control_radio",
+      "fieldKind": "single",
+      "options": [
+        "Within the past 6 months",
+        "6–12 months ago",
+        "1–2 years ago",
+        "More than 2 years ago / never",
+        "Don’t know"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 88,
+      "id": "ECM-CHE-aut-01",
+      "section": 3,
+      "subsection": "3.H — Autonomic and stress recovery",
+      "stem": "In the past 30 days, how often have you been unable to wind down or feel calm — even when you finally had time to rest?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 89,
+      "id": "ECM-CHE-aut-02",
+      "section": 3,
+      "subsection": "3.H — Autonomic and stress recovery",
+      "stem": "In the past 30 days, how often has your body stayed activated — racing heart, tension, jitteriness — long after the stressful moment had actually ended?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 90,
+      "id": "ECM-CHE-aut-03",
+      "section": 3,
+      "subsection": "3.H — Autonomic and stress recovery",
+      "stem": "In the past 30 days, how often has irritability or anger shown up in your body — clenched jaw, tight chest, gut tension — before you noticed it in your thoughts or mood?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 91,
+      "id": "ECM-CHE-sen-01",
+      "section": 3,
+      "subsection": "3.I — Sensory load",
+      "stem": "In the past 30 days, how often have noise, light, crowds, clothing, or smells felt clearly more overwhelming than they used to?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 92,
+      "id": "ECM-CHE-sen-02",
+      "section": 3,
+      "subsection": "3.I — Sensory load",
+      "stem": "In the past 30 days, how often have you needed to step away, retreat, or physically remove from environments that others around you found tolerable?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 93,
+      "id": "ECM-CHE-sen-03",
+      "section": 3,
+      "subsection": "3.I — Sensory load",
+      "stem": "In the past 30 days, how often has sensory overload — noise, light, crowds, smells — been the trigger for a mood, focus, or energy crash later in the day or the next day?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 94,
+      "id": "ECM-BRG-drift-01",
+      "section": 4,
+      "subsection": "4 — Drift from Baseline",
+      "stem": "In the past 30 days, how often have you noticed your mind working differently than it did 2–5 years ago — in ways that feel like a real change in your baseline, not just stress?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 95,
+      "id": "ECM-BRG-drift-02",
+      "section": 4,
+      "subsection": "4 — Drift from Baseline",
+      "stem": "In the past 30 days, how often have your cognitive changes — focus, memory, word recall — felt connected to physical changes like sleep, energy, hot flashes, cycle, or recovery?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 96,
+      "id": "ECM-BRG-drift-03",
+      "section": 4,
+      "subsection": "4 — Drift from Baseline",
+      "stem": "In the past 30 days, how often have you felt that something fundamental about how your brain works is shifting — not just that you are tired, stressed, or overloaded?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    },
+    {
+      "order": 97,
+      "id": "ECM-BRG-drift-04",
+      "section": 4,
+      "subsection": "4 — Drift from Baseline",
+      "stem": "Compared to your prior baseline, how often in the past 30 days have you needed more cognitive effort to do tasks that used to feel automatic?",
+      "fieldType": "control_radio",
+      "fieldKind": "freq5",
+      "options": [
+        "0 — Not at all",
+        "1 — Rarely",
+        "2 — Sometimes",
+        "3 — Often",
+        "4 — Nearly daily"
+      ],
+      "required": true,
+      "gating": null,
+      "safety": null
+    }
+  ]
+}

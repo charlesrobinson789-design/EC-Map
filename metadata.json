@@ -1,0 +1,10 @@
+{
+  "name": "EC Map Voice Interview",
+  "description": "On-device voice-guided executive capacity interview with real-time transcription and functional profiling.",
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
