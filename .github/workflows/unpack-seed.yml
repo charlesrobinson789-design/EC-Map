@@ -1,0 +1,37 @@
+name: Unpack EC Map source seed
+
+on:
+  push:
+    paths:
+      - ".github/seed/ec-map-source.tgz.b64"
+      - ".github/workflows/unpack-seed.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  unpack:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Unpack seeded source files
+        run: |
+          if [ ! -f .github/seed/ec-map-source.tgz.b64 ]; then
+            echo "No source seed present."
+            exit 0
+          fi
+          base64 -d .github/seed/ec-map-source.tgz.b64 > /tmp/ec-map-source.tgz
+          tar -xzf /tmp/ec-map-source.tgz
+      - name: Commit unpacked files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/spine.js src/app.js test/app.test.js
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git commit -m "Add remaining EC Map source files"
+          git push
