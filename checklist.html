@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>The Midlife Capacity Map Checklist — Voice EC Map</title>
+  <meta content="A one-page way to organize what changed, what was already true, what fluctuates, and what to bring into your next care or coaching conversation." name="description"/>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%231e4d3b'/%3E%3Ctext x='32' y='40' text-anchor='middle' font-family='Georgia,serif' font-size='26' font-weight='700' fill='%23f7f4ee'%3EEC%3C/text%3E%3C/svg%3E">
+  <style>
+    body { margin: 0; background: #f7f4ee; color: #1c2320; font-family: 'IBM Plex Sans', sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: #1e4d3b; text-decoration: none; transition: all 0.2s ease; }
+    a:hover { color: #143627; }
+    
+    .rs-nav { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 20px 48px; border-bottom: 1px solid #e2ddd2; background: #f7f4ee; position: sticky; top: 0; z-index: 100; }
+    .rs-nav-brand { font-family: 'Source Serif 4', serif; font-size: 21px; font-weight: 700; color: #1c2320; letter-spacing: -0.01em; display: flex; align-items: center; gap: 10px; }
+    .rs-nav-brand span { background: #1e4d3b; color: #f7f4ee; font-size: 12px; font-family: 'IBM Plex Sans', sans-serif; font-weight: 700; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .rs-navlinks { display: flex; align-items: center; gap: 28px; font-size: 14px; font-weight: 500; }
+    
+    .rs-pad { max-width: 900px; margin: 0 auto; padding: 0 48px; }
+    .rs-hero { padding-top: 64px; padding-bottom: 48px; text-align: center; }
+    .rs-h1 { font-family: 'Source Serif 4', serif; font-size: 42px; line-height: 1.15; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 16px; color: #1c2320; }
+    
+    .btn-primary { background: #1e4d3b; color: #fff !important; padding: 12px 24px; border-radius: 6px; font-weight: 600; font-size: 14px; display: inline-block; box-shadow: 0 2px 6px rgba(30, 77, 59, 0.15); cursor: pointer; border: none; font-family: 'IBM Plex Sans', sans-serif; }
+    .btn-primary:hover { background: #143627; transform: translateY(-1px); box-shadow: 0 4px 10px rgba(30, 77, 59, 0.25); text-decoration: none; }
+    .btn-outline { border: 1px solid #b9c4bd; color: #1c2320 !important; padding: 12px 24px; border-radius: 6px; font-weight: 600; font-size: 14px; display: inline-block; background: #f7f4ee; cursor: pointer; }
+    .btn-outline:hover { border-color: #1e4d3b; background: #e7efe9; text-decoration: none; }
+    
+    .checklist-box { background: #fff; border: 1px solid #e2ddd2; border-radius: 10px; padding: 40px; box-shadow: 0 6px 20px rgba(0,0,0,0.03); margin-bottom: 48px; }
+    .check-section { margin-bottom: 36px; }
+    .check-section:last-child { margin-bottom: 0; }
+    .check-title { font-family: 'Source Serif 4', serif; font-size: 22px; color: #1e4d3b; border-bottom: 2px solid #e7efe9; padding-bottom: 8px; margin: 0 0 16px; display: flex; align-items: center; gap: 10px; }
+    
+    .check-item { display: flex; align-items: flex-start; gap: 14px; padding: 10px 0; border-bottom: 1px solid #f9f8f5; font-size: 15px; color: #3d4a44; line-height: 1.5; cursor: pointer; }
+    .check-item:hover { background: #faf9f6; }
+    .check-input { width: 18px; height: 18px; margin-top: 3px; accent-color: #1e4d3b; cursor: pointer; flex-shrink: 0; }
+    
+    .footer { padding: 48px; text-align: center; border-top: 1px solid #e2ddd2; font-size: 13px; color: #5c6661; background: #f7f4ee; }
+    
+    @media print {
+      .rs-nav, .print-btn, .footer { display: none !important; }
+      body { background: #fff; }
+      .checklist-box { box-shadow: none; border: none; padding: 0; }
+      .rs-hero { padding-top: 20px; padding-bottom: 20px; }
+    }
+    @media (max-width: 900px) { .rs-pad { padding: 0 28px; } .rs-h1 { font-size: 34px; } .checklist-box { padding: 24px; } }
+    @media (max-width: 620px) { .rs-nav { flex-wrap: wrap; row-gap: 10px; padding: 14px 20px; } .rs-navlinks { flex-wrap: wrap; row-gap: 8px; gap: 14px; } .rs-pad { padding: 0 20px; } }
+  </style>
+</head>
+<body>
+
+  <nav class="rs-nav">
+    <a href="index.html" class="rs-nav-brand">
+      Voice EC Map <span>Beta</span>
+    </a>
+    <div class="rs-navlinks">
+      <a href="beta.html" style="color:#3d4a44;">The 30-Day Beta</a>
+      <a href="method.html" style="color:#3d4a44;">The 64-Item Method</a>
+      <a href="report.html" style="color:#3d4a44;">Sample Packets</a>
+      <a href="team.html" style="color:#3d4a44;">Who We Are</a>
+      <a href="intake.html" class="btn-primary" style="padding:10px 20px;">Book a fit call</a>
+    </div>
+  </nav>
+
+  <header class="rs-pad rs-hero">
+    <div style="font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#1e4d3b;margin-bottom:12px;">Free Lead Magnet Resource</div>
+    <h1 class="rs-h1">The Midlife Capacity Map Checklist</h1>
+    <p style="font-size:18px;color:#4a554f;max-width:680px;margin:0 auto 24px;">
+      A one-page way to organize what changed, what was already true, what fluctuates, and what to bring into your next care or coaching conversation.
+    </p>
+    <div class="print-btn" style="display:flex;gap:16px;justify-content:center;">
+      <button onclick="window.print()" class="btn-primary">🖨️ Print or Save as PDF</button>
+      <a href="intake.html" class="btn-outline">Ready for a full map? Book Fit Call</a>
+    </div>
+  </header>
+
+  <main class="rs-pad">
+    <div class="checklist-box">
+      
+      <div class="check-section">
+        <h3 class="check-title"><span>1.</span> What changed in the last 5 years?</h3>
+        <label class="check-item"><input class="check-input" type="checkbox"/> I experience new difficulty initiating administrative or multi-step tasks that used to be routine.</label>
+        <label class="check-item"><input class="check-input" type="checkbox"/> Word-finding pauses or verbal retrieval delays happen noticeably more during late-day meetings.</label>
+        <label class="check-item"><input class="check-input" type="checkbox"/> My tolerance for interruptions and background sensory noise has dropped significantly.</label>
+        <label class="check-item"><input class="check-input" type="checkbox"/> Recovery from high-output workdays takes an entire weekend instead of just an evening.</label>
+      </div>
+
+      <div class="check-section">
+        <h3 class="check-title"><span>2.</span> What was true before midlife? (Timeline Anchor)</h3>
+        <label class="check-item"><input class="check-input" type="checkbox"/> Even in school or early career, I relied heavily on deadlines or urgency adrenaline to finish projects.</label>
+        <label class="check-item"><input class="check-input" type="checkbox"/> I have always had to invent custom organizational systems or visual lists just to stay on track.</label>
+        <label class="check-item"><input class="check-input" type="checkbox"/> I have a lifelong history of hyperfocus on interesting tasks contrasted with friction on boring tasks.</label>
+      </div>
+
+      <div class="check-section">
+        <h3 class="check-title"><span>3.</span> What shows up across work, home, and relationships?</h3>
+        <label class="check-item"><input class="check-input" type="checkbox"/> At work, I manage complex projects well, but personal life admin (mail, scheduling, returns) piles up.</label>
+        <label class="check-item"><input class="check-input" type="checkbox"/> I frequently mask cognitive fatigue in professional settings, leading to irritability when I get home.</label>
+        <label class="check-item"><input class="check-input" type="checkbox"/> Keeping up with social correspondence or messaging feels overwhelming due to executive load.</label>
+      </div>
+
+      <div class="check-section">
+        <h3 class="check-title"><span>4.</span> Body-state amplifiers (Sleep, Hormones & Recovery)</h3>
+        <label class="check-item"><input class="check-input" type="checkbox"/> My attention continuity is directly dependent on whether I woke up with fragmented or uninterrupted sleep.</label>
+        <label class="check-item"><input class="check-input" type="checkbox"/> I notice predictable surges in brain fog or working memory friction during specific hormonal cycle windows or hot flashes.</label>
+        <label class="check-item"><input class="check-input" type="checkbox"/> Missing a meal or delaying protein intake causes immediate, noticeable drops in executive function.</label>
+      </div>
+
+      <div class="check-section">
+        <h3 class="check-title"><span>5.</span> Private cost vs. visible performance</h3>
+        <label class="check-item"><input class="check-input" type="checkbox"/> If a supervisor or client looked at my output, they would say I am excelling, but they do not see the internal exhaustion.</label>
+        <label class="check-item"><input class="check-input" type="checkbox"/> I spend significantly more time double-checking my work for careless errors than I did three years ago.</label>
+        <label class="check-item"><input class="check-input" type="checkbox"/> I feel constant low-grade anxiety about "dropping a ball" that I am holding mentally.</label>
+      </div>
+
+      <div class="check-section">
+        <h3 class="check-title"><span>6.</span> What should be discussed with a qualified professional?</h3>
+        <label class="check-item"><input class="check-input" type="checkbox"/> Exploring whether an ADHD evaluation or coaching support is appropriate for longstanding attentional traits.</label>
+        <label class="check-item"><input class="check-input" type="checkbox"/> Consulting a women's health provider or PMHNP regarding perimenopausal sleep disruption or vasomotor symptoms.</label>
+        <label class="check-item"><input class="check-input" type="checkbox"/> Assessing whether current work expectations require formal structural modifications or executive scaffolding.</label>
+      </div>
+
+      <div class="check-section">
+        <h3 class="check-title" style="color:#a83232;border-color:#fee2e2;"><span>7.</span> What should NOT be over-interpreted yet? (Cautions)</h3>
+        <label class="check-item"><input class="check-input" type="checkbox"/> <strong>Do not assume sudden early dementia:</strong> Midlife word-finding and working memory shifts are overwhelmingly linked to sleep, hormonal transition, and load overload.</label>
+        <label class="check-item"><input class="check-input" type="checkbox"/> <strong>Do not settle for a single label:</strong> Avoid attributing 100% of the pattern to "just menopause" if attentional friction existed in childhood, or "just ADHD" if sleep fragmentation is the primary trigger.</label>
+      </div>
+
+      <div style="background:#f0ece1;padding:24px;border-radius:8px;margin-top:36px;text-align:center;">
+        <h4 style="font-family:'Source Serif 4',serif;font-size:20px;margin:0 0 8px;color:#1e4d3b;">Ready to turn your checklist into an objective capacity signature?</h4>
+        <p style="font-size:14px;color:#4a554f;margin:0 0 16px;">Our 64-item guided voice assessment scores these exact signals and generates a professional coach packet.</p>
+        <a href="intake.html" class="btn-primary">Book Your 15-Minute Fit Call ($500 Beta) →</a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div style="max-width:800px;margin:0 auto;margin-bottom:20px;display:flex;justify-content:center;gap:24px;flex-wrap:wrap;">
+      <a href="index.html">Home</a>
+      <a href="beta.html">The 30-Day Beta</a>
+      <a href="method.html">The 64-Item Method</a>
+      <a href="report.html">Sample Packets</a>
+      <a href="team.html">Who We Are</a>
+      <a href="intake.html">Book Fit Call</a>
+    </div>
+    <p>© 2026 Voice EC Map. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>

@@ -1,9 +1,7 @@
 import {
-  CONTEXT_PROMPTS,
   NARRATIVE_PROMPTS,
   RESPONSE_SCALE,
-  SAFETY_ITEMS,
-  SPINE_ITEMS
+  SAFETY_ITEMS
 } from "./spine.js";
 import { getSourcesByIds, getSourcesForThemes, getThemes } from "./evidence.js";
 import { activeClarifiers, validitySummary, VALIDITY_ITEMS } from "./followups.js";
@@ -18,20 +16,28 @@ import {
 import { reportCardsFor, scoreAssessment } from "./scoring.js";
 import { CONCIERGE_METHOD_STEPS, SOURCE_BLUEPRINTS, methodSourceIds, sourceBlueprintIds } from "./source-blueprints.js";
 import {
+  ACTIVE_CONTEXT_PROMPTS,
+  ACTIVE_SPINE_ITEMS,
   ASSESSMENT_SECTIONS,
   firstUnansweredIndexForSection,
   itemsForSection,
   nextIncompleteSectionId,
+  PAUSED_HORMONAL_ASSESSMENT,
+  PAUSED_HORMONAL_ITEMS,
   sectionForItem,
   sectionIndex,
   sectionStats
 } from "./sections.js";
 import { draftPlainLanguageSummary } from "./summary.js";
+import { CORE_PROFILE_VERSION, normalizeCoreSession } from "./session-profile.js";
 
 const STORAGE_KEY = "ec-map-guided-capacity-session-v1";
+const API_BASE = "/api";
+const IS_STATIC_LOCAL_PREVIEW = window.location.port === "5173";
 const root = document.querySelector("#app");
 
 const defaultState = {
+  assessmentProfileVersion: CORE_PROFILE_VERSION,
   view: "intro",
   itemIndex: 0,
   activeSectionId: null,
@@ -42,10 +48,22 @@ const defaultState = {
   narrativeResponses: {},
   validityResponses: {},
   safetyResponses: {},
+  patientId: "",
+  mockDataAcknowledged: false,
+  mockDataAcknowledgedAt: "",
+  savedAssessmentId: "",
   completedAt: null
 };
 
 let state = loadState();
+const serverState = {
+  loading: true,
+  available: false,
+  message: "Checking database connection...",
+  patients: [],
+  assessments: [],
+  saveStatus: ""
+};
 
 const routeParams = new URLSearchParams(window.location.search);
 if (routeParams.has("fresh")) {
@@ -57,13 +75,14 @@ if (routeParams.has("fresh")) {
 function loadState() {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
-    return stored ? { ...defaultState, ...JSON.parse(stored) } : { ...defaultState };
+    return stored ? normalizeCoreSession(JSON.parse(stored), defaultState) : { ...defaultState };
   } catch {
     return { ...defaultState };
   }
 }
 
 function saveState() {
+  state = normalizeCoreSession(state, defaultState);
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
 
@@ -73,9 +92,174 @@ function resetState() {
   render();
 }
 
+async function apiJson(path, options = {}) {
+  const response = await fetch(`${API_BASE}${path}`, {
+    headers: { "Content-Type": "application/json", ...(options.headers ?? {}) },
+    ...options
+  });
+  if (!response.ok) {
+    const body = await response.json().catch(() => ({}));
+    throw new Error(body.error || `Request failed with ${response.status}`);
+  }
+  return response.json();
+}
+
+async function refreshServerState({ rerender = true } = {}) {
+  if (IS_STATIC_LOCAL_PREVIEW) {
+    serverState.loading = false;
+    serverState.available = false;
+    serverState.message = "Static local mode keeps progress in this browser and does not connect to Postgres.";
+    if (rerender) render();
+    return;
+  }
+  serverState.loading = true;
+  serverState.message = "Checking database connection...";
+  if (rerender) render();
+  try {
+    const [patientResponse, assessmentResponse] = await Promise.all([
+      apiJson("/mock-patients"),
+      apiJson("/assessments?limit=8")
+    ]);
+    serverState.available = true;
+    serverState.patients = patientResponse.patients ?? [];
+    serverState.assessments = assessmentResponse.assessments ?? [];
+    serverState.message = "Postgres is connected.";
+    if (!state.patientId && serverState.patients.length) {
+      state.patientId = serverState.patients[0].id;
+      saveState();
+    }
+  } catch (error) {
+    serverState.available = false;
+    serverState.patients = [];
+    serverState.assessments = [];
+    serverState.message = "Database API unavailable. Run Docker Compose to test saved assessments.";
+  } finally {
+    serverState.loading = false;
+    if (rerender) render();
+  }
+}
+
+function selectedPatient() {
+  return serverState.patients.find((patient) => patient.id === state.patientId) ?? serverState.patients[0] ?? null;
+}
+
+function redactedResultsForSave(results) {
+  const { safetyFlags, ...safeResults } = results;
+  return {
+    ...safeResults,
+    privateSafety: {
+      redacted: true,
+      flagCount: safetyFlags.length
+    }
+  };
+}
+
+function buildSavePayload() {
+  const results = scoreAssessment(state.scoredResponses, state.safetyResponses);
+  const activeFollowups = activeClarifiers(state.scoredResponses);
+  const validity = validitySummary(state.validityResponses);
+  const coachReview = buildCoachReview(state, results, validity, activeFollowups);
+  const acknowledgedAt = state.mockDataAcknowledgedAt || new Date().toISOString();
+  const { safetyResponses, ...safeSession } = state;
+  return {
+    patientId: selectedPatient()?.id || state.patientId,
+    status: state.completedAt ? "completed" : "in_progress",
+    dataUseAcknowledgement: {
+      mockDataOnly: state.mockDataAcknowledged === true,
+      scope: "prototype-preview",
+      acknowledgedAt
+    },
+    session: {
+      ...safeSession,
+      privateSafety: {
+        redacted: true,
+        answeredCount: Object.keys(safetyResponses ?? {}).length
+      },
+      mockDataAcknowledgedAt: acknowledgedAt,
+      savedAssessmentId: undefined
+    },
+    report: {
+      generatedAt: new Date().toISOString(),
+      summary: draftPlainLanguageSummary(state, results),
+      results: redactedResultsForSave(results),
+      coachReview
+    },
+    versions: coachReview.versions,
+    completedAt: state.completedAt
+  };
+}
+
+async function saveAssessmentToServer() {
+  if (!state.mockDataAcknowledged) {
+    serverState.saveStatus = "Confirm this is demo/mock data only before saving.";
+    render();
+    return;
+  }
+  serverState.saveStatus = "Saving assessment...";
+  render();
+  try {
+    if (!serverState.available) {
+      await refreshServerState({ rerender: false });
+    }
+    if (!serverState.available) {
+      throw new Error("Postgres is not connected");
+    }
+    const saved = await apiJson("/assessments", {
+      method: "POST",
+      body: JSON.stringify(buildSavePayload())
+    });
+    state.savedAssessmentId = saved.id;
+    saveState();
+    serverState.saveStatus = `Saved assessment ${saved.id.slice(0, 8)} for ${saved.patientName ?? saved.patientId}.`;
+    await refreshServerState({ rerender: false });
+  } catch (error) {
+    serverState.saveStatus = error.message;
+  }
+  render();
+}
+
+async function exportAssessmentFromServer(id) {
+  serverState.saveStatus = "Preparing redacted export...";
+  render();
+  try {
+    const assessment = await apiJson(`/assessments/${encodeURIComponent(id)}`);
+    const blob = new Blob([JSON.stringify(assessment, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `ec-map-preview-${id.slice(0, 8)}.json`;
+    document.body.append(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+    serverState.saveStatus = `Exported redacted assessment ${id.slice(0, 8)}.`;
+  } catch (error) {
+    serverState.saveStatus = error.message;
+  }
+  render();
+}
+
+async function deleteAssessmentFromServer(id) {
+  if (!confirm("Delete this saved mock assessment from the local preview database?")) return;
+  serverState.saveStatus = "Deleting saved assessment...";
+  render();
+  try {
+    await apiJson(`/assessments/${encodeURIComponent(id)}`, { method: "DELETE" });
+    if (state.savedAssessmentId === id) {
+      state.savedAssessmentId = "";
+      saveState();
+    }
+    serverState.saveStatus = `Deleted saved assessment ${id.slice(0, 8)}.`;
+    await refreshServerState({ rerender: false });
+  } catch (error) {
+    serverState.saveStatus = error.message;
+  }
+  render();
+}
+
 function seedDemoReport() {
   const highCognition = new Set(["C1-Sig", "C1-Cost", "C1-Disc", "C1-Mod", "C3-Sig", "C3-Cost", "C3-Disc", "C3-Mod"]);
-  const highChemistry = new Set(["H1-Sig", "H1-Cost", "H1-Disc", "H1-Mod", "H2-Sig", "H2-Cost", "H2-Disc", "H2-Mod", "H8-Sig", "H8-Cost"]);
+  const highChemistry = new Set(["H3-Sig", "H3-Cost", "H3-Disc", "H3-Mod", "H4-Sig", "H4-Cost", "H4-Disc", "H4-Mod", "H8-Sig", "H8-Cost"]);
   state = {
     ...defaultState,
     view: "report",
@@ -83,13 +267,12 @@ function seedDemoReport() {
       role_type: "Heavy-output knowledge work",
       meeting_load: "5 to 15 hours",
       sleep_stability: "Variable",
-      transition_context: "Perimenopausal",
       lifelong_attention_pattern: "Longstanding since childhood or teen years",
       setting_spread: "Across work, home, and relationships",
       timeline: "Has fluctuated"
     },
     scoredResponses: Object.fromEntries(
-      SPINE_ITEMS.map((item) => [item.id, highCognition.has(item.id) ? 4 : highChemistry.has(item.id) ? 3 : 1])
+      ACTIVE_SPINE_ITEMS.map((item) => [item.id, highCognition.has(item.id) ? 4 : highChemistry.has(item.id) ? 3 : 1])
     ),
     narrativeResponses: {
       compensating_for: "Keeping complex work moving while memory and recovery vary.",
@@ -98,14 +281,16 @@ function seedDemoReport() {
       what_helped: "Quiet blocks, sleep protection, and writing the first step."
     },
     adaptiveResponses: {
-      A1: "Interruptions",
-      A2: "Written first step",
-      A5: "Some improvement",
-      A6: "Irregular",
-      A10: "All three roughly equally"
+      A1: ["Interruptions", "Poor sleep"],
+      A2: ["Clear first step", "Accountability"],
+      A10: ["Longstanding wiring", "Body-state change", "Current context or role load"]
     },
     validityResponses: { V1: 4, V2: 3, V3: 1, V4: 3 },
     safetyResponses: { S1: 0, S2: 0, S3: 0, S4: 0 },
+    patientId: state.patientId || selectedPatient()?.id || "",
+    mockDataAcknowledged: false,
+    mockDataAcknowledgedAt: "",
+    savedAssessmentId: "",
     completedAt: new Date().toISOString()
   };
   saveState();
@@ -125,7 +310,7 @@ function countAnswered(responses = {}, ids = []) {
 }
 
 function contextAnsweredCount() {
-  return countAnswered(state.contextResponses, CONTEXT_PROMPTS.map((prompt) => prompt.id));
+  return countAnswered(state.contextResponses, ACTIVE_CONTEXT_PROMPTS.map((prompt) => prompt.id));
 }
 
 function validityAnsweredCount() {
@@ -137,7 +322,7 @@ function safetyAnsweredCount() {
 }
 
 function isContextComplete() {
-  return contextAnsweredCount() === CONTEXT_PROMPTS.length;
+  return contextAnsweredCount() === ACTIVE_CONTEXT_PROMPTS.length;
 }
 
 function isValidityComplete() {
@@ -149,7 +334,7 @@ function isSafetyComplete() {
 }
 
 function answeredCount() {
-  return Object.keys(state.scoredResponses).filter((id) => SPINE_ITEMS.some((item) => item.id === id)).length;
+  return Object.keys(state.scoredResponses).filter((id) => ACTIVE_SPINE_ITEMS.some((item) => item.id === id)).length;
 }
 
 function escapeHtml(value = "") {
@@ -161,13 +346,23 @@ function escapeHtml(value = "") {
     .replaceAll("'", "&#039;");
 }
 
+function valuesForAdaptiveResponse(response) {
+  if (Array.isArray(response)) return response;
+  if (response === undefined || response === null || response === "") return [];
+  return [response];
+}
+
+function formatAdaptiveResponse(response) {
+  return valuesForAdaptiveResponse(response).join(", ");
+}
+
 function progressMarkup() {
   const answered = answeredCount();
-  const pct = Math.round((answered / SPINE_ITEMS.length) * 100);
+  const pct = Math.round((answered / ACTIVE_SPINE_ITEMS.length) * 100);
   return `
     <div class="progress-block" aria-label="Assessment progress">
       <div class="progress-meta">
-        <span>${answered}/${SPINE_ITEMS.length} scored prompts answered</span>
+        <span>${answered}/${ACTIVE_SPINE_ITEMS.length} scored prompts answered</span>
         <span>${pct}%</span>
       </div>
       <div class="progress-track"><span style="width: ${pct}%"></span></div>
@@ -197,19 +392,21 @@ function renderIntro() {
         <div class="brand-mark" aria-hidden="true">EC</div>
         <div>
           <p class="eyebrow">Evidence-informed capacity mapping</p>
-          <h1>EC Map for midlife capacity</h1>
+          <h1>Map the capacity behind the work</h1>
         </div>
       </div>
       <div class="hero-meta" aria-label="Assessment format">
-        <span>8 conversations</span>
+        <span>7 shared assessments</span>
         <span>8 prompts each</span>
         <span>Pause anytime</span>
       </div>
       <p class="hero-copy">
-        A guided intake for midlife cognition: ADHD-consistent patterns, menopause-amplified patterns, and the layered cases where both may be active.
+        A guided executive-capacity intake for adults of any sex: cognition, energy, stress, body load, medication effects, and recovery.
       </p>
       ${prototypeNoticeMarkup()}
+      ${renderPausedModuleNotice()}
       <p class="privacy-line">Saved in this browser.</p>
+      ${renderPersistencePanel({ allowSave: false })}
       <div class="hero-actions">
         <button class="primary" data-action="start">${hasProgress ? "Resume assessment" : "Begin assessment"}</button>
         <button class="secondary" data-action="demo-report">Preview report</button>
@@ -230,16 +427,105 @@ function prototypeNoticeMarkup() {
   `;
 }
 
+function renderPausedModuleNotice() {
+  return `
+    <aside class="module-pause-notice" aria-label="Hormonal module status">
+      <div>
+        <p class="eyebrow">Separate future module</p>
+        <h2>Hormonal assessment paused</h2>
+        <p>${escapeHtml(PAUSED_HORMONAL_ASSESSMENT.pauseReason)} It is not included in this shared seven-assessment score or report.</p>
+      </div>
+      <div class="module-pause-facts" aria-label="Paused module facts">
+        <span>${PAUSED_HORMONAL_ITEMS.length} source prompts preserved</span>
+        <span>Not scored</span>
+        <span>Not saved in active sessions</span>
+      </div>
+    </aside>
+  `;
+}
+
 function renderConciergeMethodSummary() {
   const highlights = [
     "Short voice-sized conversations",
-    "ADHD-equal and menopause-equal interpretation",
+    "Lifespan and current-state interpretation",
     "Client report plus coach packet"
   ];
   return `
     <div class="method-summary" aria-label="Product method">
       ${highlights.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
     </div>
+  `;
+}
+
+function renderPersistencePanel({ allowSave = false } = {}) {
+  if (serverState.loading) {
+    return `
+      <section class="persistence-panel">
+        <p class="eyebrow">Database preview</p>
+        <h2>Checking Postgres</h2>
+        <p>${escapeHtml(serverState.message)}</p>
+      </section>
+    `;
+  }
+
+  if (!serverState.available) {
+    return `
+      <section class="persistence-panel">
+        <p class="eyebrow">Database preview</p>
+        <h2>Local-only mode</h2>
+        <p>${escapeHtml(serverState.message)}</p>
+      </section>
+    `;
+  }
+
+  const patient = selectedPatient();
+  const saveDisabled = allowSave && !state.mockDataAcknowledged;
+  return `
+    <section class="persistence-panel">
+      <div>
+        <p class="eyebrow">Database preview</p>
+        <h2>Mock patient save testing</h2>
+        <p>${patient ? escapeHtml(patient.profileNotes) : "Choose a mock patient before saving."}</p>
+      </div>
+      <label class="select-field">
+        <span>Mock patient</span>
+        <select data-field="patient-id">
+          ${serverState.patients.map((candidate) => `
+            <option value="${escapeHtml(candidate.id)}" ${candidate.id === state.patientId ? "selected" : ""}>
+              ${escapeHtml(candidate.displayName)} - mock profile
+            </option>
+          `).join("")}
+        </select>
+      </label>
+      <div class="saved-session-strip">
+        <span>${serverState.assessments.length} recent saved session${serverState.assessments.length === 1 ? "" : "s"}</span>
+        ${state.savedAssessmentId ? `<span>Current save: ${escapeHtml(state.savedAssessmentId.slice(0, 8))}</span>` : ""}
+      </div>
+      ${serverState.assessments.length ? `
+        <div class="recent-sessions">
+          ${serverState.assessments.slice(0, 3).map((assessment) => `
+            <div class="recent-session-row">
+              <span>${escapeHtml(assessment.patientName ?? assessment.patientId)} / ${escapeHtml(assessment.status)} / ${escapeHtml(new Date(assessment.createdAt).toLocaleString())}</span>
+              <div>
+                <button class="ghost compact-action" data-action="export-assessment" data-assessment-id="${escapeHtml(assessment.id)}">Export redacted JSON</button>
+                <button class="ghost danger compact-action" data-action="delete-assessment" data-assessment-id="${escapeHtml(assessment.id)}">Delete</button>
+              </div>
+            </div>
+          `).join("")}
+        </div>
+      ` : ""}
+      ${allowSave ? `
+        <label class="ack-field ${state.mockDataAcknowledged ? "selected" : ""}">
+          <input type="checkbox" data-field="mock-data-ack" ${state.mockDataAcknowledged ? "checked" : ""}>
+          <span>I confirm this save uses demo/mock data only, not real participant or patient information.</span>
+        </label>
+      ` : ""}
+      <div class="persistence-actions">
+        ${allowSave ? `<button class="primary" data-action="save-assessment" ${saveDisabled ? "disabled" : ""}>Save assessment</button>` : ""}
+        <button class="secondary" data-action="refresh-db">Refresh saved sessions</button>
+      </div>
+      ${serverState.saveStatus ? `<p class="save-status">${escapeHtml(serverState.saveStatus)}</p>` : ""}
+    </section>
   `;
 }
 
@@ -262,9 +548,9 @@ function renderContext() {
         <p>Quick anchors before the scored conversations.</p>
       </div>
       <form class="stack" data-form="context">
-        ${CONTEXT_PROMPTS.map(renderContextPrompt).join("")}
+        ${ACTIVE_CONTEXT_PROMPTS.map(renderContextPrompt).join("")}
       </form>
-      <div class="readiness-line" aria-live="polite">${answered}/${CONTEXT_PROMPTS.length} anchors complete</div>
+      <div class="readiness-line" aria-live="polite">${answered}/${ACTIVE_CONTEXT_PROMPTS.length} anchors complete</div>
       <div class="nav-row">
         <button class="secondary" data-action="intro">Back</button>
         <button class="primary" data-action="sections" ${isContextComplete() ? "" : "disabled"}>Continue to conversations</button>
@@ -297,13 +583,14 @@ function renderSections() {
     <section class="panel">
       <div class="step-header">
         <p class="eyebrow">Guided intake</p>
-        <h1>Eight short conversations</h1>
+        <h1>Seven shared assessments</h1>
         <p>Each conversation is sized for a future voice-to-voice flow: ask, answer, confirm, continue.</p>
       </div>
       ${progressMarkup()}
       <section class="section-grid" aria-label="Assessment sections">
         ${ASSESSMENT_SECTIONS.map(renderSectionCard).join("")}
       </section>
+      ${renderPausedModuleNotice()}
       <div class="nav-row">
         <button class="secondary" data-action="context">Back to context</button>
         <button class="primary" data-action="start-section" data-section-id="${escapeHtml(nextSectionId)}">
@@ -336,7 +623,7 @@ function renderSectionCard(section) {
 }
 
 function renderAssessment() {
-  const item = SPINE_ITEMS[state.itemIndex];
+  const item = ACTIVE_SPINE_ITEMS[state.itemIndex];
   const section = sectionForItem(item) ?? ASSESSMENT_SECTIONS[0];
   const sectionItems = itemsForSection(section.id);
   const sectionPromptIndex = sectionItems.findIndex((sectionItem) => sectionItem.id === item.id);
@@ -354,7 +641,7 @@ function renderAssessment() {
       ${sectionProgressMarkup(section)}
       ${progressMarkup()}
       <article class="prompt-card">
-        <div class="question-count">Prompt ${sectionPromptIndex + 1} of ${sectionItems.length} in this conversation / overall ${state.itemIndex + 1} of ${SPINE_ITEMS.length}</div>
+        <div class="question-count">Prompt ${sectionPromptIndex + 1} of ${sectionItems.length} in this assessment / overall ${state.itemIndex + 1} of ${ACTIVE_SPINE_ITEMS.length}</div>
         <h2>${escapeHtml(item.prompt)}</h2>
         <p class="scale-note">Past month. Choose the closest frequency.</p>
         <div class="scale-grid" role="radiogroup" aria-label="Frequency response">
@@ -452,17 +739,21 @@ function renderClarifiers() {
 }
 
 function renderClarifier(clarifier) {
-  const current = state.adaptiveResponses[clarifier.id] ?? "";
+  const currentValues = valuesForAdaptiveResponse(state.adaptiveResponses[clarifier.id]);
+  const inputType = clarifier.multi ? "checkbox" : "radio";
   return `
     <fieldset class="choice-group">
       <legend>${escapeHtml(clarifier.prompt)}</legend>
       <div class="choice-grid">
-        ${clarifier.options.map((option) => `
-          <label class="choice ${current === option ? "selected" : ""}">
-            <input type="radio" name="${escapeHtml(clarifier.id)}" value="${escapeHtml(option)}" ${current === option ? "checked" : ""}>
+        ${clarifier.options.map((option) => {
+          const selected = currentValues.includes(option);
+          return `
+          <label class="choice ${selected ? "selected" : ""}">
+            <input type="${inputType}" name="${escapeHtml(clarifier.id)}" value="${escapeHtml(option)}" ${selected ? "checked" : ""}>
             <span>${escapeHtml(option)}</span>
           </label>
-        `).join("")}
+        `;
+        }).join("")}
       </div>
     </fieldset>
   `;
@@ -595,8 +886,8 @@ function renderReport() {
   const conversationPrompts = buildConversationPrompts(results, validity);
   const cards = reportCardsFor(results);
   const readiness = [
-    `${contextAnsweredCount()}/${CONTEXT_PROMPTS.length} context anchors`,
-    `${answeredCount()}/${SPINE_ITEMS.length} scored prompts`,
+    `${contextAnsweredCount()}/${ACTIVE_CONTEXT_PROMPTS.length} context anchors`,
+    `${answeredCount()}/${ACTIVE_SPINE_ITEMS.length} scored prompts`,
     `${validityAnsweredCount()}/${VALIDITY_ITEMS.length} confidence checks`,
     `${safetyAnsweredCount()}/${SAFETY_ITEMS.length} private checks`
   ];
@@ -607,6 +898,7 @@ function renderReport() {
         <h1>Your EC Map report</h1>
         <p>${escapeHtml(summary)}</p>
         ${prototypeNoticeMarkup()}
+        ${renderPersistencePanel({ allowSave: true })}
         <div class="readiness-strip" aria-label="Report readiness">
           ${readiness.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
         </div>
@@ -664,14 +956,16 @@ function renderCoachPacket() {
         <p class="eyebrow">Pre-session coach packet</p>
         <h1>Coach Review</h1>
         <p>
-          Structured intake notes for a midlife cognition coach or reviewer before the first session.
+          Structured intake notes for an executive-capacity coach or reviewer before the first session.
           Functional patterns only; medical and mental health decisions stay outside coaching scope.
         </p>
         ${prototypeNoticeMarkup()}
+        ${renderPersistencePanel({ allowSave: true })}
         <div class="readiness-strip" aria-label="Coach packet versions">
           <span>${escapeHtml(coachReview.versions.assessment)}</span>
           <span>${escapeHtml(coachReview.versions.scoring)}</span>
           <span>${escapeHtml(coachReview.versions.report)}</span>
+          <span>${escapeHtml(coachReview.versions.governance)}</span>
         </div>
         <div class="report-actions">
           <button class="secondary" data-action="report">Client report</button>
@@ -704,14 +998,15 @@ function renderCoachPacket() {
             <div><dt>Role/load</dt><dd>${escapeHtml(coachReview.clientContext.roleType)}</dd></div>
             <div><dt>Meeting load</dt><dd>${escapeHtml(coachReview.clientContext.meetingLoad)}</dd></div>
             <div><dt>Sleep stability</dt><dd>${escapeHtml(coachReview.clientContext.sleepStability)}</dd></div>
-            <div><dt>Transition context</dt><dd>${escapeHtml(coachReview.clientContext.transitionContext)}</dd></div>
-            <div><dt>Before midlife</dt><dd>${escapeHtml(coachReview.clientContext.lifelongAttentionPattern)}</dd></div>
+            <div><dt>Earlier-life pattern</dt><dd>${escapeHtml(coachReview.clientContext.lifelongAttentionPattern)}</dd></div>
             <div><dt>Setting spread</dt><dd>${escapeHtml(coachReview.clientContext.settingSpread)}</dd></div>
             <div><dt>Timeline</dt><dd>${escapeHtml(coachReview.clientContext.timeline)}</dd></div>
           </dl>
           ${renderTaggedPhrase(coachReview.clientContext.compensationBurden)}
         </article>
       </section>
+
+      ${renderSolGovernancePanel(coachReview.solGovernance)}
 
       ${renderSignature(coachReview.capacitySignature)}
 
@@ -753,6 +1048,150 @@ function renderCoachListPanel(title, phrases, tone = "") {
       <h2>${escapeHtml(title)}</h2>
       ${renderPhraseList(phrases)}
     </article>
+  `;
+}
+
+function governanceStatusLabel(status) {
+  return String(status ?? "unknown")
+    .replaceAll("_", " ")
+    .replace(/^./, (character) => character.toUpperCase());
+}
+
+function governanceStatusClass(status) {
+  if (["pass", "complete", "shadow_complete", "shadow_ready", "mapped"].includes(status)) return "pass";
+  if (["human_review", "human_review_required", "shadow_ready_for_human_review", "human_mapping_needed", "context_only", "provisional_crosswalk"].includes(status)) return "review";
+  if (["block", "blocked", "blocked_mock_only", "incomplete", "unmapped"].includes(status)) return "block";
+  return "neutral";
+}
+
+function renderSolGovernancePanel(packet) {
+  if (!packet) return "";
+  return `
+    <section class="coach-panel sol-governance" aria-labelledby="sol-governance-title">
+      <div class="governance-header">
+        <div>
+          <p class="eyebrow">MVP checks and balances</p>
+          <h2 id="sol-governance-title">Sol shadow governance</h2>
+          <p>${escapeHtml(packet.runtime.note)}</p>
+        </div>
+        <span class="governance-status ${governanceStatusClass(packet.overallStatus)}">
+          ${escapeHtml(governanceStatusLabel(packet.overallStatus))}
+        </span>
+      </div>
+
+      <div class="governance-section">
+        <div class="governance-section-heading">
+          <div>
+            <p class="eyebrow">6 gates</p>
+            <h3>Fail-closed review</h3>
+          </div>
+          <p>Anything unresolved stays in human review.</p>
+        </div>
+        <div class="gate-grid">
+          ${packet.gates.map((item) => `
+            <article class="gate-card ${governanceStatusClass(item.status)}">
+              <div><strong>${escapeHtml(item.id)}</strong><span>${escapeHtml(governanceStatusLabel(item.status))}</span></div>
+              <h4>${escapeHtml(item.label)}</h4>
+              <p>${escapeHtml(item.detail)}</p>
+            </article>
+          `).join("")}
+        </div>
+      </div>
+
+      <div class="governance-split">
+        <div class="governance-section">
+          <div class="governance-section-heading">
+            <div>
+              <p class="eyebrow">4 index slots</p>
+              <h3>Reserved, not inferred</h3>
+            </div>
+          </div>
+          <div class="index-slot-grid">
+            ${packet.canonicalIndices.map((index) => `
+              <article class="index-slot">
+                <strong>${escapeHtml(index.label)}</strong>
+                <span>${escapeHtml(governanceStatusLabel(index.status))}</span>
+                <p>${escapeHtml(index.reason)}</p>
+              </article>
+            `).join("")}
+          </div>
+        </div>
+
+        <div class="governance-section">
+          <div class="governance-section-heading">
+            <div>
+              <p class="eyebrow">7 stages</p>
+              <h3>Visible lifecycle</h3>
+            </div>
+          </div>
+          <ol class="lifecycle-grid">
+            ${packet.lifecycle.map((stage) => `
+              <li class="${governanceStatusClass(stage.status)}">
+                <span>${escapeHtml(stage.number)}</span>
+                <div><strong>${escapeHtml(stage.name)}</strong><small>${escapeHtml(governanceStatusLabel(stage.status))}</small></div>
+              </li>
+            `).join("")}
+          </ol>
+        </div>
+      </div>
+
+      <div class="governance-section">
+        <div class="governance-section-heading">
+          <div>
+            <p class="eyebrow">Return to 8</p>
+            <h3>Functional-domain crosswalk</h3>
+          </div>
+          <p>${escapeHtml(packet.returnTo8.rule)}</p>
+        </div>
+        <div class="domain-coverage-grid">
+          ${packet.eightFCoverage.map((item) => `
+            <article class="${governanceStatusClass(item.coverage)}">
+              <strong>${escapeHtml(item.domain)}</strong>
+              <span>${escapeHtml(governanceStatusLabel(item.coverage))}</span>
+              <small>${item.kernelIds.length ? escapeHtml(item.kernelIds.join(", ")) : "Human mapping needed"}</small>
+            </article>
+          `).join("")}
+        </div>
+      </div>
+
+      <div class="governance-section">
+        <div class="governance-section-heading">
+          <div>
+            <p class="eyebrow">2-sided reasoning</p>
+            <h3>Support and challenge receipts</h3>
+          </div>
+          <p>These receipts expose why a pattern surfaced and what could change its interpretation.</p>
+        </div>
+        <div class="receipt-grid">
+          ${packet.reasoningReceipts.map((receipt) => `
+            <details class="reasoning-receipt">
+              <summary>
+                <span>${escapeHtml(receipt.kernel)}</span>
+                <small>${escapeHtml(receipt.domains8f.join(" + ") || "8F mapping pending")}</small>
+              </summary>
+              <p>${escapeHtml(receipt.observedPattern)}</p>
+              <div class="support-challenge-grid">
+                <article>
+                  <h4>Support</h4>
+                  <p>${escapeHtml(receipt.support.evidence.length)} participant-reported items; deterministic total ${escapeHtml(receipt.support.deterministicFacetSummary.total)}.</p>
+                </article>
+                <article>
+                  <h4>Challenge</h4>
+                  <p>${escapeHtml(receipt.challenge.note)}</p>
+                  <p><strong>Ask:</strong> ${escapeHtml(receipt.challenge.disconfirmingQuestion)}</p>
+                </article>
+              </div>
+              <p class="receipt-boundary">${escapeHtml(receipt.confidence.note)}</p>
+            </details>
+          `).join("")}
+        </div>
+      </div>
+
+      <div class="governance-boundary">
+        <strong>Release remains blocked.</strong>
+        <span>${escapeHtml(packet.release.reason)}</span>
+      </div>
+    </section>
   `;
 }
 
@@ -830,7 +1269,7 @@ function renderBlueprintCard(blueprint) {
 function renderDifferentialLens(lens) {
   return `
     <section class="differential-card">
-      <p class="eyebrow">ADHD-equal / menopause-equal lens</p>
+      <p class="eyebrow">Lifespan / current-state lens</p>
       <h2>${escapeHtml(lens.status)}</h2>
       <p>${escapeHtml(lens.body)}</p>
       <div class="differential-grid">
@@ -908,7 +1347,7 @@ function renderInterpretationPanel(activeFollowups, validity) {
         <h2>Follow-up signals</h2>
         ${
           answeredFollowups.length
-            ? `<ul>${answeredFollowups.map((clarifier) => `<li><strong>${escapeHtml(clarifier.title)}:</strong> ${escapeHtml(state.adaptiveResponses[clarifier.id])}</li>`).join("")}</ul>`
+            ? `<ul>${answeredFollowups.map((clarifier) => `<li><strong>${escapeHtml(clarifier.title)}:</strong> ${escapeHtml(formatAdaptiveResponse(state.adaptiveResponses[clarifier.id]))}</li>`).join("")}</ul>`
             : "<p>No extra follow-up signals were needed.</p>"
         }
       </div>
@@ -967,7 +1406,7 @@ function guardedView() {
   const needsContext = ["sections", "assessment", "section-complete", "clarifiers", "narrative", "validity", "safety", "report", "coach"];
   const needsScoredAssessment = ["clarifiers", "narrative", "validity", "safety", "report", "coach"];
   if (needsContext.includes(state.view) && !isContextComplete()) return "context";
-  if (needsScoredAssessment.includes(state.view) && answeredCount() < SPINE_ITEMS.length) return "sections";
+  if (needsScoredAssessment.includes(state.view) && answeredCount() < ACTIVE_SPINE_ITEMS.length) return "sections";
   if (["safety", "report", "coach"].includes(state.view) && !isValidityComplete()) return "validity";
   if (["report", "coach"].includes(state.view) && !isSafetyComplete()) return "safety";
   return state.view;
@@ -1039,6 +1478,10 @@ function handleClick(event) {
   if (action === "print") window.print();
   if (action === "reset" && confirm("Start over and clear local answers?")) resetState();
   if (action === "demo-report") seedDemoReport();
+  if (action === "refresh-db") refreshServerState();
+  if (action === "save-assessment") saveAssessmentToServer();
+  if (action === "export-assessment") exportAssessmentFromServer(button.dataset.assessmentId);
+  if (action === "delete-assessment") deleteAssessmentFromServer(button.dataset.assessmentId);
 
   if (action === "start-section") {
     const sectionId = button.dataset.sectionId;
@@ -1072,9 +1515,9 @@ function handleClick(event) {
   }
 
   if (action === "next-item") {
-    const section = sectionForItem(SPINE_ITEMS[state.itemIndex]);
+    const section = sectionForItem(ACTIVE_SPINE_ITEMS[state.itemIndex]);
     const sectionItems = section ? itemsForSection(section.id) : [];
-    const sectionPromptIndex = sectionItems.findIndex((sectionItem) => sectionItem.id === SPINE_ITEMS[state.itemIndex].id);
+    const sectionPromptIndex = sectionItems.findIndex((sectionItem) => sectionItem.id === ACTIVE_SPINE_ITEMS[state.itemIndex].id);
     if (section && sectionPromptIndex === sectionItems.length - 1) {
       state.lastCompletedSectionId = section.id;
       state.activeSectionId = section.id;
@@ -1089,6 +1532,19 @@ function handleClick(event) {
 
 function handleChange(event) {
   const input = event.target;
+  if (input.matches('[data-field="patient-id"]')) {
+    state.patientId = input.value;
+    state.savedAssessmentId = "";
+    saveState();
+    render();
+  }
+  if (input.matches('[data-field="mock-data-ack"]')) {
+    state.mockDataAcknowledged = input.checked;
+    state.mockDataAcknowledgedAt = input.checked ? new Date().toISOString() : "";
+    state.savedAssessmentId = "";
+    saveState();
+    render();
+  }
   if (input.matches('[data-form="context"] input[type="radio"]')) {
     state.contextResponses[input.name] = input.value;
     saveState();
@@ -1096,6 +1552,14 @@ function handleChange(event) {
   }
   if (input.matches('[data-form="adaptive"] input[type="radio"]')) {
     state.adaptiveResponses[input.name] = input.value;
+    saveState();
+    renderClarifiers();
+  }
+  if (input.matches('[data-form="adaptive"] input[type="checkbox"]')) {
+    const currentValues = valuesForAdaptiveResponse(state.adaptiveResponses[input.name]);
+    state.adaptiveResponses[input.name] = input.checked
+      ? [...new Set([...currentValues, input.value])]
+      : currentValues.filter((value) => value !== input.value);
     saveState();
     renderClarifiers();
   }
@@ -1133,3 +1597,4 @@ root.addEventListener("click", handleClick);
 root.addEventListener("change", handleChange);
 root.addEventListener("input", handleInput);
 render();
+refreshServerState();

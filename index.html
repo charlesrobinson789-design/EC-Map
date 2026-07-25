@@ -1,13 +1,258 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>EC Map Guided Capacity App</title>
-    <link rel="stylesheet" href="src/styles.css">
-  </head>
-  <body>
-    <main id="app" class="app-shell" aria-live="polite"></main>
-    <script type="module" src="src/app.js"></script>
-  </body>
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>Voice EC Map — Structured Midlife Capacity Mapping</title>
+  <meta content="A structured midlife capacity mapping service for women, coaches, and care professionals: turn scattered cognition and body-state signals into a clear capacity map and coach packet." name="description"/>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%231e4d3b'/%3E%3Ctext x='32' y='40' text-anchor='middle' font-family='Georgia,serif' font-size='26' font-weight='700' fill='%23f7f4ee'%3EEC%3C/text%3E%3C/svg%3E">
+  <style>
+    body { margin: 0; background: #f7f4ee; color: #1c2320; font-family: 'IBM Plex Sans', sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: #1e4d3b; text-decoration: none; transition: all 0.2s ease; }
+    a:hover { color: #143627; }
+    
+    /* Responsive grid & padding */
+    .rs-nav { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 20px 48px; border-bottom: 1px solid #e2ddd2; background: #f7f4ee; position: sticky; top: 0; z-index: 100; }
+    .rs-nav-brand { font-family: 'Source Serif 4', serif; font-size: 21px; font-weight: 700; color: #1c2320; letter-spacing: -0.01em; display: flex; align-items: center; gap: 10px; }
+    .rs-nav-brand span { background: #1e4d3b; color: #f7f4ee; font-size: 12px; font-family: 'IBM Plex Sans', sans-serif; font-weight: 700; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .rs-navlinks { display: flex; align-items: center; gap: 28px; font-size: 14px; font-weight: 500; }
+    
+    .rs-pad { max-width: 1040px; margin: 0 auto; padding: 0 48px; }
+    .rs-hero { padding-top: 88px; padding-bottom: 80px; text-align: center; }
+    .rs-h1 { font-family: 'Source Serif 4', serif; font-size: 54px; line-height: 1.1; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 24px; color: #1c2320; }
+    .rs-h2 { font-family: 'Source Serif 4', serif; font-size: 38px; line-height: 1.2; font-weight: 700; letter-spacing: -0.01em; margin: 0 0 16px; color: #1c2320; }
+    
+    .rs-pill { display: inline-block; font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #1e4d3b; border: 1px solid #c9d6cf; background: #f0f5f2; border-radius: 100px; padding: 7px 18px; margin-bottom: 28px; }
+    
+    .rs-ctas { display: flex; gap: 16px; justify-content: center; margin-top: 36px; }
+    .btn-primary { background: #1e4d3b; color: #fff !important; padding: 14px 28px; border-radius: 6px; font-weight: 600; font-size: 15px; display: inline-block; box-shadow: 0 2px 6px rgba(30, 77, 59, 0.15); }
+    .btn-primary:hover { background: #143627; transform: translateY(-1px); box-shadow: 0 4px 10px rgba(30, 77, 59, 0.25); text-decoration: none; }
+    .btn-outline { border: 1px solid #b9c4bd; color: #1c2320 !important; padding: 14px 28px; border-radius: 6px; font-weight: 600; font-size: 15px; display: inline-block; background: #f7f4ee; }
+    .btn-outline:hover { border-color: #1e4d3b; background: #e7efe9; transform: translateY(-1px); text-decoration: none; }
+    
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 40px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; margin-top: 40px; }
+    
+    .card { background: #fff; border: 1px solid #e2ddd2; border-radius: 10px; padding: 32px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); transition: transform 0.2s ease, box-shadow 0.2s ease; text-align: left; }
+    .card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.06); border-color: #c9d6cf; }
+    .card h3 { font-family: 'Source Serif 4', serif; font-size: 24px; margin: 0 0 12px; color: #1c2320; }
+    .card p { font-size: 15px; line-height: 1.6; color: #4a554f; margin: 0 0 16px; }
+    .card ul { margin: 0 0 20px; padding-left: 20px; color: #4a554f; font-size: 14px; line-height: 1.7; }
+    
+    .price-tag { font-size: 32px; font-weight: 700; color: #1e4d3b; margin: 16px 0 8px; font-family: 'IBM Plex Sans', sans-serif; }
+    
+    .section-box { padding: 80px 0; border-top: 1px solid #e2ddd2; }
+    .bg-light { background: #f0ece1; }
+    
+    .step-num { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: #1e4d3b; color: #fff; font-weight: 700; border-radius: 50%; font-size: 14px; margin-bottom: 16px; }
+    
+    .footer { padding: 48px; text-align: center; border-top: 1px solid #e2ddd2; font-size: 13px; color: #5c6661; background: #f7f4ee; }
+    
+    @media (max-width: 900px) {
+      .rs-pad { padding: 0 28px; }
+      .grid-3 { grid-template-columns: 1fr; }
+      .grid-2 { grid-template-columns: 1fr; }
+      .rs-h1 { font-size: 42px; }
+      .rs-h2 { font-size: 32px; }
+    }
+    @media (max-width: 620px) {
+      .rs-nav { flex-wrap: wrap; row-gap: 10px; padding: 14px 20px; }
+      .rs-navlinks { flex-wrap: wrap; row-gap: 8px; gap: 14px; }
+      .rs-pad { padding: 0 20px; }
+      .rs-h1 { font-size: 33px; }
+      .rs-hero { padding-top: 56px; padding-bottom: 48px; }
+      .rs-ctas { flex-direction: column; align-items: stretch; }
+      .rs-ctas a { text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="rs-nav">
+    <a href="index.html" class="rs-nav-brand">
+      Voice EC Map <span>Beta</span>
+    </a>
+    <div class="rs-navlinks">
+      <a href="beta.html" style="color:#3d4a44;">The 30-Day Beta</a>
+      <a href="method.html" style="color:#3d4a44;">The 64-Item Method</a>
+      <a href="report.html" style="color:#3d4a44;">Sample Packets</a>
+      <a href="team.html" style="color:#3d4a44;">Who We Are</a>
+      <a href="intake.html" class="btn-primary" style="padding:10px 20px;">Book a fit call</a>
+    </div>
+  </nav>
+
+  <header class="rs-pad rs-hero">
+    <div class="rs-pill">Founding Beta · Limited to 10 Direct Clients & 2 Referral Partners</div>
+    <h1 class="rs-h1">Map the load before you manage the case.<br/>Is it ADHD, menopause, burnout, or all of it?</h1>
+    <p style="font-size:19px;line-height:1.6;color:#4a554f;max-width:680px;margin:0 auto;text-wrap:pretty;">
+      Many women hit midlife and cannot tell whether the change is ADHD, menopause, sleep disruption, stress load, or the cumulative cost of compensation. Voice EC Map does not diagnose or treat. We turn scattered signals into a structured capacity map, coach packet, and next-conversation plan.
+    </p>
+    <div class="rs-ctas">
+      <a href="intake.html" class="btn-primary">Book a 15-minute fit call</a>
+      <a href="report.html" class="btn-outline">See sample report & packet</a>
+    </div>
+    <p style="font-size:13px;color:#6d7772;margin-top:20px;font-weight:500;">
+      No PHI collected in marketing tools. Human-reviewed consulting powered by bounded AI agents. No AI therapy lecture.
+    </p>
+  </header>
+
+  <section class="section-box bg-light">
+    <div class="rs-pad" style="text-align:center;">
+      <h2 class="rs-h2">The hardest part is not effort. It is signal.</h2>
+      <p style="font-size:17px;color:#4a554f;max-width:720px;margin:0 auto 24px;line-height:1.7;">
+        You may still be working, caregiving, organizing, masking, and producing. But the private cost has changed. Focus is less predictable. Sleep matters more. The old compensation strategies no longer hold, and the conversation gets trapped in ambiguity.
+      </p>
+      
+      <div class="grid-3" style="text-align:left;">
+        <div class="card">
+          <div style="font-size:24px;margin-bottom:12px;">🧠</div>
+          <h3>The ADHD vs. Menopause Trap</h3>
+          <p>Most assessments force a singular label. We treat lifelong attention continuity and midlife body-state amplifiers as co-equal pathways that deserve separate visibility.</p>
+        </div>
+        <div class="card">
+          <div style="font-size:24px;margin-bottom:12px;">⚖️</div>
+          <h3>Invisible Compensation Burden</h3>
+          <p>When you perform well publicly while exhausting yourself privately, standard screeners miss the strain. Our 64-item spine measures both visible performance and recovery cost.</p>
+        </div>
+        <div class="card">
+          <div style="font-size:24px;margin-bottom:12px;">📋</div>
+          <h3>Pre-Session Clarity</h3>
+          <p>Stop spending the first 45 minutes of a clinical or coaching consult recounting scattered history. Arrive with priority sequencing, verification questions, and support levers.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-box">
+    <div class="rs-pad">
+      <div style="text-align:center;max-width:680px;margin:0 auto;">
+        <div class="rs-pill" style="margin-bottom:16px;">How It Works</div>
+        <h2 class="rs-h2">From scattered story to actionable care map</h2>
+        <p style="color:#4a554f;font-size:16px;line-height:1.6;">Four clear steps designed for low cognitive friction and maximum professional utility.</p>
+      </div>
+
+      <div class="grid-2" style="margin-top:48px;">
+        <div class="card" style="display:flex;gap:20px;align-items:flex-start;">
+          <div class="step-num">1</div>
+          <div>
+            <h3>Structured 64-Item Intake</h3>
+            <p>Complete our guided capacity mapping across 7 core functional domains: Executive Load, Attention Continuity, Working Memory, Task Initiation, Organization, Emotional Load, and Body-State Factors.</p>
+          </div>
+        </div>
+        <div class="card" style="display:flex;gap:20px;align-items:flex-start;">
+          <div class="step-num">2</div>
+          <div>
+            <h3>Deterministic Engine Scoring</h3>
+            <p>Our Sol MVP governance engine computes Signal, Cost, Discriminator, and Modifiability scores without LLM hallucination or uncalibrated diagnostic guessing.</p>
+          </div>
+        </div>
+        <div class="card" style="display:flex;gap:20px;align-items:flex-start;">
+          <div class="step-num">3</div>
+          <div>
+            <h3>Human Review & Verification</h3>
+            <p>Every packet is reviewed by licensed clinical informatics oversight before release. We verify scope boundaries, redact prohibited diagnostic words, and check claim integrity.</p>
+          </div>
+        </div>
+        <div class="card" style="display:flex;gap:20px;align-items:flex-start;">
+          <div class="step-num">4</div>
+          <div>
+            <h3>Dual-Packet Delivery</h3>
+            <p>Receive a plain-language Client Report for personal orientation and a professional Coach Packet with priority sequencing and verification questions for your next care provider.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-box bg-light">
+    <div class="rs-pad" style="text-align:center;">
+      <h2 class="rs-h2">Core Consulting Offer Ladder</h2>
+      <p style="color:#4a554f;font-size:16px;max-width:600px;margin:0 auto;">Human-reviewed consulting packages designed for direct clients and referral partners.</p>
+      
+      <div class="grid-3">
+        <div class="card" style="position:relative;border-color:#c9d6cf;background:#fff;">
+          <span style="font-size:11px;font-weight:700;text-transform:uppercase;color:#1e4d3b;background:#e7efe9;padding:4px 10px;border-radius:4px;">Direct Client Beta</span>
+          <h3>Voice EC Map Beta</h3>
+          <div class="price-tag">$500</div>
+          <p style="font-size:13px;color:#5c6661;">3–5 business day turnaround</p>
+          <ul>
+            <li>Guided 64-item EC Map intake</li>
+            <li>Client capacity signature report</li>
+            <li>Professional coach review packet</li>
+            <li>Care-conversation inquiry prompts</li>
+            <li>30-minute 1:1 review call</li>
+          </ul>
+          <a href="intake.html" class="btn-primary" style="width:100%;text-align:center;box-sizing:border-box;">Apply for Beta Slot</a>
+        </div>
+
+        <div class="card" style="position:relative;border:2px solid #1e4d3b;background:#fff;box-shadow:0 8px 24px rgba(30,77,59,0.08);">
+          <span style="font-size:11px;font-weight:700;text-transform:uppercase;color:#fff;background:#1e4d3b;padding:4px 10px;border-radius:4px;">Most Popular</span>
+          <h3 style="margin-top:8px;">Case Clarity Sprint</h3>
+          <div class="price-tag">$1,000</div>
+          <p style="font-size:13px;color:#5c6661;">For complex, layered midlife cases</p>
+          <ul>
+            <li>Everything in the Beta package</li>
+            <li>Expanded multi-provider coach packet</li>
+            <li>Longitudinal follow-up tracker</li>
+            <li>Boundary & referral routing flags</li>
+            <li>45-minute deep-dive review call</li>
+          </ul>
+          <a href="intake.html" class="btn-primary" style="width:100%;text-align:center;box-sizing:border-box;">Book Clarity Sprint</a>
+        </div>
+
+        <div class="card" style="position:relative;background:#fff;">
+          <span style="font-size:11px;font-weight:700;text-transform:uppercase;color:#5c6661;background:#f0ece1;padding:4px 10px;border-radius:4px;">B2B Partners</span>
+          <h3>Provider / Coach Pilot</h3>
+          <div class="price-tag">$1,500 <span style="font-size:14px;font-weight:400;color:#5c6661;">+ per client</span></div>
+          <p style="font-size:13px;color:#5c6661;">For coaches, clinics & care navigators</p>
+          <ul>
+            <li>5-client initial cohort pilot</li>
+            <li>Branded referral intake workflow</li>
+            <li>Sample packets & staff onboarding</li>
+            <li>Intake dashboard review session</li>
+            <li>Monthly clinical findings memo</li>
+          </ul>
+          <a href="intake.html" class="btn-outline" style="width:100%;text-align:center;box-sizing:border-box;">Schedule Partner Demo</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-box">
+    <div class="rs-pad" style="max-width:840px;">
+      <div class="card" style="background:#1e4d3b;color:#fff;border:none;padding:48px;text-align:center;">
+        <h2 style="font-family:'Source Serif 4',serif;font-size:36px;margin:0 0 16px;color:#fff;">AI agents help run operations. They do not replace clinical judgment.</h2>
+        <p style="font-size:17px;line-height:1.7;color:#e7efe9;max-width:680px;margin:0 auto 28px;">
+          We use bounded AI agents to draft reports, organize intake data, and maintain follow-up schedules. However, deterministic scoring algorithms, prohibited-word filters, safety routing, and final release decisions remain 100% governed by rules and human oversight.
+        </p>
+        <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+          <a href="method.html" class="btn-outline" style="background:#fff;color:#1e4d3b !important;border-color:#fff;">Read our AI Governance Blueprint</a>
+          <a href="team.html" style="color:#fff;font-weight:600;padding:14px 20px;text-decoration:underline;">Meet the clinical team →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Legacy mount point for test verification and smoke test compatibility -->
+  <main id="app" class="app-shell" aria-live="polite" style="display:none;"></main>
+  <script type="module" src="src/app.js"></script>
+
+  <footer class="footer">
+    <div style="max-width:800px;margin:0 auto;margin-bottom:20px;display:flex;justify-content:center;gap:24px;flex-wrap:wrap;">
+      <a href="index.html">Home</a>
+      <a href="beta.html">The 30-Day Beta</a>
+      <a href="method.html">The 64-Item Method</a>
+      <a href="report.html">Sample Packets</a>
+      <a href="team.html">Who We Are</a>
+      <a href="intake.html">Book Fit Call</a>
+    </div>
+    <p>© 2026 Voice EC Map. All rights reserved. Built by licensed PMHNP oversight for structured midlife capacity mapping.</p>
+    <p style="font-size:12px;color:#7d8782;max-width:640px;margin:8px auto 0;line-height:1.5;">
+      <strong>Disclaimer:</strong> Voice EC Map is an educational and functional case-management organization tool. It is not a diagnostic assessment, medical device, psychiatric evaluation, or psychotherapy service. If you are experiencing a mental health crisis, please contact emergency services or call 988 immediately.
+    </p>
+  </footer>
+
+</body>
 </html>

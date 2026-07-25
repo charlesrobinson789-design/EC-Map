@@ -2,35 +2,40 @@
 
 ## Executive Review
 
-This is a coherent local-first prototype, not a production SaaS yet. The product idea is strong because it is not trying to be a generic chatbot or a diagnostic test. It is a structured pre-session intake that maps functional cognition in midlife, with ADHD-consistent and menopause-amplified pathways treated as co-equal possibilities.
+This is a coherent local-first prototype, not a production SaaS yet. It is a structured pre-session intake that maps executive capacity for adults of any sex without becoming a generic chatbot or diagnostic test. Longstanding cognition and current-state amplifiers remain distinct hypotheses for human review.
 
 The current code is intentionally simple: static HTML, browser `localStorage`, deterministic scoring, evidence/source metadata, claim guardrails, client report, coach packet, and a concierge-method page. That simplicity is useful for review and early product feedback.
 
-The honest limitation: this is not investor-grade code yet. It needs a typed application layer, formal state model, backend/API boundary, authentication, data deletion/export controls, voice pipeline, CI, accessibility audit, and a stronger release process before real users enter sensitive health information.
+The honest limitation: this is not investor-grade code yet. It now has a thin Docker/Postgres persistence preview for mock-patient testing, but it still needs a typed application layer, formal state model, authentication, data deletion/export controls, voice pipeline, accessibility audit, and a stronger release process before real users enter sensitive health information.
 
 ## What Exists Now
 
-- 64-item EC Map scored spine.
-- 8 short conversation sections, each with 8 scored prompts.
-- Context anchors for role, sleep, menopause transition, ADHD-relevant history, setting spread, and timeline.
+- Seven shared assessment sections, each with eight scored prompts, for 56 active prompts.
+- The original 64-item source bank remains intact; the combined H1/H2 Sleep and Hormonal Variability section is paused as a separate future module.
+- Six active sex-neutral context anchors for role, sleep, lifespan pattern, setting spread, and timeline.
 - Deterministic scoring for cognition, chemistry/body-state, modifiability, driver confidence, and safety flags.
 - Client report with capacity signature, differential lens, small experiments, and care-conversation prompts.
 - Coach packet with readiness, context, priorities, verification questions, referral/scope notes, and claim caveats.
 - Evidence registry and source-backed drawers.
 - Copy rules blocking diagnostic, validation, treatment, certainty, and protected-style claims.
 - Tests for section structure, scoring, evidence mapping, coach review, safety exclusion, and claim controls.
+- Docker Compose preview with Postgres, seeded mock patients, and saved assessment sessions.
 
 ## How To Run
 
 ```sh
-npm start
+docker compose up --build
 ```
 
 Open:
 
 ```text
-http://localhost:5173/
+http://localhost:3000/
 ```
+
+Static local-only mode is still available with `npm run static` at `http://localhost:5173/`.
+
+The Docker preview binds app and database ports to `127.0.0.1` only. The save API requires an explicit demo/mock-data acknowledgement and a seeded mock-patient ID, redacts private safety answers from persisted preview payloads, supports preview export/delete for saved mock records, and sends local-preview browser security headers. Keep it local and mock-patient-only until production auth, authorization, export/delete, audit logging, and encrypted storage exist.
 
 Run tests:
 
@@ -47,19 +52,25 @@ npm run verify
 Current verification status:
 
 ```text
-Full verification passing: syntax checks, integrity checks, claim guardrails, 14 unit tests, and static-server smoke test.
+Full verification should cover syntax checks, integrity checks, claim guardrails, unit tests, and static-server smoke test.
 ```
 
 ## Source Map
 
 - `src/app.js`: single-page application rendering, routing, state handling, report screens.
-- `src/spine.js`: 64 scored items plus context, narrative, safety, and response options.
-- `src/sections.js`: 8 conversation section definitions and section helpers.
+- `src/spine.js`: preserved 64-item source bank plus context, narrative, safety, and response options.
+- `src/sections.js`: seven-section active profile, paused H1/H2 module, active context profile, and section helpers.
+- `src/session-profile.js`: legacy-session migration and active-profile persistence filtering.
 - `src/scoring.js`: deterministic scoring and report card selection.
 - `src/report-model.js`: client report, coach review, experiments, differential lens, and claim-tagged phrases.
 - `src/evidence.js`: source registry and evidence theme mapping.
 - `src/source-blueprints.js`: external product/code patterns that inform the concierge method.
 - `src/copy-rules.js`: unsupported-claim and protected-language guardrails.
+- `server/index.js`: Express app, static serving, and assessment persistence API.
+- `server/db.js`: Postgres schema initialization, seed data, and assessment queries.
+- `server/mock-patients.js`: fictional mock-patient profiles for persistence testing.
+- `server/assessment-contract.js`: API payload validation for saved sessions.
+- `docker-compose.yml`: app plus Postgres preview stack.
 - `scripts/verify.mjs`: syntax, data-integrity, evidence-reference, and claim-guardrail verification.
 - `scripts/smoke.mjs`: local static-server smoke test for core app assets.
 - `test/app.test.js`: unit tests for the current deterministic behavior.
@@ -72,20 +83,21 @@ Full verification passing: syntax checks, integrity checks, claim guardrails, 14
 - The product boundary is unusually clear: functional intake, not diagnosis or treatment.
 - The app has a real scoring spine instead of vague AI conversation.
 - Safety routing is deterministic and excluded from AI-style summary payloads.
-- ADHD and menopause are now structurally co-equal, not just mentioned in copy.
+- Active reporting separates longstanding cognition from current-state amplifiers without using the paused hormonal module.
 - The coach packet is the strongest SaaS wedge because it converts self-report into pre-session signal.
 - The code is easy for a developer to read because there is little framework overhead.
 
 ### Weaknesses
 
 - The app is not typed. A TypeScript migration should happen before complex voice or backend work.
-- State is browser-only and informal. A future SaaS needs explicit session, assessment, scoring, evidence, and report schemas.
-- There is no backend. Voice-to-text, text-to-speech, secure storage, auth, export, deletion, and audit events all require one.
+- State now has a persistence preview, but the production data model still needs explicit typed session, assessment, scoring, evidence, report, user, organization, and audit schemas.
+- The backend is intentionally thin. Voice-to-text, text-to-speech, secure storage, auth, export, deletion, and audit events need a production-grade API boundary.
 - The UI is static and custom. It is acceptable for prototype review, but a production developer may want React, Next.js, SvelteKit, or another maintainable app layer.
 - Accessibility has good intent but has not been audited against WCAG 2.2.
 - The evidence layer is source-informed but not a clinical validation file. Product claims must stay conservative.
 - There is no CI/CD, linting, formatting, deployment config, or environment-management strategy.
-- There is no real data-security posture yet. Do not collect live sensitive health data in this version.
+- There is no real data-security posture yet. Use mock patients only and do not collect live sensitive health data in this version.
+- The original section combined sex-neutral sleep restoration with hormonal variability. Pausing the section therefore also pauses H1 sleep scoring; changing that requires a reviewed instrument-version decision.
 
 ## Recommended Developer Path
 
@@ -187,3 +199,17 @@ Build a private-beta version with:
 - no diagnostic or treatment claims
 
 The product should remain simple for the client and high-signal for the coach.
+
+## Security And Research Gate
+
+Before real users or any external EMA, wearable, voice, or research platform are connected, review:
+
+- `docs/security/CODEX_SECURITY_THREAT_MODEL.md`
+- `docs/research/EMA_PLATFORM_RESEARCH_DOSSIER.md`
+- `docs/research/EMA_PLATFORM_EVIDENCE_APPENDIX.md`
+- `docs/research/MINDLAMP_OPEN_SOURCE_OPTIONS.md`
+- `docs/research/VERBAL_FIRST_OPEN_SOURCE_OPTIONS.md`
+- `docs/research/EMA_VENDOR_SECURITY_QUESTIONNAIRE.md`
+- `docs/research/EMA_PLATFORM_SCORECARD.md`
+
+Codex Security has been used to establish the repository threat model. The next build must not collect real sensitive data until authentication, authorization, export/delete, audit logging, encrypted storage, consent, and vendor data-processing terms are in place.
