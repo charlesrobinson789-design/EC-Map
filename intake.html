@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>Book a Fit Call & Intake — Voice EC Map</title>
+  <meta content="Schedule a 15-minute fit call or apply for the Voice EC Map 30-Day Beta. No diagnostic labeling, no PHI in ad tools." name="description"/>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%231e4d3b'/%3E%3Ctext x='32' y='40' text-anchor='middle' font-family='Georgia,serif' font-size='26' font-weight='700' fill='%23f7f4ee'%3EEC%3C/text%3E%3C/svg%3E">
+  <style>
+    body { margin: 0; background: #f7f4ee; color: #1c2320; font-family: 'IBM Plex Sans', sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: #1e4d3b; text-decoration: none; transition: all 0.2s ease; }
+    a:hover { color: #143627; }
+    
+    .rs-nav { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 20px 48px; border-bottom: 1px solid #e2ddd2; background: #f7f4ee; position: sticky; top: 0; z-index: 100; }
+    .rs-nav-brand { font-family: 'Source Serif 4', serif; font-size: 21px; font-weight: 700; color: #1c2320; letter-spacing: -0.01em; display: flex; align-items: center; gap: 10px; }
+    .rs-nav-brand span { background: #1e4d3b; color: #f7f4ee; font-size: 12px; font-family: 'IBM Plex Sans', sans-serif; font-weight: 700; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .rs-navlinks { display: flex; align-items: center; gap: 28px; font-size: 14px; font-weight: 500; }
+    
+    .rs-pad { max-width: 1040px; margin: 0 auto; padding: 0 48px; }
+    .rs-hero { padding-top: 64px; padding-bottom: 56px; text-align: center; }
+    .rs-h1 { font-family: 'Source Serif 4', serif; font-size: 46px; line-height: 1.15; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 16px; color: #1c2320; }
+    
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 24px; align-items: start; }
+    .card { background: #fff; border: 1px solid #e2ddd2; border-radius: 10px; padding: 36px; box-shadow: 0 4px 16px rgba(0,0,0,0.03); }
+    
+    .form-group { margin-bottom: 20px; text-align: left; }
+    .form-label { display: block; font-size: 14px; font-weight: 600; color: #1c2320; margin-bottom: 8px; }
+    .form-input, .form-select { width: 100%; padding: 12px 14px; border: 1px solid #c9d6cf; border-radius: 6px; font-family: 'IBM Plex Sans', sans-serif; font-size: 15px; color: #1c2320; background: #fff; box-sizing: border-box; }
+    .form-input:focus, .form-select:focus { outline: none; border-color: #1e4d3b; box-shadow: 0 0 0 3px rgba(30,77,59,0.1); }
+    
+    .btn-submit { background: #1e4d3b; color: #fff !important; width: 100%; padding: 14px; border: none; border-radius: 6px; font-weight: 600; font-size: 16px; cursor: pointer; transition: all 0.2s ease; font-family: 'IBM Plex Sans', sans-serif; }
+    .btn-submit:hover { background: #143627; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(30,77,59,0.2); }
+    
+    .privacy-notice { font-size: 12px; color: #6d7772; line-height: 1.6; margin-top: 16px; padding: 12px; background: #f0ece1; border-radius: 6px; border: 1px solid #e2ddd2; }
+    
+    .info-list { list-style: none; padding: 0; margin: 0; }
+    .info-list li { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 24px; }
+    .info-icon { font-size: 20px; background: #e7efe9; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #1e4d3b; }
+    
+    .success-box { display: none; background: #e7efe9; border: 2px solid #1e4d3b; padding: 32px; border-radius: 10px; text-align: center; }
+    .success-box h3 { font-family: 'Source Serif 4', serif; font-size: 26px; color: #1e4d3b; margin: 0 0 12px; }
+    
+    .footer { padding: 48px; text-align: center; border-top: 1px solid #e2ddd2; font-size: 13px; color: #5c6661; background: #f7f4ee; margin-top: 80px; }
+    
+    @media (max-width: 900px) { .rs-pad { padding: 0 28px; } .grid-2 { grid-template-columns: 1fr; } .rs-h1 { font-size: 36px; } }
+    @media (max-width: 620px) { .rs-nav { flex-wrap: wrap; row-gap: 10px; padding: 14px 20px; } .rs-navlinks { flex-wrap: wrap; row-gap: 8px; gap: 14px; } .rs-pad { padding: 0 20px; } }
+  </style>
+</head>
+<body>
+
+  <nav class="rs-nav">
+    <a href="index.html" class="rs-nav-brand">
+      Voice EC Map <span>Beta</span>
+    </a>
+    <div class="rs-navlinks">
+      <a href="beta.html" style="color:#3d4a44;">The 30-Day Beta</a>
+      <a href="method.html" style="color:#3d4a44;">The 64-Item Method</a>
+      <a href="report.html" style="color:#3d4a44;">Sample Packets</a>
+      <a href="team.html" style="color:#3d4a44;">Who We Are</a>
+      <a href="intake.html" style="color:#1e4d3b;font-weight:700;">Book a fit call</a>
+    </div>
+  </nav>
+
+  <header class="rs-pad rs-hero">
+    <div style="font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#1e4d3b;margin-bottom:12px;">Founding Beta Intake</div>
+    <h1 class="rs-h1">Start with a Map, Not a Label.</h1>
+    <p style="font-size:18px;color:#4a554f;max-width:600px;margin:0 auto;">
+      Schedule a 15-minute fit call to see if our 30-day guided capacity mapping or professional partner pilot is right for your needs.
+    </p>
+  </header>
+
+  <main class="rs-pad">
+    <div class="grid-2">
+      <!-- Info Left Column -->
+      <div>
+        <h2 style="font-family:'Source Serif 4',serif;font-size:28px;margin:0 0 20px;color:#1c2320;">Why book a fit call?</h2>
+        <ul class="info-list">
+          <li>
+            <div class="info-icon">1</div>
+            <div>
+              <strong style="font-size:16px;color:#1c2320;display:block;margin-bottom:4px;">Assess Fit Without Pressure</strong>
+              <span style="font-size:14px;color:#4a554f;line-height:1.6;">We confirm whether your situation is best served by our Direct Client Beta ($500), the Case Clarity Sprint ($1,000), or if an external clinical referral is more appropriate.</span>
+            </div>
+          </li>
+          <li>
+            <div class="info-icon">2</div>
+            <div>
+              <strong style="font-size:16px;color:#1c2320;display:block;margin-bottom:4px;">Review Sample Deliverables</strong>
+              <span style="font-size:14px;color:#4a554f;line-height:1.6;">We walk you through an anonymized Client Capacity Signature and Coach Review Packet so you know exactly what you and your providers will receive.</span>
+            </div>
+          </li>
+          <li>
+            <div class="info-icon">3</div>
+            <div>
+              <strong style="font-size:16px;color:#1c2320;display:block;margin-bottom:4px;">Verify Scope & Privacy</strong>
+              <span style="font-size:14px;color:#4a554f;line-height:1.6;">Ask any questions about our deterministic Sol MVP scoring engine, our strict non-diagnostic boundary, and our HIPAA-adjacent data protection rules.</span>
+            </div>
+          </li>
+        </ul>
+
+        <div style="background:#fff;border:1px solid #c9d6cf;border-radius:8px;padding:24px;margin-top:32px;">
+          <h4 style="margin:0 0 8px;font-family:'Source Serif 4',serif;font-size:18px;color:#1e4d3b;">Looking for our Lead Magnet?</h4>
+          <p style="font-size:14px;color:#4a554f;line-height:1.6;margin:0 0 16px;">
+            Download our one-page <strong>Midlife Capacity Map Checklist</strong> to organize your symptoms before your next care appointment.
+          </p>
+          <a href="checklist.html" style="font-weight:600;font-size:14px;color:#1e4d3b;text-decoration:underline;">View & Download Checklist →</a>
+        </div>
+      </div>
+
+      <!-- Form Right Column -->
+      <div>
+        <div class="card" id="form-card">
+          <h3 style="font-family:'Source Serif 4',serif;font-size:24px;margin:0 0 8px;color:#1c2320;">Request Your Fit Call</h3>
+          <p style="font-size:14px;color:#5c6661;margin:0 0 24px;">Fill out this brief form and we will send you our calendar invitation and sample packet.</p>
+          
+          <form id="intake-form" onsubmit="return handleFormSubmit(event)">
+            <div class="form-group">
+              <label class="form-label" for="name">Full Name</label>
+              <input class="form-input" id="name" name="name" placeholder="Renee Robinson" required type="text"/>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label" for="email">Work or Personal Email</label>
+              <input class="form-input" id="email" name="email" placeholder="renee@example.com" required type="email"/>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="role">Your Role</label>
+              <select class="form-select" id="role" name="role" required>
+                <option value="">Select your primary role...</option>
+                <option value="direct_client">Direct Client (seeking capacity map)</option>
+                <option value="coach">ADHD / Executive Coach or Case Manager</option>
+                <option value="clinician">Clinician / Care Professional (PMHNP, OT, etc.)</option>
+                <option value="partner_practice">Practice / Program Buyer (5+ client pilot)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="concern">Primary Area of Ambiguity</label>
+              <select class="form-select" id="concern" name="concern" required>
+                <option value="">Select what fits best...</option>
+                <option value="adhd_vs_menopause">ADHD-consistent vs. Menopause-amplified patterns</option>
+                <option value="burnout_load">High functional load, burnout & recovery deficit</option>
+                <option value="pre_session_prep">Pre-session intake clarity for my coaching/clinical practice</option>
+                <option value="mixed_unsure">Layered / unsure (want to map the pattern first)</option>
+              </select>
+            </div>
+
+            <button class="btn-submit" type="submit">Submit & View Scheduling Link →</button>
+
+            <div class="privacy-notice">
+              <strong>🔒 Compliance & Safety Notice:</strong> Do not enter emergency, crisis, or sensitive medical history into this contact form. Voice EC Map is an educational and functional case-management tool, not a diagnostic or crisis service. If you are experiencing a mental health emergency, please call 988.
+            </div>
+          </form>
+        </div>
+
+        <div class="success-box" id="success-card">
+          <h3>🎉 Inquiry Received</h3>
+          <p style="font-size:16px;color:#1c2320;line-height:1.6;margin:0 0 20px;">
+            Thank you for reaching out. We have logged your request under our secure non-diagnostic intake protocol.
+          </p>
+          <div style="background:#fff;padding:20px;border-radius:6px;border:1px solid #c9d6cf;margin-bottom:24px;text-align:left;font-size:14px;color:#3d4a44;">
+            <strong>Next Step:</strong> Click below to select a 15-minute slot on our clinical informatics calendar.
+          </div>
+          <a href="https://calendly.com" target="_blank" class="btn-submit" style="display:inline-block;text-align:center;text-decoration:none;box-sizing:border-box;">Open Scheduling Calendar →</a>
+          <p style="font-size:13px;color:#5c6661;margin-top:20px;">
+            Or return to <a href="index.html" style="text-decoration:underline;">our homepage</a> to explore the 64-item method.
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      document.getElementById('form-card').style.display = 'none';
+      document.getElementById('success-card').style.display = 'block';
+      window.scrollTo({ top: 100, behavior: 'smooth' });
+      return false;
+    }
+  </script>
+
+  <footer class="footer">
+    <div style="max-width:800px;margin:0 auto;margin-bottom:20px;display:flex;justify-content:center;gap:24px;flex-wrap:wrap;">
+      <a href="index.html">Home</a>
+      <a href="beta.html">The 30-Day Beta</a>
+      <a href="method.html">The 64-Item Method</a>
+      <a href="report.html">Sample Packets</a>
+      <a href="team.html">Who We Are</a>
+      <a href="intake.html">Book Fit Call</a>
+    </div>
+    <p>© 2026 Voice EC Map. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>

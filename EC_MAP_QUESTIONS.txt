@@ -1,0 +1,155 @@
+EC Map Questions
+Source: Voice EC Map local app
+
+Response Scale
+0. Never or almost never
+1. Rarely
+2. Sometimes
+3. Often
+4. Very often or almost always
+
+Context Questions
+1. Current work or role pattern
+   Options: Heavy-output knowledge work; Leadership or management; Clinical/caregiving/front-line; Mixed creative and operational; Self-employed or portfolio; Out of paid work currently; Other
+2. Weekly meeting and interruption load
+   Options: Under 5 hours; 5 to 15 hours; 15 to 25 hours; 25+ hours
+3. Sleep and wake timing across a typical week
+   Options: Very consistent; Mostly consistent; Variable; Highly disrupted
+4. Hormonal-transition context
+   Options: Cycling regularly; Cycling irregularly; Perimenopausal; Postmenopausal; On hormonal contraception; On menopausal hormone therapy; Prefer not to say
+5. Attention and organization before midlife
+   Options: Longstanding since childhood or teen years; Present for many adult years; Mainly changed in midlife; Mainly appears under high stress; Unsure
+6. Where the pattern shows up
+   Options: Across work, home, and relationships; Mostly at work; Mostly at home; Mostly during hormonal or sleep disruption; Only in unusual stress; Unsure
+7. Compared with five years ago, current functional capacity is...
+   Options: Clearly better; About the same; Somewhat worse; Significantly worse; Has fluctuated
+
+Scored Spine Questions
+
+Conversation 1: Activation and Attention
+Getting started and staying with the thread.
+1.1. When I know what to start, I still get stuck before the first action - even with time and quiet available.
+1.2. Tasks I delayed starting this month became late, costly, or required visible apology or repair.
+1.3. Getting started is hard on ordinary rested days too, not only during poor sleep, illness, high stress, or unusually heavy demand.
+1.4. External structure - a deadline, another person present, or a written first step - reliably gets me started when planning alone does not.
+1.5. During complex work, I lose the thread and need to reread, restart, or retrace my steps.
+1.6. Attention drift this month produced visible errors, missed information, or work I had to redo.
+1.7. My attention drifts on tasks I genuinely care about, not only on tasks that bore me.
+1.8. My attention holds noticeably better when I use external scaffolds rather than relying on effort alone.
+
+Conversation 2: Memory and Priority
+Working memory, sequencing, and deciding what matters first.
+2.1. In the middle of speaking or doing a task, I lose the exact word, number, instruction, or next step I was holding.
+2.2. This past month, losing information from mind led to concrete mistakes, repeated work, missed details, or avoidable follow-up.
+2.3. Memory gaps show up even on rested, ordinary-demand days, not only when sleep, illness, stress, or overload would explain them.
+2.4. A capture system only helps if I use it immediately; if I wait, details often disappear before I can record them.
+2.5. I see everything that needs doing but cannot decide what to do first, so I do nothing or the wrong thing.
+2.6. Prioritization breakdowns this month caused missed deadlines, dropped balls, or work on the wrong thing first.
+2.7. Even with a clear list and ranked priorities, the ordering itself still feels mentally costly.
+2.8. I prioritize better when someone helps me triage out loud or when I limit choices to two.
+
+Conversation 3: Time and Switching
+Time estimation, transitions, interruptions, and context switching.
+3.1. I consistently misjudge how long tasks take, even on work I have done many times before.
+3.2. Time-estimation errors this month produced lateness, rushed quality, or missed commitments that other people noticed.
+3.3. Time slips happen on familiar, well-practiced tasks too - not only on new or unusually complex ones.
+3.4. External time anchors noticeably tighten my time estimates when I use them, more than self-discipline does.
+3.5. Switching between tasks costs me disproportionate time and mental friction before I can re-engage.
+3.6. This past month, interruptions made me lose work state enough that I missed steps, duplicated work, or left tasks unfinished.
+3.7. Even planned switches between familiar tasks leave a restart cost before I can think clearly again.
+3.8. Batching similar tasks or using a short transition ritual reduces restart cost more reliably than simply trying harder.
+
+Conversation 4: Load and Cognitive Recovery
+Emotion under demand and recovery after overload.
+4.1. When mental demand spikes, my emotional reactions intensify - irritation, tearfulness, or shutdown - beyond what the moment calls for.
+4.2. Tipping over emotionally this month cost me a conversation, a relationship, or work I cared about.
+4.3. The reaction is tied to mental demand itself; it can happen even when the situation is not emotionally important.
+4.4. Reducing input in the moment - pausing the conversation, lowering noise, or writing the next step - helps the reaction settle.
+4.5. After a mentally demanding day that used to be manageable, I now need substantially more recovery before clear thinking returns.
+4.6. This month, recovery after cognitive demand took long enough that the next day's work, home, or relationship responsibilities suffered.
+4.7. The recovery lag is happening after normal demands for my life, not only after unusually intense weeks.
+4.8. Planned recovery before and after demanding periods changes how long the depletion lasts.
+
+Conversation 5: Sleep and Hormonal Variability
+Restoration, body-state patterns, and midlife variability.
+5.1. Even with adequate hours, I wake unrested or take a long time to feel mentally online.
+5.2. Within a day or two of fragmented or unrestorative sleep, my focus, mood, or judgment changes enough that I notice it.
+5.3. Sleep disruption often has a physical driver I can name, such as temperature, night sweats, body agitation, bathroom trips, alcohol, or late caffeine.
+5.4. When sleep is more consolidated for two or more nights, next-day focus, mood, or word-finding noticeably improves.
+5.5. My focus, mood, or energy has recognizable swings across the month or transition stage, even if I cannot predict exact days.
+5.6. This past month, a body-state swing produced a day below my usual functioning baseline.
+5.7. The swings line up more with cycle changes, vasomotor symptoms, sleep disruption, or hormone-related treatment changes than with workload alone.
+5.8. Tracking sleep, symptoms, timing, and demand helps me plan better days and lower-demand days more accurately.
+
+Conversation 6: Energy and Stress Physiology
+Daily energy stability and stress-system rebound.
+6.1. My energy is unpredictable across the day - strong stretches followed by abrupt drops without clear cause.
+6.2. Energy crashes this month forced me to cancel, postpone, or under-deliver on plans that mattered.
+6.3. Crashes happen on days with adequate sleep, food, and reasonable demand - not only on overloaded days.
+6.4. Planning demanding work inside known higher-energy windows improves outcomes more than scheduling by calendar convenience.
+6.5. My body stays revved up after stress passes - restless, tense, or wired-but-tired even when the trigger is over.
+6.6. Staying revved up after stress this month interfered with my sleep, focus, digestion, or ability to enjoy downtime.
+6.7. My body revs up even at small or imagined stressors, not only during genuinely demanding events.
+6.8. A concrete downshift - walking, breathing, quiet, shower, or movement - reduces body activation within about 30 minutes.
+
+Conversation 7: Fuel Rhythm and Body Load
+Caffeine, appetite, glucose rhythm, pain, tension, and somatic burden.
+7.1. When I go too long without food, or when caffeine timing is off, my thinking changes within a few hours.
+7.2. This month, food or caffeine timing contributed to a crash, irritability, or scattered thinking that changed what I could get done.
+7.3. Focus or mood shifts happen even when the task is familiar; food, hydration, or caffeine timing is the clearer variable.
+7.4. A predictable meal rhythm, hydration plan, or caffeine cutoff changes the afternoon pattern enough for me to notice.
+7.5. Body discomfort pulls attention away from thinking, such as pain, headaches, gut symptoms, temperature shifts, or tension.
+7.6. This month, body symptoms changed what I could attend, finish, tolerate, or recover from.
+7.7. Body symptoms worsen in recognizable conditions such as poor sleep, heat, stress load, cycle or transition changes, or prolonged sitting.
+7.8. A specific body support I can name reduces the distraction enough to improve functioning.
+
+Conversation 8: Medication, Substances, and Rebound
+Medication or supplement effects and return-to-baseline recovery.
+8.1. Something I take or use clearly changes my focus, mood, sleep, or energy.
+8.2. This month, side effects, wearing-off, rebound, or timing effects from something I take or use disrupted my day.
+8.3. The pattern seems linked to timing, missed doses, dose changes, or wearing-off periods more than to workload alone.
+8.4. When timing is consistent, I can tell more clearly whether the pattern improves, worsens, or stays the same.
+8.5. After ordinary effort or a busy week, my body takes longer to recover than it used to.
+8.6. Slow physical recovery this month meant cancelled plans, lost weekends, or under-functioning at work.
+8.7. Recovery has slowed compared with my prior baseline at the same workload - not only after exceptional weeks.
+8.8. Planned recovery before and after demanding periods changes the length of the crash.
+
+Adaptive Clarifier Questions
+1. Working Memory: Which factors most often make memory gaps worse? Select all that apply.
+   Options: Interruptions; Poor sleep; Skipped meals; Stress load; Cycle or transition timing; Unclear priorities; Medication or substance timing; No clear pattern
+2. Activation: Which supports help you begin? Select all that apply.
+   Options: Urgency; Accountability; Another person present; Clear first step; Movement; Medication timing; Caffeine timing; Nothing reliable
+3. Attention: Where does focus improve? Select all that apply.
+   Options: Alone; With another person nearby; Low-noise setting; Written task list; Short timed block; No reliable setting
+4. Time Estimation: Where do time-estimation problems show up? Select all that apply.
+   Options: New tasks; Familiar tasks; Leaving the house; Meetings or appointments; Multi-step projects; Mostly when energy is low
+5. Sleep Restoration: When sleep is more consolidated for two or more nights, what changes the next day? Select all that apply.
+   Options: Focus improves; Mood steadies; Word-finding improves; Energy lasts longer; No noticeable change; Cannot remember a good stretch
+6. Hormonal Variability: What pattern do lower-functioning days seem to follow? Select all that apply.
+   Options: Cycle-linked; Perimenopause or menopause transition; Hot flashes or night sweats; Poor sleep; Stress load; Irregular or unclear
+7. Stress Physiology: When does body activation carry into evening or sleep? Select all that apply.
+   Options: After conflict; After deadline pressure; After caregiving load; After too much stimulation; Most evenings; Rarely
+8. Emotion Under Load: When are emotion-under-load reactions most likely? Select all that apply.
+   Options: During high cognitive demand; After poor sleep; When interrupted; During body-state shifts; When hungry or depleted; No clear pattern
+9. Recovery: What best describes the recovery change? Select all that apply.
+   Options: Recent, within 1-3 years; Long-standing; Worse than before; Mostly physical; Mostly mental; Unclear
+10. Pattern Split: Which constraints feel active right now? Select all that apply.
+   Options: Longstanding wiring; Body-state change; Current context or role load; Sleep and recovery; Medication or substance timing; Different by domain
+
+Narrative Questions
+1. What are you most tired of compensating for?
+2. Where do you function well publicly but pay for it privately?
+3. If next month felt 25% easier to function in, what would change first?
+4. What have you already tried that helped, even briefly?
+
+Answer Confidence Questions
+1. My answers reflect my typical functioning over the past month, not a single recent day.
+2. I had enough focus and energy today to answer accurately.
+3. I may have answered based on a recent bad stretch rather than my usual pattern.
+4. My answers may understate the difficulty because I am used to compensating without noticing.
+
+Private Safety Check Questions
+1. My sleep has been severely reduced lately, but my energy or mood has noticeably increased.
+2. My cognition has changed suddenly, severely, or in a way that feels medically unusual.
+3. Something I take or use is starting to feel hard to control, risky, or concerning to me or someone close to me.
+4. My functioning has declined to the point that my safety, basic self-care, or stability is at risk.

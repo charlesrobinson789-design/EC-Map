@@ -1,0 +1,30 @@
+services:
+  app:
+    build: .
+    ports:
+      - "127.0.0.1:3000:3000"
+    environment:
+      PORT: 3000
+      DATABASE_URL: postgres://ec_map:ec_map_dev@postgres:5432/ec_map
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ec_map
+      POSTGRES_USER: ec_map
+      POSTGRES_PASSWORD: ec_map_dev
+    ports:
+      - "127.0.0.1:5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ec_map -d ec_map"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - ec_map_pgdata:/var/lib/postgresql/data
+
+volumes:
+  ec_map_pgdata:

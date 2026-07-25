@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>The 64-Item Method — Voice EC Map</title>
+  <meta content="Discover the deterministic scoring engine behind Voice EC Map: Signal, Cost, Discriminator, and Modifiability across 64 curated items." name="description"/>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%231e4d3b'/%3E%3Ctext x='32' y='40' text-anchor='middle' font-family='Georgia,serif' font-size='26' font-weight='700' fill='%23f7f4ee'%3EEC%3C/text%3E%3C/svg%3E">
+  <style>
+    body { margin: 0; background: #f7f4ee; color: #1c2320; font-family: 'IBM Plex Sans', sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: #1e4d3b; text-decoration: none; transition: all 0.2s ease; }
+    a:hover { color: #143627; }
+    
+    .rs-nav { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 20px 48px; border-bottom: 1px solid #e2ddd2; background: #f7f4ee; position: sticky; top: 0; z-index: 100; }
+    .rs-nav-brand { font-family: 'Source Serif 4', serif; font-size: 21px; font-weight: 700; color: #1c2320; letter-spacing: -0.01em; display: flex; align-items: center; gap: 10px; }
+    .rs-nav-brand span { background: #1e4d3b; color: #f7f4ee; font-size: 12px; font-family: 'IBM Plex Sans', sans-serif; font-weight: 700; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .rs-navlinks { display: flex; align-items: center; gap: 28px; font-size: 14px; font-weight: 500; }
+    
+    .rs-pad { max-width: 1040px; margin: 0 auto; padding: 0 48px; }
+    .rs-hero { padding-top: 72px; padding-bottom: 64px; text-align: center; border-bottom: 1px solid #e2ddd2; }
+    .rs-h1 { font-family: 'Source Serif 4', serif; font-size: 48px; line-height: 1.15; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 20px; color: #1c2320; }
+    .rs-h2 { font-family: 'Source Serif 4', serif; font-size: 34px; line-height: 1.25; font-weight: 700; margin: 0 0 16px; color: #1c2320; }
+    
+    .btn-primary { background: #1e4d3b; color: #fff !important; padding: 14px 28px; border-radius: 6px; font-weight: 600; font-size: 15px; display: inline-block; box-shadow: 0 2px 6px rgba(30, 77, 59, 0.15); }
+    .btn-primary:hover { background: #143627; transform: translateY(-1px); box-shadow: 0 4px 10px rgba(30, 77, 59, 0.25); text-decoration: none; }
+    
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; margin-top: 40px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 32px; }
+    .card { background: #fff; border: 1px solid #e2ddd2; border-radius: 10px; padding: 28px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
+    .card h3 { font-family: 'Source Serif 4', serif; font-size: 20px; margin: 0 0 10px; color: #1c2320; }
+    .card p { font-size: 14px; line-height: 1.6; color: #4a554f; margin: 0; }
+    
+    .section-box { padding: 72px 0; border-top: 1px solid #e2ddd2; }
+    .bg-light { background: #f0ece1; }
+    
+    .code-box { background: #1c2320; color: #e7efe9; padding: 24px; border-radius: 8px; font-family: monospace; font-size: 13px; line-height: 1.7; overflow-x: auto; margin-top: 24px; }
+    
+    .footer { padding: 48px; text-align: center; border-top: 1px solid #e2ddd2; font-size: 13px; color: #5c6661; background: #f7f4ee; }
+    
+    @media (max-width: 900px) { .rs-pad { padding: 0 28px; } .grid-2, .grid-4 { grid-template-columns: 1fr; } .rs-h1 { font-size: 38px; } }
+    @media (max-width: 620px) { .rs-nav { flex-wrap: wrap; row-gap: 10px; padding: 14px 20px; } .rs-navlinks { flex-wrap: wrap; row-gap: 8px; gap: 14px; } .rs-pad { padding: 0 20px; } }
+  </style>
+</head>
+<body>
+
+  <nav class="rs-nav">
+    <a href="index.html" class="rs-nav-brand">
+      Voice EC Map <span>Beta</span>
+    </a>
+    <div class="rs-navlinks">
+      <a href="beta.html" style="color:#3d4a44;">The 30-Day Beta</a>
+      <a href="method.html" style="color:#1e4d3b;font-weight:700;">The 64-Item Method</a>
+      <a href="report.html" style="color:#3d4a44;">Sample Packets</a>
+      <a href="team.html" style="color:#3d4a44;">Who We Are</a>
+      <a href="intake.html" class="btn-primary" style="padding:10px 20px;">Book a fit call</a>
+    </div>
+  </nav>
+
+  <header class="rs-pad rs-hero">
+    <div style="font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#1e4d3b;margin-bottom:16px;">Deterministic Engine</div>
+    <h1 class="rs-h1">The Science & Structure Behind the Map</h1>
+    <p style="font-size:19px;line-height:1.6;color:#4a554f;max-width:700px;margin:0 auto;">
+      Why we rely on fixed algorithms instead of LLM inference for scoring, and how our 64-item spine separates lifelong cognitive traits from midlife amplifiers.
+    </p>
+  </header>
+
+  <section class="section-box">
+    <div class="rs-pad">
+      <h2 class="rs-h2" style="text-align:center;">The 4-Function Scoring Algorithm</h2>
+      <p style="text-align:center;color:#4a554f;max-width:640px;margin:0 auto;font-size:16px;">Every response across our 64-item assessment is evaluated across four orthogonal mathematical dimensions.</p>
+      
+      <div class="grid-4">
+        <div class="card" style="border-top:4px solid #1e4d3b;">
+          <h3>1. Signal Intensity</h3>
+          <p>Measures the baseline functional friction or symptom frequency in a specific cognitive domain on a standard 0–4 scale.</p>
+        </div>
+        <div class="card" style="border-top:4px solid #256f74;">
+          <h3>2. Compensation Cost</h3>
+          <p>Quantifies the hidden energetic and physical toll required to mask difficulty and maintain visible performance standards.</p>
+        </div>
+        <div class="card" style="border-top:4px solid #e58d2e;">
+          <h3>3. Discriminator</h3>
+          <p>Evaluates whether the pattern represents lifelong attentional continuity (ADHD-consistent) or recent midlife emergence.</p>
+        </div>
+        <div class="card" style="border-top:4px solid #3d8c52;">
+          <h3>4. Modifiability</h3>
+          <p>Identifies how sensitive the symptom is to environmental structure, recovery sleep, and schedule modifications.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-box bg-light">
+    <div class="rs-pad">
+      <div class="grid-2" style="align-items:center;">
+        <div>
+          <h2 class="rs-h2">The Differential Lens: Avoiding the Single-Label Trap</h2>
+          <p style="font-size:16px;line-height:1.7;color:#4a554f;margin-bottom:16px;">
+            In midlife, cognitive strain is frequently misattributed. Women with longstanding, unspotted ADHD may be told their focus issues are "just menopause." Conversely, women experiencing severe hormonal sleep disruption may suspect sudden-onset ADHD.
+          </p>
+          <p style="font-size:16px;line-height:1.7;color:#4a554f;">
+            Voice EC Map resolves this ambiguity by analyzing setting spread, lifelong patterns, and body-state factors simultaneously. We display both ADHD-consistent and Menopause-amplified signals side by side without forcing a premature conclusion.
+          </p>
+        </div>
+        <div class="card" style="background:#fff;border-color:#c9d6cf;">
+          <h3 style="color:#1e4d3b;font-size:18px;margin-bottom:12px;">Comparative Domain Mapping</h3>
+          <ul style="padding-left:18px;margin:0;color:#4a554f;font-size:14px;line-height:1.8;">
+            <li><strong>Timeline anchor:</strong> Present since childhood vs. emergent in late 30s/40s.</li>
+            <li><strong>Setting spread:</strong> Pervasive across home/work vs. isolated to high-demand environments.</li>
+            <li><strong>Sleep stability:</strong> Independent of rest vs. directly correlated with fragmented sleep.</li>
+            <li><strong>Hormonal sensitivity:</strong> Stable baseline vs. predictable monthly/perimenopausal volatility.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-box">
+    <div class="rs-pad" style="max-width:800px;text-align:center;">
+      <h2 class="rs-h2">Sol MVP Governance Receipts</h2>
+      <p style="color:#4a554f;font-size:16px;line-height:1.6;margin-bottom:24px;">
+        To guarantee that no generative AI model can hallucinate a clinical diagnosis or alter numerical scores, our architecture generates an auditable cryptographic receipt for every completed session.
+      </p>
+      <div class="code-box" style="text-align:left;">
+        <span style="color:#85b59f;">// Example Sol Governance Shadow Packet</span><br/>
+        {<br/>
+        &nbsp;&nbsp;"engineVersion": "1.0.0-phase1",<br/>
+        &nbsp;&nbsp;"deterministicHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",<br/>
+        &nbsp;&nbsp;"llmInferenceUsedForScoring": <b>false</b>,<br/>
+        &nbsp;&nbsp;"prohibitedDiagnosticWordsRedacted": <b>true</b>,<br/>
+        &nbsp;&nbsp;"privateSafetyRouting": "REDACTED_FROM_PUBLIC_PACKET",<br/>
+        &nbsp;&nbsp;"humanReviewGateStatus": "REQUIRED_BEFORE_RELEASE",<br/>
+        &nbsp;&nbsp;"timestamp": "2026-07-25T08:12:00Z"<br/>
+        }
+      </div>
+      <div style="margin-top:36px;">
+        <a href="report.html" class="btn-primary">View how this appears in sample packets →</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div style="max-width:800px;margin:0 auto;margin-bottom:20px;display:flex;justify-content:center;gap:24px;flex-wrap:wrap;">
+      <a href="index.html">Home</a>
+      <a href="beta.html">The 30-Day Beta</a>
+      <a href="method.html">The 64-Item Method</a>
+      <a href="report.html">Sample Packets</a>
+      <a href="team.html">Who We Are</a>
+      <a href="intake.html">Book Fit Call</a>
+    </div>
+    <p>© 2026 Voice EC Map. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>

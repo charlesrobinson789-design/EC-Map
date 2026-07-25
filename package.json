@@ -4,12 +4,34 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "python3 -m http.server 5173",
-    "start": "python3 -m http.server 5173",
-    "check": "node scripts/verify.mjs",
-    "smoke": "node scripts/smoke.mjs",
-    "test": "node --test",
-    "verify": "npm run check && npm test && npm run smoke",
+    "dev": "next dev --webpack -p 4000",
+    "build": "next build --webpack",
+    "start": "next start",
+    "static": "python3 -m http.server 5173",
+    "check": "npx tsx scripts/verify.ts",
+    "smoke": "npx tsx scripts/smoke.ts",
+    "test": "npx tsx --test test/*.test.*",
+    "typecheck": "npx tsc --noEmit",
+    "lint": "npx eslint .",
+    "verify": "npm run typecheck && npm run check && npm test",
     "import:spine": "/Users/charlesrobinson/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3 scripts/export_spine.py"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "next": "^16.2.11",
+    "pg": "^8.16.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.1.1",
+    "@types/pg": "^8.20.0",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "eslint": "^10.8.0",
+    "prettier": "^3.9.6",
+    "tsx": "^4.23.1",
+    "typescript": "^5.9.3"
   }
 }
