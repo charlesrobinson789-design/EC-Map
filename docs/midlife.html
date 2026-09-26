@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>Midlife Capacity Partnership — Voice EC Map</title>
+  <meta content="A 6-month, non-clinical 1:1 partnership for women in perimenopause or menopause with ADHD-pattern executive strain. Map what drives your good and hard days, then build systems around the capacity you have now." name="description"/>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%231e4d3b'/%3E%3Ctext x='32' y='40' text-anchor='middle' font-family='Georgia,serif' font-size='26' font-weight='700' fill='%23f7f4ee'%3EEC%3C/text%3E%3C/svg%3E">
+  <style>
+    body { margin: 0; background: #f7f4ee; color: #1c2320; font-family: 'IBM Plex Sans', sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: #1e4d3b; text-decoration: none; transition: all 0.2s ease; }
+    a:hover { color: #143627; }
+
+    .rs-nav { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 20px 48px; border-bottom: 1px solid #e2ddd2; background: #f7f4ee; position: sticky; top: 0; z-index: 100; }
+    .rs-nav-brand { font-family: 'Source Serif 4', serif; font-size: 21px; font-weight: 700; color: #1c2320; letter-spacing: -0.01em; display: flex; align-items: center; gap: 10px; }
+    .rs-nav-brand span { background: #1e4d3b; color: #f7f4ee; font-size: 12px; font-family: 'IBM Plex Sans', sans-serif; font-weight: 700; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .rs-navlinks { display: flex; align-items: center; gap: 28px; font-size: 14px; font-weight: 500; }
+
+    .rs-pad { max-width: 1040px; margin: 0 auto; padding: 0 48px; }
+    .rs-hero { padding-top: 72px; padding-bottom: 64px; text-align: center; border-bottom: 1px solid #e2ddd2; }
+    .rs-h1 { font-family: 'Source Serif 4', serif; font-size: 48px; line-height: 1.15; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 20px; color: #1c2320; }
+    .rs-h2 { font-family: 'Source Serif 4', serif; font-size: 34px; line-height: 1.25; font-weight: 700; margin: 0 0 16px; color: #1c2320; }
+    .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #1e4d3b; margin-bottom: 16px; }
+    .lede { font-size: 19px; line-height: 1.6; color: #4a554f; max-width: 700px; margin: 0 auto 28px; }
+
+    .btn-primary { background: #1e4d3b; color: #fff !important; padding: 14px 28px; border-radius: 6px; font-weight: 600; font-size: 15px; display: inline-block; box-shadow: 0 2px 6px rgba(30, 77, 59, 0.15); }
+    .btn-primary:hover { background: #143627; transform: translateY(-1px); box-shadow: 0 4px 10px rgba(30, 77, 59, 0.25); text-decoration: none; }
+
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; margin-top: 40px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 40px; }
+    .card { background: #fff; border: 1px solid #e2ddd2; border-radius: 10px; padding: 32px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
+    .card h3 { font-family: 'Source Serif 4', serif; font-size: 22px; margin: 0 0 12px; color: #1c2320; }
+    .card p { font-size: 15px; line-height: 1.6; color: #4a554f; margin: 0 0 16px; }
+    .card ul { margin: 0; padding-left: 20px; color: #4a554f; font-size: 14px; line-height: 1.8; }
+    .step-num { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #1e4d3b; margin-bottom: 8px; }
+    .price-tag { font-family: 'Source Serif 4', serif; font-size: 44px; font-weight: 700; color: #1c2320; margin: 8px 0 4px; }
+
+    .section-box { padding: 72px 0; border-top: 1px solid #e2ddd2; }
+    .bg-light { background: #f0ece1; }
+    .quote { font-family: 'Source Serif 4', serif; font-size: 24px; line-height: 1.45; color: #1c2320; max-width: 760px; margin: 0 auto; text-align: center; }
+
+    .form-group { margin-bottom: 20px; text-align: left; }
+    .form-label { display: block; font-size: 14px; font-weight: 600; color: #1c2320; margin-bottom: 8px; }
+    .form-input, .form-select, .form-textarea { width: 100%; padding: 12px 14px; border: 1px solid #c9d6cf; border-radius: 6px; font-family: 'IBM Plex Sans', sans-serif; font-size: 15px; color: #1c2320; background: #fff; box-sizing: border-box; }
+    .form-textarea { min-height: 96px; resize: vertical; }
+    .form-input:focus, .form-select:focus, .form-textarea:focus { outline: none; border-color: #1e4d3b; box-shadow: 0 0 0 3px rgba(30,77,59,0.1); }
+    .btn-submit { background: #1e4d3b; color: #fff !important; width: 100%; padding: 14px; border: none; border-radius: 6px; font-weight: 600; font-size: 16px; cursor: pointer; transition: all 0.2s ease; font-family: 'IBM Plex Sans', sans-serif; }
+    .btn-submit:hover { background: #143627; }
+    .btn-submit:disabled { background: #8a9a92; cursor: not-allowed; }
+    .privacy-notice { font-size: 12px; color: #6d7772; line-height: 1.6; margin-top: 16px; padding: 12px; background: #f0ece1; border-radius: 6px; border: 1px solid #e2ddd2; }
+    .success-box { display: none; background: #e7efe9; border: 2px solid #1e4d3b; padding: 32px; border-radius: 10px; text-align: center; }
+    .success-box h3 { font-family: 'Source Serif 4', serif; font-size: 26px; color: #1e4d3b; margin: 0 0 12px; }
+    .form-error { display: none; color: #a83232; font-size: 14px; margin-top: 12px; }
+
+    .footer { padding: 48px; text-align: center; border-top: 1px solid #e2ddd2; font-size: 13px; color: #5c6661; background: #f7f4ee; }
+
+    @media (max-width: 900px) { .rs-pad { padding: 0 28px; } .grid-2, .grid-3 { grid-template-columns: 1fr; } .rs-h1 { font-size: 38px; } }
+    @media (max-width: 620px) { .rs-nav { flex-wrap: wrap; row-gap: 10px; padding: 14px 20px; } .rs-navlinks { flex-wrap: wrap; row-gap: 8px; gap: 14px; } .rs-pad { padding: 0 20px; } .rs-h1 { font-size: 32px; } .rs-h2 { font-size: 28px; } .card { padding: 24px; } .footer { padding: 32px 20px; } }
+  </style>
+</head>
+<body>
+
+  <nav class="rs-nav">
+    <a href="index.html" class="rs-nav-brand">
+      Voice EC Map <span>Beta</span>
+    </a>
+    <div class="rs-navlinks">
+      <a href="midlife.html" style="color:#1e4d3b;font-weight:700;">Midlife Partnership</a>
+      <a href="beta.html" style="color:#3d4a44;">The 30-Day Beta</a>
+      <a href="team.html" style="color:#3d4a44;">Who We Are</a>
+      <a href="#apply" class="btn-primary" style="padding:10px 20px;">Apply</a>
+    </div>
+  </nav>
+
+  <header class="rs-pad rs-hero">
+    <div class="eyebrow">6-Month 1:1 Partnership · 6 Clients Per Cohort</div>
+    <h1 class="rs-h1">Is it ADHD, perimenopause, or both? Stop guessing and start building around the capacity you have now.</h1>
+    <p class="lede">
+      For professional women in perimenopause or menopause whose attention, follow-through, and energy have become less predictable, and who are still performing while running on fumes. We map what drives your good and hard days, then rebuild how your work and home actually run.
+    </p>
+    <a href="#apply" class="btn-primary">Apply for the Partnership</a>
+    <p style="font-size:13px;color:#5c6661;margin-top:16px;">Non-clinical coaching and consulting. Your clinicians keep their role, and you bring them better data.</p>
+  </header>
+
+  <section class="section-box">
+    <div class="rs-pad">
+      <p class="quote">"I can't tell if this is ADHD, menopause, burnout, or sleep. The systems that used to work have quietly stopped working, and nobody at work can see how hard I'm pushing."</p>
+      <div class="grid-3">
+        <div class="card">
+          <h3>Output looks fine</h3>
+          <p>Deadlines still get met, but only through late nights, overcorrection, and a recovery cost no one sees.</p>
+        </div>
+        <div class="card">
+          <h3>Capacity swings</h3>
+          <p>Some weeks you're sharp. Others, word-finding, task-starting, and patience drop out, and you can't predict when.</p>
+        </div>
+        <div class="card">
+          <h3>Advice treats it as one thing</h3>
+          <p>Planners assume your capacity stays constant. Single-cause explanations miss the overlap. You need a plan that holds both.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-box bg-light">
+    <div class="rs-pad">
+      <h2 class="rs-h2" style="text-align:center;">How the 6 months work</h2>
+      <p style="text-align:center;color:#4a554f;font-size:16px;max-width:720px;margin:0 auto;">The EC Map intake separates your longstanding attention and executive patterns from body-state amplifiers: sleep, the hormonal transition, recovery debt, and load. Everything we build rests on that map.</p>
+      <div class="grid-3">
+        <div class="card">
+          <div class="step-num">Weeks 0–2 · Map</div>
+          <h3>Capacity Map</h3>
+          <ul>
+            <li>Guided EC Map intake</li>
+            <li>90-minute Capacity Map session</li>
+            <li>Written Capacity Signature report</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="step-num">Months 1–3 · Build</div>
+          <h3>Your operating system</h3>
+          <ul>
+            <li>A calendar that plans demand around your energy</li>
+            <li>Task-initiation and follow-through systems</li>
+            <li>Redistributing work, home, and caregiving load</li>
+            <li>A lightweight body-state and demand tracker</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="step-num">Months 4–6 · Stabilize</div>
+          <h3>Stress-test and hand off</h3>
+          <ul>
+            <li>Run the system through deadlines, travel, and hard weeks</li>
+            <li>Adjust as your body-state shifts</li>
+            <li>A personal playbook you keep for good</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-box">
+    <div class="rs-pad">
+      <div class="grid-2" style="margin-top:0;align-items:start;">
+        <div>
+          <h2 class="rs-h2">What's included</h2>
+          <div class="card">
+            <ul>
+              <li><strong>12 biweekly 1:1 sessions</strong> (60 minutes each), plus the 90-minute Map session</li>
+              <li><strong>Weekday async support</strong> by voice or message, with a 24-hour response window</li>
+              <li><strong>Monthly capacity review</strong> of what's working and what needs to change</li>
+              <li><strong>Care-Conversation Briefs</strong> at months 0, 3, and 6: organized functional data and questions to take to your own prescriber, OB-GYN, or therapist</li>
+              <li><strong>End-of-engagement playbook</strong></li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <h2 class="rs-h2">Investment</h2>
+          <div class="card" style="border-left:4px solid #1e4d3b;">
+            <div class="step-num">Paid in full</div>
+            <div class="price-tag">$10,000</div>
+            <p>Or 3 monthly payments of $3,600.</p>
+            <p style="font-size:14px;">Already completed the $500 Beta or the $1,000 Clarity Sprint? That fee is credited toward the Partnership if you enroll within 30 days.</p>
+            <a href="#apply" class="btn-primary">Apply for a spot</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-box bg-light">
+    <div class="rs-pad">
+      <h2 class="rs-h2" style="text-align:center;">Is this a fit?</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h3>A strong fit if you</h3>
+          <ul>
+            <li>Are in perimenopause or menopause, or suspect you're in the transition</li>
+            <li>Have diagnosed or suspected ADHD, or executive strain that has recently gotten louder</li>
+            <li>Are still functioning at work, but at a private cost</li>
+            <li>Want a structured partner for 6 months, not another app</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Not the right fit if you</h3>
+          <ul>
+            <li>Want a diagnosis, medication, or hormone guidance. Your clinician is the right person for that.</li>
+            <li>Need therapy or crisis support right now</li>
+            <li>Would be under financial strain from the investment. Start with the <a href="beta.html" style="text-decoration:underline;">$500 Beta</a> instead.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-box">
+    <div class="rs-pad" style="max-width:800px;">
+      <h2 class="rs-h2" style="text-align:center;">Scope and safety</h2>
+      <div class="card" style="border-left:4px solid #1e4d3b;">
+        <ul>
+          <li><strong>Non-clinical and non-diagnostic.</strong> This is functional coaching and consulting. It is not a medical or psychiatric evaluation, therapy, or treatment advice.</li>
+          <li><strong>Your clinicians stay in charge</strong> of diagnosis, medication, and hormone decisions. The Care-Conversation Briefs are designed to make those appointments more productive.</li>
+          <li><strong>Human-led.</strong> Every session and report is delivered by a person. AI tools help only with drafting and organization under human review.</li>
+          <li><strong>No guaranteed outcomes.</strong> We build and test systems with you. Results depend on many factors, including health and life circumstances.</li>
+          <li><strong>Not crisis support.</strong> If you are in crisis, call or text 988 or call 911.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-box bg-light" id="apply">
+    <div class="rs-pad" style="max-width:720px;">
+      <h2 class="rs-h2" style="text-align:center;">Apply for the Partnership</h2>
+      <p style="text-align:center;color:#4a554f;font-size:16px;margin-bottom:32px;">It takes about 5 minutes. If it looks like a fit, you'll get a link to book a 45-minute fit call. If it isn't, we'll point you to a better next step.</p>
+
+      <div class="card" id="apply-card">
+        <form id="apply-form">
+          <input type="hidden" name="offer" value="midlife_partnership"/>
+          <div class="form-group">
+            <label class="form-label" for="name">Full name</label>
+            <input class="form-input" id="name" name="name" required type="text" autocomplete="name"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="email">Email</label>
+            <input class="form-input" id="email" name="email" required type="email" autocomplete="email"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="state">State of residence</label>
+            <input class="form-input" id="state" name="state" required type="text" autocomplete="address-level1"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="trigger">What's happening right now that made you apply?</label>
+            <textarea class="form-textarea" id="trigger" name="trigger" required></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="adhd">Which describes you?</label>
+            <select class="form-select" id="adhd" name="adhd" required>
+              <option value="">Select...</option>
+              <option value="diagnosed">Diagnosed ADHD</option>
+              <option value="suspected">Suspected ADHD</option>
+              <option value="unsure">Not sure</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="stage">Which stage fits best?</label>
+            <select class="form-select" id="stage" name="stage" required>
+              <option value="">Select...</option>
+              <option value="perimenopause">Perimenopause</option>
+              <option value="postmenopause">Postmenopause</option>
+              <option value="unsure">Not sure</option>
+              <option value="prefer_not">Prefer not to say</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="care_team">Are you currently working with a prescriber or therapist?</label>
+            <select class="form-select" id="care_team" name="care_team" required>
+              <option value="">Select...</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="win">What would make the next 6 months a win?</label>
+            <textarea class="form-textarea" id="win" name="win" required></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="investment">The Partnership is a $10,000 investment (a payment plan is available). Is that feasible for you right now?</label>
+            <select class="form-select" id="investment" name="investment" required>
+              <option value="">Select...</option>
+              <option value="yes">Yes</option>
+              <option value="yes_plan">Yes, with the payment plan</option>
+              <option value="not_now">Not right now</option>
+            </select>
+          </div>
+
+          <button class="btn-submit" id="apply-submit" type="submit">Submit application →</button>
+          <p class="form-error" id="apply-error">Something went wrong sending your application. Please try again in a moment.</p>
+
+          <div class="privacy-notice">
+            <strong>Privacy and safety:</strong> Please don't include medical records, medication details, or crisis information in this form. This is a non-clinical coaching service, not a diagnostic or crisis service. If you're in crisis, call or text 988.
+          </div>
+        </form>
+      </div>
+
+      <div class="success-box" id="apply-success">
+        <h3>Application received</h3>
+        <p id="apply-success-msg" style="font-size:16px;color:#1c2320;line-height:1.6;margin:0 0 20px;">Thank you. We review every application personally and reply within one business day.</p>
+        <a id="apply-book" href="#" target="_blank" rel="noopener" class="btn-primary" style="display:none;">Book your 45-minute fit call →</a>
+        <p id="apply-downsell" style="display:none;font-size:15px;color:#3d4a44;margin-top:16px;">If now isn't the right time for the full Partnership, the <a href="beta.html" style="text-decoration:underline;">$500 30-Day Beta</a> is a good place to start. Its fee is credited toward the Partnership.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div style="max-width:800px;margin:0 auto;margin-bottom:20px;display:flex;justify-content:center;gap:24px;flex-wrap:wrap;">
+      <a href="index.html">Home</a>
+      <a href="midlife.html">Midlife Partnership</a>
+      <a href="beta.html">The 30-Day Beta</a>
+      <a href="report.html">Sample Packets</a>
+      <a href="team.html">Who We Are</a>
+    </div>
+    <p>© 2026 Voice EC Map. All rights reserved.</p>
+    <p style="max-width:720px;margin:12px auto 0;">The Midlife Capacity Partnership is non-clinical coaching and consulting. It is not a diagnostic assessment, medical or psychiatric evaluation, psychotherapy, or treatment service, and it does not create a clinician–patient relationship. If you are experiencing a mental health emergency, call or text 988 immediately.</p>
+  </footer>
+
+  <script>
+    // Set these two values before sharing this page. Until an endpoint or email is set,
+    // the form is disabled, so applications can't be silently lost.
+    // endpoint: a form-backend URL that accepts POSTed FormData (e.g. https://formspree.io/f/xxxxxxx).
+    // email:    fallback inbox; if there is no endpoint, submit opens a pre-filled email to it.
+    // bookingUrl: Calendly/Cal.com link for the 45-minute fit call.
+    var APPLY_CONFIG = {
+      endpoint: "",
+      email: "",
+      bookingUrl: ""
+    };
+
+    (function () {
+      var form = document.getElementById("apply-form");
+      var submit = document.getElementById("apply-submit");
+      var errorEl = document.getElementById("apply-error");
+
+      if (!APPLY_CONFIG.endpoint && !APPLY_CONFIG.email) {
+        submit.disabled = true;
+        submit.textContent = "Applications opening soon";
+        return;
+      }
+
+      function showSuccess(data) {
+        document.getElementById("apply-card").style.display = "none";
+        document.getElementById("apply-success").style.display = "block";
+        var notNow = data.get("investment") === "not_now";
+        if (notNow) {
+          document.getElementById("apply-downsell").style.display = "block";
+        } else if (APPLY_CONFIG.bookingUrl) {
+          var book = document.getElementById("apply-book");
+          book.href = APPLY_CONFIG.bookingUrl;
+          book.style.display = "inline-block";
+          document.getElementById("apply-success-msg").textContent =
+            "Thank you. Book your fit call below. We'll review your application before we talk.";
+        }
+        document.getElementById("apply").scrollIntoView({ behavior: "smooth" });
+      }
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        errorEl.style.display = "none";
+        var data = new FormData(form);
+
+        if (!APPLY_CONFIG.endpoint) {
+          var lines = [];
+          data.forEach(function (value, key) { lines.push(key + ": " + value); });
+          window.location.href = "mailto:" + APPLY_CONFIG.email +
+            "?subject=" + encodeURIComponent("Midlife Partnership application — " + data.get("name")) +
+            "&body=" + encodeURIComponent(lines.join("\n"));
+          showSuccess(data);
+          return;
+        }
+
+        submit.disabled = true;
+        submit.textContent = "Sending...";
+        fetch(APPLY_CONFIG.endpoint, { method: "POST", body: data, headers: { Accept: "application/json" } })
+          .then(function (res) {
+            if (!res.ok) throw new Error("HTTP " + res.status);
+            showSuccess(data);
+          })
+          .catch(function () {
+            errorEl.style.display = "block";
+            submit.disabled = false;
+            submit.textContent = "Submit application →";
+          });
+      });
+    })();
+  </script>
+
+</body>
+</html>
