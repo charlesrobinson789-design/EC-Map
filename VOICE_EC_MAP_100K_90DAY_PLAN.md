@@ -191,9 +191,9 @@ On the evidence: ADHD coaching has emerging, modest support for gains in executi
 
 ## 8. Launch Configuration Checklist
 
-- [ ] In `midlife.html` and `docs/midlife.html`, set `APPLY_CONFIG.endpoint` (or `email`) and `APPLY_CONFIG.bookingUrl`.
+- [ ] In `midlife.html` and `docs/midlife.html`, `APPLY_CONFIG.email` is set to charles@executivecapacitymap.com (applications open a pre-filled email). Optionally add `APPLY_CONFIG.endpoint` for silent form submission, and set `APPLY_CONFIG.bookingUrl`.
 - [ ] In `checkin.html` and `docs/checkin.html`, set `CHECKIN_CONFIG.endpoint` using a separate form from the applications form.
-- [ ] If you serve from a custom domain rather than GitHub Pages, update the `og:image` URL in `midlife.html`.
+- [ ] The `og:image` URL points to https://executivecapacitymap.com (Hostinger). Upload `assets/midlife/` there so link previews work.
 - [ ] Add your name and a professional photo to `midlife.html` if you choose to. A named, visible founder converts much better at $10K.
 - [ ] Create Stripe payment links for paid-in-full, 2-pay, and 3-pay.
 - [ ] Get an e-sign coaching agreement that covers the non-clinical scope, refunds, the payment-plan commitment, and the accountability agreement.
