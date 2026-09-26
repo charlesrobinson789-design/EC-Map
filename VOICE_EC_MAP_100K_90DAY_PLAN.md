@@ -18,17 +18,22 @@ The model follows the high-ticket 1:1 approach with **intense accountability**, 
 
 ## 1. Bottom Line
 
-| Revenue line | Units | Booked ($) |
-|---|---|---|
-| Midlife Capacity Partnership (net of Beta credits) | 10 | 101,250 |
-| 30-Day Beta ($500) | 15 | 7,500 |
-| Clarity Sprint ($1,000) | 4 | 4,000 |
-| Workshops ($3,000) | 3 | 9,000 |
-| **Total booked in 13 weeks** | | **121,750** |
-| **Cash collected in 13 weeks** | | **105,700** |
+**Revenue comes only from $10K 1:1 enrollments, and the plan starts from zero:** no list, no audience, no clients.
 
-- The plan builds in a buffer of about 20% above $100K because launch plans slip.
-- The minimum path is **9 Partnerships plus 3 workshops, about $100K.** The front-end offers mainly feed the pipeline. They don't carry the revenue.
+| Weeks | Job | Enrollments (cumulative) |
+|---|---|---|
+| 1–3 | Build the list (50 personal contacts, 20 referral partners), send 15 new messages a day, book the first fit calls | 0 |
+| 4–13 | One enrollment a week | 1 → 10 |
+
+| Result (from `VOICE_EC_MAP_100K_90DAY_MODEL.xlsx`) | Amount |
+|---|---|
+| Booked in 13 weeks (10 × $10,325 average across the three payment options) | **$103,250** |
+| Cash collected in 13 weeks | **$87,200** |
+| Installments that land after week 13 | $16,050 |
+
+- To collect a full $100K in cash inside 13 weeks, about 7 of the 10 need to pay in full. The paid-in-full bonus exists for this.
+- The day-to-day system is the **Ten Seats** board (claude.ai artifact): every person you message, their stage, their next step and date, today's numbers, and seats filled against pace.
+- The Beta, Sprint and workshop offers in older docs are not part of this plan. A workshop can still be run free, as a lead source.
 
 ### Three constraints the model exposes
 
@@ -37,7 +42,7 @@ The model follows the high-ticket 1:1 approach with **intense accountability**, 
    - Hitting that without a warm network and referral partners is unlikely. Weeks 1–2 are all about building both.
 2. **Founder hours run over capacity.**
    - At 30 hours a week, the plan is over capacity in 9 of 13 weeks, with a peak of about 41 hours.
-   - Fix: from week 6, hire a part-time **non-clinical accountability assistant** to triage check-ins using the reply templates, with you reviewing flags. The alternative is to cap at 8 Partnerships and add 2 more workshops.
+   - Fix: from week 6, hire a part-time **non-clinical accountability assistant** to triage check-ins using the reply templates, with you reviewing flags. The alternative is to stagger start dates so no more than 6 clients are in the Intensive at once.
    - Set `Inputs!B42` to your real non-clinical hours.
 3. **Cash lags booked revenue.**
    - About $16K of installments land after week 13.
@@ -53,9 +58,6 @@ The model follows the high-ticket 1:1 approach with **intense accountability**, 
 | **Paid in full** | $10,000 | $10,000 | $10,000 | Bonus: 30 extra days of Integration plus a quarterly check-in for the next 6 months. The bonus is non-cash, so it doesn't erode the price. |
 | 2 payments | $5,250 × 2 | $10,500 | $5,250 | Faster cash than 3-pay |
 | 3 payments | $3,600 × 3 | $10,800 | $3,600 | Lowest barrier, with a collection-risk premium |
-| 30-Day Beta | $500 | $500 | $500 | Credited toward the Partnership if she enrolls within 30 days |
-| Clarity Sprint | $1,000 | $1,000 | $1,000 | Credited the same way |
-| Workshop | $3,000 | $3,000 | $3,000 | Sold to organizations (see Section 6) |
 
 **Rules:**
 - **No discounts.** Only the payment plan changes.
@@ -162,7 +164,7 @@ On the evidence: ADHD coaching has emerging, modest support for gains in executi
 
 ## 6. Workshop Offer (B2B Lever)
 
-**"ADHD, Perimenopause & Performance: A Capacity Workshop for Women Leaders"**, a 60-minute live session plus Q&A for $3,000. This price is a planning assumption; validate it with the first 3 buyers.
+**"ADHD, Perimenopause & Performance: A Capacity Workshop for Women Leaders"**, a free 60-minute live session plus Q&A, used only as a lead source for the $10K Partnership.
 
 - **Buyers:** women's ERGs, HR and benefits leads, professional associations (nursing, law, physicians, finance), and women's leadership networks.
 - **Deliverables:**
@@ -174,7 +176,7 @@ On the evidence: ADHD coaching has emerging, modest support for gains in executi
   - Collect no individual health information from employees.
   - Report back to the employer only in aggregate.
   - Never tell an employer who applied.
-- **Why it matters:** each workshop is $3K of cash and puts 20–60 qualified women in front of the offer at once. It is the fastest way to fill the 26-conversations-a-week pipeline.
+- **Why it matters:** each session puts 20–60 qualified women in front of the offer at once. It is the fastest way to fill the 26-conversations-a-week pipeline.
 
 ---
 
