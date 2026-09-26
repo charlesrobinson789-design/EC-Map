@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <meta name="robots" content="noindex, nofollow"/>
+  <title>Daily Check-In — Midlife Capacity Partnership</title>
+  <meta content="The 60-second weekday check-in for Midlife Capacity Partnership clients." name="description"/>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%231e4d3b'/%3E%3Ctext x='32' y='40' text-anchor='middle' font-family='Georgia,serif' font-size='26' font-weight='700' fill='%23f7f4ee'%3EEC%3C/text%3E%3C/svg%3E">
+  <style>
+    body { margin: 0; background: #f7f4ee; color: #1c2320; font-family: 'IBM Plex Sans', sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: #1e4d3b; }
+    .wrap { max-width: 600px; margin: 0 auto; padding: 32px 20px 64px; }
+    h1 { font-family: 'Source Serif 4', serif; font-size: 32px; line-height: 1.2; margin: 0 0 8px; }
+    .sub { color: #4a554f; font-size: 15px; line-height: 1.6; margin: 0 0 24px; }
+    .card { background: #fff; border: 1px solid #e2ddd2; border-radius: 10px; padding: 24px; }
+    .q { margin-bottom: 22px; }
+    .q > label, .q > .label { display: block; font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+    .hint { font-weight: 400; color: #5c6661; font-size: 13px; }
+    .scale { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+    .scale.three { grid-template-columns: repeat(3, 1fr); }
+    .scale.four { grid-template-columns: repeat(4, 1fr); }
+    .scale input { position: absolute; opacity: 0; pointer-events: none; }
+    .scale label { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 52px; border: 1px solid #c9d6cf; border-radius: 8px; background: #fff; font-weight: 600; font-size: 16px; cursor: pointer; text-align: center; padding: 4px; }
+    .scale label small { font-weight: 400; font-size: 11px; color: #5c6661; }
+    .scale input:checked + label { background: #1e4d3b; border-color: #1e4d3b; color: #fff; }
+    .scale input:checked + label small { color: #e7efe9; }
+    .scale input:focus-visible + label { outline: 3px solid rgba(30,77,59,0.35); outline-offset: 2px; }
+    .form-input, .form-textarea { width: 100%; padding: 12px 14px; border: 1px solid #c9d6cf; border-radius: 6px; font-family: inherit; font-size: 16px; color: #1c2320; background: #fff; box-sizing: border-box; }
+    .form-textarea { min-height: 76px; resize: vertical; }
+    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .btn-submit { background: #1e4d3b; color: #fff; width: 100%; padding: 16px; border: none; border-radius: 6px; font-weight: 600; font-size: 17px; cursor: pointer; font-family: inherit; }
+    .btn-submit:disabled { background: #8a9a92; cursor: not-allowed; }
+    .note { font-size: 12px; color: #6d7772; line-height: 1.6; margin-top: 16px; padding: 12px; background: #f0ece1; border-radius: 6px; }
+    .success { display: none; text-align: center; background: #e7efe9; border: 2px solid #1e4d3b; border-radius: 10px; padding: 28px; }
+    .success h2 { font-family: 'Source Serif 4', serif; color: #1e4d3b; margin: 0 0 8px; }
+    .error { display: none; color: #a83232; font-size: 14px; margin-top: 12px; }
+    #mvp-q { display: none; }
+    @media (max-width: 420px) { .row2 { grid-template-columns: 1fr; } .scale label { min-height: 48px; font-size: 15px; } }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <h1>Daily check-in</h1>
+    <p class="sub">About 60 seconds. You'll get a reply the same business day. On a hard day, a short check-in still counts.</p>
+
+    <div class="card" id="checkin-card">
+      <form id="checkin-form">
+        <div class="row2 q">
+          <div>
+            <label for="name">Name</label>
+            <input class="form-input" id="name" name="name" required autocomplete="name"/>
+          </div>
+          <div>
+            <label for="email">Email</label>
+            <input class="form-input" id="email" name="email" type="email" required autocomplete="email"/>
+          </div>
+        </div>
+
+        <div class="q">
+          <span class="label">Energy right now <span class="hint">(0 = empty, 4 = full)</span></span>
+          <div class="scale" role="radiogroup" aria-label="Energy">
+            <input type="radio" id="e0" name="energy" value="0" required><label for="e0">0</label>
+            <input type="radio" id="e1" name="energy" value="1"><label for="e1">1</label>
+            <input type="radio" id="e2" name="energy" value="2"><label for="e2">2</label>
+            <input type="radio" id="e3" name="energy" value="3"><label for="e3">3</label>
+            <input type="radio" id="e4" name="energy" value="4"><label for="e4">4</label>
+          </div>
+        </div>
+
+        <div class="q">
+          <span class="label">Last night's sleep <span class="hint">(0 = very broken, 4 = restorative)</span></span>
+          <div class="scale" role="radiogroup" aria-label="Sleep">
+            <input type="radio" id="s0" name="sleep" value="0" required><label for="s0">0</label>
+            <input type="radio" id="s1" name="sleep" value="1"><label for="s1">1</label>
+            <input type="radio" id="s2" name="sleep" value="2"><label for="s2">2</label>
+            <input type="radio" id="s3" name="sleep" value="3"><label for="s3">3</label>
+            <input type="radio" id="s4" name="sleep" value="4"><label for="s4">4</label>
+          </div>
+        </div>
+
+        <div class="q">
+          <span class="label">Today's capacity</span>
+          <div class="scale three" role="radiogroup" aria-label="Capacity">
+            <input type="radio" id="c-low" name="capacity" value="low" required><label for="c-low">Low<small>minimum plan</small></label>
+            <input type="radio" id="c-mid" name="capacity" value="medium"><label for="c-mid">Medium<small>core plan</small></label>
+            <input type="radio" id="c-high" name="capacity" value="high"><label for="c-high">High<small>stretch plan</small></label>
+          </div>
+        </div>
+
+        <div class="q">
+          <span class="label">Yesterday's commitments kept</span>
+          <div class="scale four" role="radiogroup" aria-label="Commitments kept">
+            <input type="radio" id="k0" name="kept" value="0" required><label for="k0">0 of 3</label>
+            <input type="radio" id="k1" name="kept" value="1"><label for="k1">1 of 3</label>
+            <input type="radio" id="k2" name="kept" value="2"><label for="k2">2 of 3</label>
+            <input type="radio" id="k3" name="kept" value="3"><label for="k3">3 of 3</label>
+          </div>
+        </div>
+
+        <div class="q">
+          <label for="top3">Today's top 3</label>
+          <textarea class="form-textarea" id="top3" name="top3" required placeholder="1.&#10;2.&#10;3."></textarea>
+        </div>
+
+        <div class="q" id="mvp-q">
+          <label for="mvp">Low day: what's the minimum version? <span class="hint">(one small step that keeps things moving)</span></label>
+          <input class="form-input" id="mvp" name="minimum_version"/>
+        </div>
+
+        <div class="q">
+          <label for="blocker">Anything in the way? <span class="hint">(optional)</span></label>
+          <input class="form-input" id="blocker" name="blocker"/>
+        </div>
+
+        <button class="btn-submit" id="checkin-submit" type="submit">Send check-in</button>
+        <p class="error" id="checkin-error">That didn't send. Please try again, or message your coach directly.</p>
+        <p class="note"><strong>Keep it functional:</strong> please don't include medication names, doses, or medical details here; take those to your prescriber. This isn't monitored for emergencies. If you're in crisis, call or text 988 or call 911.</p>
+      </form>
+    </div>
+
+    <div class="success" id="checkin-success">
+      <h2>Checked in</h2>
+      <p>Done for today. Your reply will arrive by end of business.</p>
+    </div>
+  </main>
+
+  <script>
+    // Set before sharing this page with clients: a form-backend URL that accepts POSTed FormData
+    // (e.g. a separate Formspree form from the application form). Until it's set, the form is disabled.
+    var CHECKIN_CONFIG = { endpoint: "" };
+
+    (function () {
+      var form = document.getElementById("checkin-form");
+      var submit = document.getElementById("checkin-submit");
+      var errorEl = document.getElementById("checkin-error");
+      var mvpQ = document.getElementById("mvp-q");
+
+      // Remember name/email on this device only, so a daily check-in takes seconds.
+      try {
+        var saved = JSON.parse(localStorage.getItem("ecm-checkin-who") || "null");
+        if (saved) { form.name.value = saved.name || ""; form.email.value = saved.email || ""; }
+      } catch (e) {}
+
+      form.querySelectorAll('input[name="capacity"]').forEach(function (r) {
+        r.addEventListener("change", function () { mvpQ.style.display = r.value === "low" && r.checked ? "block" : "none"; });
+      });
+
+      if (!CHECKIN_CONFIG.endpoint) {
+        submit.disabled = true;
+        submit.textContent = "Check-ins open when your partnership starts";
+        return;
+      }
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        errorEl.style.display = "none";
+        var data = new FormData(form);
+        data.append("date", new Date().toISOString().slice(0, 10));
+        try { localStorage.setItem("ecm-checkin-who", JSON.stringify({ name: data.get("name"), email: data.get("email") })); } catch (err) {}
+        submit.disabled = true;
+        submit.textContent = "Sending...";
+        fetch(CHECKIN_CONFIG.endpoint, { method: "POST", body: data, headers: { Accept: "application/json" } })
+          .then(function (res) {
+            if (!res.ok) throw new Error("HTTP " + res.status);
+            document.getElementById("checkin-card").style.display = "none";
+            document.getElementById("checkin-success").style.display = "block";
+          })
+          .catch(function () {
+            errorEl.style.display = "block";
+            submit.disabled = false;
+            submit.textContent = "Send check-in";
+          });
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,7 +1,7 @@
 # Midlife Capacity Partnership: $10K Offer and Sales Kit
 
 Status: launch draft, September 2026.
-Model: a high-ticket 1:1 container (application, then a fit call, then a 6-month engagement).
+Model: a high-ticket 1:1 container with intense weekday accountability (application, then a fit call, then a 6-month engagement). The 90-day revenue plan and the accountability system are in `VOICE_EC_MAP_100K_90DAY_PLAN.md`.
 Scope: non-clinical coaching and consulting. It does not diagnose, treat, or prescribe.
 
 This doc is the operating sheet for selling and delivering one $10,000 engagement. It sits at the top of the existing ladder in `VOICE_EC_MAP_MARKETING_CAMPAIGN.md` ($500 Beta, then the $1,000 Sprint). Claim guardrails in that doc still apply.
@@ -12,16 +12,16 @@ This doc is the operating sheet for selling and delivering one $10,000 engagemen
 
 | Item | Decision |
 |---|---|
-| Offer | Midlife Capacity Partnership, a 6-month 1:1 engagement |
-| Price | $10,000 paid in full, or 3 × $3,600 ($10,800) |
-| Year-1 target | 12 clients = $120K. The stretch target is 20 clients = $200K, which needs delegated delivery support. |
+| Offer | Midlife Capacity Partnership: a 6-month 1:1 engagement. Days 1–90 are an Intensive with weekday check-ins; months 4–6 are Integration. |
+| Price | $10,000 paid in full (with a bonus), 2 × $5,250 ($10,500), or 3 × $3,600 ($10,800) |
+| 90-day target | $100K booked: 10 Partnerships plus front-end and workshop revenue. See `VOICE_EC_MAP_100K_90DAY_MODEL.xlsx`. |
 | Fastest first dollars | Warm network, referral partners, and upgrading $500 Beta clients |
 | Pipeline needed per client | About 8 applications, 4 fit calls, and 1 close (assumes a 25% close rate on qualified calls) |
 
 These three things must be true before the first sale:
 
 1. There is a live application form and booking link (see `midlife.html` → `APPLY_CONFIG`).
-2. There are Stripe payment links for paid-in-full and the payment plan.
+2. There are Stripe payment links for paid-in-full, 2-pay, and 3-pay.
 3. There is a signed coaching agreement template (see Section 11).
 
 ---
@@ -45,13 +45,13 @@ The engagement then builds her operating system around both. It does not treat e
 
 | Phase | Timing | Deliverable |
 |---|---|---|
-| Map | Weeks 0–2 | Full EC Map intake, then a 90-minute Capacity Map session, then a written Capacity Signature report |
-| Build | Months 1–3 | Biweekly 60-minute sessions. She builds a demand/energy calendar, a task-initiation system, work and home load redistribution, and a tracking routine |
-| Stabilize | Months 4–6 | Biweekly sessions for stress-testing the system (travel, deadlines, caregiving surges, symptom swings), then a handoff playbook |
-| Throughout | 6 months | Async support on weekdays (Voxer or Slack, 24-hour response) and a monthly capacity review |
-| Care-Conversation Brief | Month 0, 3, 6 | A functional summary plus questions for **her own** prescriber, OB-GYN, or therapist. It contains no treatment recommendations |
+| Map | Weeks 0–2 | Full EC Map intake, a 90-minute Capacity Map session, a written Capacity Signature report, and the signed accountability agreement |
+| Intensive | Days 1–90 | Weekly 45-minute 1:1 with scorecard. Weekday 60-second check-ins (`checkin.html`) with same-day replies. An optional weekly group planning hour. She builds a demand/energy calendar, task-initiation systems, and load redistribution. |
+| Integration | Months 4–6 | Biweekly 1:1s and check-ins 3 times a week. The system is stress-tested through travel, deadlines, caregiving surges, and symptom swings. Ends with a handoff playbook. |
+| Throughout | 6 months | Missed-check-in protocol (nudge, then voice note, then reset call) and a monthly capacity review |
+| Care-Conversation Brief | Month 0, 3, 6 | A functional summary plus questions for **her own** prescriber, OB-GYN, or therapist. It contains no treatment recommendations. |
 
-That comes to 12 biweekly sessions plus the Map session, which is about 13.5 hours of live time.
+That comes to 18 1:1 sessions (12 weekly, then 6 biweekly) plus the Map session. The full accountability design, including capacity-adjusted commitments, reply templates, and the agreement, is in `VOICE_EC_MAP_100K_90DAY_PLAN.md` Section 3.
 
 ---
 
@@ -63,11 +63,13 @@ That comes to 12 biweekly sessions plus the Map session, which is about 13.5 hou
 |---|---|
 | Intake review and Capacity Signature report | 4.5 |
 | 90-minute Map session | 1.5 |
-| 12 sessions × (1.0 live + 0.5 prep and notes) | 18 |
-| Async support (26 weeks at roughly 25 min/week) | 11 |
+| 18 sessions × (0.75 live + 0.25 prep and notes) | 18 |
+| Intensive check-ins (13 weeks × 5 × 4 min) | 4.3 |
+| Integration check-ins (13 weeks × 3 × 4 min) | 2.6 |
+| Share of the weekly group hour (13 hours across about 10 clients) | 1.3 |
 | 3 Care-Conversation Briefs | 3 |
 | Handoff playbook | 2 |
-| **Total** | **40** |
+| **Total** | **about 38** |
 
 ### Effective rate compared with the existing ladder
 
@@ -75,27 +77,27 @@ That comes to 12 biweekly sessions plus the Map session, which is about 13.5 hou
 |---|---|---|---|
 | Beta | $500 | ~2.75 | ~$182 |
 | Clarity Sprint | $1,000 | ~5 | ~$200 |
-| **Midlife Partnership** | **$10,000** | **~40** | **~$250** |
+| **Midlife Partnership** | **$10,000** | **~38** | **~$265** |
 
 The $10K offer is not only a higher price. It also gives one sale for every 10–20 lower-ticket sales, which means far less time spent selling per dollar.
 
 ### Capacity ceiling (the constraint that matters)
 
-The unit-economics workbook budgets 60 founder hours a month. If about 15 hours go to selling and content, 45 hours are left for delivery. Each client takes about 6.7 hours a month, so the practical limit is **6 concurrent clients**. That is about 12 clients a year, or $120K.
+The Intensive phase is the heavy part, at about 1.3 hours per client per week plus 6 onboarding hours in the week she enrolls.
 
-Ways to go past about $120K, in order:
-
-1. Raise the price after 5 testimonials.
-2. Cap async support.
-3. Use a VA for notes and scheduling.
-4. Add a small-group tier.
-
-Don't solve for capacity before client #6.
+- **10 concurrent clients** is about 14 hours a week of delivery.
+- Add about 15 hours a week of selling and the total goes over a 30-hour non-clinical week (the model flags 9 of 13 weeks over capacity).
+- Fix, in order:
+  1. From client #6, hire a part-time non-clinical accountability assistant to triage check-ins using the reply templates, with you reviewing flags.
+  2. Cap the founding cohort at 10.
+  3. Raise the price for cohort 2 once you have 5 testimonials.
+  4. Add a small-group tier.
 
 ### Payment terms
 
 - Paid in full: $10,000.
-- Payment plan: 3 × $3,600, charged monthly by auto-charge. The total is $10,800.
+- Paid-in-full bonus: 30 extra days of Integration plus a quarterly check-in for the 6 months after. This is a bonus, not a discount.
+- 2-pay: 2 × $5,250 over 30 days ($10,500). 3-pay: 3 × $3,600 monthly ($10,800). Both are auto-charged.
 - Credit: the $500 Beta or $1,000 Sprint fee counts toward the Partnership if she enrolls within 30 days.
 - Refunds: a full refund within 7 days of payment if the Map session hasn't happened. After that the engagement is non-refundable, and a payment plan is a commitment to the full amount. Put this in the agreement, and log each delivered session as chargeback evidence.
 
@@ -120,6 +122,8 @@ Don't solve for capacity before client #6.
 ---
 
 ## 5. First 3 Clients in 30 Days
+
+The full 13-week calendar, founder accountability, and decision gates are in `VOICE_EC_MAP_100K_90DAY_PLAN.md`. This section covers the first month.
 
 | Week | Actions | Target |
 |---|---|---|
@@ -158,7 +162,7 @@ The same questions are built into the form on `midlife.html`.
 4. Which stage fits? Perimenopause / postmenopause / not sure / prefer not to say
 5. Are you currently working with a prescriber or therapist? (Yes/No. This is for context only and is not required.)
 6. What would make the next 6 months a win?
-7. The Partnership is a $10,000 investment (a payment plan is available). Is that feasible for you right now? Yes / Yes with the plan / Not right now
+7. The Partnership is a $10,000 investment (2- and 3-payment plans are available). Is that feasible for you right now? Yes / Yes with the plan / Not right now
 
 Anyone who answers "Not right now" goes to the $500 Beta. That is a downsell, not a lost lead.
 
@@ -174,7 +178,7 @@ Anyone who answers "Not right now" goes to the $500 Beta. That is a downsell, no
 | 22–27 | Desired state | "Six months from now, what's different on a Tuesday?" |
 | 27–30 | Scope check | "I want to be clear that this is non-clinical. I won't diagnose or advise on medication or hormones. Your clinicians keep that role, and I'll hand you organized data to take to them." |
 | 30–38 | Offer | Walk through Map, Build, and Stabilize, plus the briefs and async support. Tie each part to what she said. |
-| 38–42 | Price | "The investment is $10,000, or three payments of $3,600." Then stop talking. |
+| 38–42 | Price | "The investment is $10,000 paid in full, which includes an extra month of support, or two payments of $5,250, or three of $3,600." Then stop talking. |
 | 42–45 | Close | "Would you like to start? I can send the agreement and payment link now, and we'll book your Map session this week." |
 
 **Red flags that end the call with a referral:** safety concerns, requests for a diagnosis or medication advice, or financial hardship.
@@ -203,7 +207,9 @@ This is what makes the $10K justified and produces referrals.
 
 - [ ] The intake is complete before the Map session.
 - [ ] The Capacity Signature report is delivered within 5 business days.
-- [ ] All 12 sessions are booked in advance.
+- [ ] All 18 sessions are booked in advance.
+- [ ] The accountability agreement is signed at the Map session, and the check-in link (`checkin.html`) is sent the same day.
+- [ ] Every weekday check-in gets a same-day reply, and the missed-check-in protocol is followed.
 - [ ] The Care-Conversation Briefs at 0, 3, and 6 months use functional language only.
 - [ ] Write a 2-line session note after every session. It serves as the delivery log and chargeback evidence.
 - [ ] At month 3, ask a check-in question: "What's working, what isn't?"

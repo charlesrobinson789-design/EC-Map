@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 400" role="img" aria-labelledby="t d">
+  <title id="t">The accountability loop</title>
+  <desc id="d">Weekday check-in, same-day reply, weekly 1:1, weekly group planning hour, and monthly capacity review, repeating. Missed check-ins trigger a nudge, then a voice note, then a 15-minute reset call.</desc>
+  <style>
+    .box{fill:#fff;stroke:#1e4d3b;stroke-width:2}
+    .k{font:700 12px 'IBM Plex Sans',Arial,sans-serif;fill:#1e4d3b;letter-spacing:.08em}
+    .h{font:700 19px 'Source Serif 4',Georgia,serif;fill:#1c2320}
+    .p{font:400 14px 'IBM Plex Sans',Arial,sans-serif;fill:#4a554f}
+    .ar{stroke:#1e4d3b;stroke-width:2.5;fill:none;marker-end:url(#a)}
+    .miss{fill:#f0ece1;stroke:#c9d6cf;stroke-width:1.5}
+  </style>
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#1e4d3b"/></marker></defs>
+  <rect class="box" x="10" y="20" width="200" height="120" rx="12"/>
+  <text class="k" x="30" y="50">EVERY WEEKDAY</text><text class="h" x="30" y="78">60-sec check-in</text>
+  <text class="p" x="30" y="102">Energy, sleep, top 3,</text><text class="p" x="30" y="122">yesterday's wins</text>
+  <rect class="box" x="230" y="20" width="200" height="120" rx="12"/>
+  <text class="k" x="250" y="50">SAME DAY</text><text class="h" x="250" y="78">Coach reply</text>
+  <text class="p" x="250" y="102">Adjust today's plan</text><text class="p" x="250" y="122">to today's capacity</text>
+  <rect class="box" x="450" y="20" width="200" height="120" rx="12"/>
+  <text class="k" x="470" y="50">EVERY WEEK</text><text class="h" x="470" y="78">1:1 + scorecard</text>
+  <text class="p" x="470" y="102">Commitments kept,</text><text class="p" x="470" y="122">next week's 3</text>
+  <rect class="box" x="670" y="20" width="200" height="120" rx="12"/>
+  <text class="k" x="690" y="50">EVERY MONTH</text><text class="h" x="690" y="78">Capacity review</text>
+  <text class="p" x="690" y="102">Patterns across body-</text><text class="p" x="690" y="122">state and demand</text>
+  <path class="ar" d="M210 80H228"/><path class="ar" d="M430 80H448"/><path class="ar" d="M650 80H668"/>
+  <path class="ar" d="M770 140V185H110V142"/>
+  <text class="p" x="440" y="205" text-anchor="middle">Repeat. Commitments flex with capacity; the check-in never skips.</text>
+  <rect class="miss" x="10" y="240" width="860" height="140" rx="12"/>
+  <text class="k" x="30" y="272">IF A CHECK-IN IS MISSED (NO SHAME, JUST STRUCTURE)</text>
+  <text class="h" x="30" y="312">Day 1</text><text class="p" x="30" y="336">Friendly nudge</text>
+  <text class="h" x="250" y="312">Day 2</text><text class="p" x="250" y="336">Voice note from your coach</text>
+  <text class="h" x="520" y="312">Day 3</text><text class="p" x="520" y="336">15-minute reset call to rebuild</text><text class="p" x="520" y="356">the minimum-viable plan</text>
+  <path class="ar" d="M150 318H240"/><path class="ar" d="M440 318H510"/>
+</svg>
