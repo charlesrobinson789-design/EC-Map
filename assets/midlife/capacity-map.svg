@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 300" role="img" aria-labelledby="t d">
+  <title id="t">How the Capacity Map works</title>
+  <desc id="d">Two inputs, longstanding attention and executive patterns, and body-state amplifiers such as sleep, the hormonal transition, recovery debt and load, combine into one operating plan built for current capacity.</desc>
+  <style>
+    .box{fill:#fff;stroke:#c9d6cf;stroke-width:1.5}
+    .out{fill:#1e4d3b}
+    .k{font:700 12px 'IBM Plex Sans',Arial,sans-serif;fill:#1e4d3b;letter-spacing:.08em}
+    .h{font:700 20px 'Source Serif 4',Georgia,serif;fill:#1c2320}
+    .p{font:400 14px 'IBM Plex Sans',Arial,sans-serif;fill:#4a554f}
+    .hw{font:700 22px 'Source Serif 4',Georgia,serif;fill:#fff}
+    .pw{font:400 14px 'IBM Plex Sans',Arial,sans-serif;fill:#e7efe9}
+    .ar{stroke:#1e4d3b;stroke-width:2.5;fill:none;marker-end:url(#a)}
+  </style>
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#1e4d3b"/></marker></defs>
+  <rect class="box" x="10" y="10" width="360" height="130" rx="12"/>
+  <text class="k" x="32" y="42">LAYER 1 · LONGSTANDING</text>
+  <text class="h" x="32" y="72">Attention &amp; executive pattern</text>
+  <text class="p" x="32" y="98">Task-starting, working memory,</text><text class="p" x="32" y="118">follow-through, time blindness</text>
+  <rect class="box" x="10" y="160" width="360" height="130" rx="12"/>
+  <text class="k" x="32" y="192">LAYER 2 · CHANGES WITH BODY-STATE</text>
+  <text class="h" x="32" y="222">Amplifiers</text>
+  <text class="p" x="32" y="248">Sleep, the hormonal transition,</text><text class="p" x="32" y="268">recovery debt, total load</text>
+  <path class="ar" d="M370 75C440 75 440 150 500 150"/><path class="ar" d="M370 225C440 225 440 150 500 150"/>
+  <rect class="out" x="505" y="60" width="365" height="180" rx="14"/>
+  <text class="k" x="530" y="96" style="fill:#e7efe9">YOUR OPERATING PLAN</text>
+  <text class="hw" x="530" y="130">Built for the capacity</text><text class="hw" x="530" y="158">you have now</text>
+  <text class="pw" x="530" y="190">Plan the demanding work for your better days</text><text class="pw" x="530" y="212">and hold a minimum-viable plan for harder ones</text>
+</svg>
