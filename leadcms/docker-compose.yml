@@ -1,0 +1,50 @@
+# LeadCMS stack, isolated from the EC-Map app stack.
+# Own Postgres instance (host port 5433) so EC-Map's ec_map database on 5432 is never touched.
+# Run from this folder: ./setup.sh && docker compose up -d
+
+name: ec-map-leadcms
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      TZ: UTC
+      PGTZ: UTC
+      POSTGRES_DB: ${POSTGRES__DATABASE}
+      POSTGRES_USER: ${POSTGRES__USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES__PASSWORD}
+    ports:
+      - "127.0.0.1:5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - leadcms_pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  # Local SMTP catcher: LeadCMS emails land in the web inbox at http://localhost:8025, never sent out.
+  mailpit:
+    image: axllent/mailpit:v1.27
+    ports:
+      - "127.0.0.1:1025:1025"
+      - "127.0.0.1:8025:8025"
+    restart: unless-stopped
+
+  leadcms:
+    # Upstream docs reference leadcms/core:latest, which is not published; only -pre tags exist.
+    image: leadcms/core:${LEADCMS_VERSION:-1.5.155-pre}
+    env_file:
+      - .env
+    ports:
+      - "127.0.0.1:8080:80"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      mailpit:
+        condition: service_started
+    restart: unless-stopped
+
+volumes:
+  leadcms_pgdata:
