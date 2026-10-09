@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Unsubscribe</title>
+  <link rel="stylesheet" href="/public.css">
+</head>
+<body>
+  <main class="card">
+    <h1>Unsubscribe</h1>
+    <form id="form">
+      <label for="email">Email address</label>
+      <input id="email" name="email" type="email" required autocomplete="email">
+      <button type="submit">Unsubscribe me</button>
+    </form>
+    <p id="status" role="status"></p>
+  </main>
+  <script>
+    const form = document.getElementById("form");
+    const email = document.getElementById("email");
+    const status = document.getElementById("status");
+    email.value = new URLSearchParams(location.search).get("email") || "";
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      status.textContent = "Working…";
+      try {
+        const res = await fetch("/api/unsubscribe", {
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: email.value.trim(), language: "en", timeZoneOffset: -new Date().getTimezoneOffset() })
+        });
+        if (res.ok) { form.hidden = true; status.textContent = "You've been unsubscribed. You won't receive marketing emails from us."; }
+        else { status.textContent = "We couldn't process that. Check the address and try again."; }
+      } catch {
+        status.textContent = "Something went wrong. Please try again in a minute.";
+      }
+    });
+  </script>
+</body>
+</html>
