@@ -4,7 +4,18 @@
 
 {$CRM_DOMAIN} {
 	encode zstd gzip
-	reverse_proxy leadcms:80
+
+	# Public subscriber pages (double opt-in confirmation, unsubscribe). Everything else is LeadCMS.
+	@public path /confirm-subscription /unsubscribe /public.css
+	handle @public {
+		root * /srv/public
+		try_files {path}.html {path}
+		file_server
+	}
+
+	handle {
+		reverse_proxy leadcms:80
+	}
 }
 
 {$AUTOMATION_DOMAIN} {

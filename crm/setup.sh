@@ -30,6 +30,7 @@ sed \
   -e "s|^DEFAULTUSERS__0__PASSWORD=.*|DEFAULTUSERS__0__PASSWORD=$(rand 16)Aa1!|" \
   -e "s|^N8N_DB_PASSWORD=.*|N8N_DB_PASSWORD=$(rand 24)|" \
   -e "s|^N8N_ENCRYPTION_KEY=.*|N8N_ENCRYPTION_KEY=$(rand 48)|" \
+  -e "s|^SUBSCRIPTION_TOKEN_SECRET=.*|SUBSCRIPTION_TOKEN_SECRET=$(rand 64)|" \
   env.example > .env
 
 if [ -n "$name" ]; then
@@ -40,6 +41,8 @@ if [ -n "$domain" ]; then
   sed -i.bak \
     -e "s|^CRM_DOMAIN=.*|CRM_DOMAIN=${domain}|" \
     -e "s|^AUTOMATION_DOMAIN=.*|AUTOMATION_DOMAIN=automations.${apex}|" \
+    -e "s|^SITE_URL=.*|SITE_URL=https://${apex}|" \
+    -e "s|^SITE_URL_WWW=.*|SITE_URL_WWW=https://www.${apex}|" \
     .env
 fi
 rm -f .env.bak
@@ -48,3 +51,4 @@ chmod 600 .env
 echo "Wrote crm/.env. Admin login: admin@crm.local / DEFAULTUSERS__0__PASSWORD in .env"
 echo "Local:      docker compose up -d --build"
 echo "Production: docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build"
+echo "Then load the CRM structure: python3 blueprint/apply.py"

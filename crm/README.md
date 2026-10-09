@@ -2,6 +2,8 @@
 
 One isolated instance per business: its own folder, `.env`, databases and domain. Start with one instance; copy the folder for each additional client.
 
+**How the CRM is organized** (tags, segments, sequences, pipelines, consent rules): see [STRUCTURE.md](STRUCTURE.md). The structure itself is code: `blueprint/ecmap.json`, applied with `blueprint/apply.py`.
+
 | Service | Local URL | What it does |
 |---|---|---|
 | LeadCMS + admin UI | http://localhost:8080 | Contacts, accounts, segments, email campaigns and drip sequences, email templates, content/blog, media, link tracking, orders |
@@ -15,6 +17,7 @@ One isolated instance per business: its own folder, `.env`, databases and domain
 cd crm
 ./setup.sh --name mypractice      # writes .env with random secrets
 docker compose up -d --build      # first build ~3-5 min (compiles the admin UI)
+python3 blueprint/apply.py        # loads lists, templates, segments, pipelines, sequences
 ```
 
 - Admin login: `admin@crm.local` with `DEFAULTUSERS__0__PASSWORD` from `.env`.
@@ -29,10 +32,13 @@ docker compose up -d --build      # first build ~3-5 min (compiles the admin UI)
    - `ACME_EMAIL`: your email, used for certificate expiry notices.
    - `EMAIL__*`: real SMTP. For a Hostinger mailbox: `EMAIL__SERVER=smtp.hostinger.com`, `EMAIL__PORT=465`, `EMAIL__USESSL=true`, plus the mailbox address and password.
    - `DEFAULTUSERS__0__EMAIL`: your real admin email.
-   - `CORS__ALLOWEDORIGINS__*`: the website(s) that will post forms to the API.
+   - `SITE_URL` / `SITE_URL_WWW`: your marketing site (set from `--domain`; check them). Signup forms on this site may post to the CRM.
+   - `CONTACTUS__TO__0` and `SUPPORTEMAIL`: where contact-form notifications go.
 4. **Start:** `docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build`
    Caddy gets HTTPS certificates automatically. Only ports 80 and 443 are exposed; everything else stays on 127.0.0.1.
-5. **Backups:** add `15 3 * * * /opt/crm/backup.sh` to crontab, and copy `backups/` off the server.
+5. **Load the CRM structure:** `python3 blueprint/apply.py` (safe to re-run any time).
+6. **Signup forms:** paste `public/embed-form.html` into your site and set `CRM_URL`. Confirmation and unsubscribe pages are already served at `https://<CRM_DOMAIN>/confirm-subscription` and `/unsubscribe`.
+7. **Backups:** add `15 3 * * * /opt/crm/backup.sh` to crontab, and copy `backups/` off the server.
 
 ## New client instance
 
@@ -49,8 +55,8 @@ Same-VPS instances also need unique host ports (`POSTGRES_HOST_PORT` in `.env`; 
 
 | Covered | Partial | Not included (add later) |
 |---|---|---|
-| Contacts, accounts, segments | Deal pipelines: API only, no admin screen | Calendar booking: Cal.com cloud, webhook into n8n |
-| Email campaigns, drip sequences, templates | Forms: post to the Contacts API from your site or n8n | Payments: Stripe, webhook into n8n |
+| Contacts, accounts, tag-based segments | Deal pipelines: 4 pipelines created, API only (no admin screen) | Calendar booking: Cal.com cloud, webhook into n8n |
+| Double opt-in signup, drip sequences routed by tags, templates, unsubscribe | Forms: email-only double opt-in signup (`public/embed-form.html`) | Payments: Stripe, webhook into n8n |
 | Content/blog, media, redirects | SMS: send-only plugin | Two-way SMS/inbox: Twilio + n8n |
 | Link tracking, orders, promotions | | Drag-and-drop funnel builder: pages are coded (Next.js) |
 

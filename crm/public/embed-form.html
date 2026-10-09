@@ -1,0 +1,40 @@
+<!--
+  EC Map signup form: paste into any page on executivecapacitymap.com (Hostinger Website Builder "Embed code" block or raw HTML).
+  1. Replace CRM_URL with your CRM domain, e.g. https://crm.executivecapacitymap.com
+  2. Pick tags/group per placement (see crm/STRUCTURE.md, "Tag taxonomy"):
+       Newsletter / checklist: data-tags="source:website,lead-magnet:capacity-checklist" data-group="Capacity Notes"
+       Workshop sign-up:       data-tags="source:website,interest:workshop"              data-group="Workshops"
+       Partner interest:       data-tags="source:website,icp:referral-partner"           data-group="Partners"
+  The site's origin must be listed in CORS__ALLOWEDORIGINS (docker-compose.prod.yml adds SITE_URL automatically).
+  Never add clinical fields (symptoms, diagnoses, assessment answers) to this form.
+-->
+<form class="ecmap-signup" data-crm="CRM_URL" data-tags="source:website,lead-magnet:capacity-checklist" data-group="Capacity Notes">
+  <label for="ecmap-email">Email</label>
+  <input id="ecmap-email" name="email" type="email" required autocomplete="email" placeholder="you@example.com">
+  <input name="company" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
+  <button type="submit">Send me the checklist</button>
+  <p class="ecmap-status" role="status"></p>
+</form>
+<script>
+  document.querySelectorAll("form.ecmap-signup").forEach((form) => {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const status = form.querySelector(".ecmap-status");
+      if (form.company.value) return; // honeypot: bots fill hidden fields
+      status.textContent = "Sending…";
+      try {
+        const res = await fetch(form.dataset.crm.replace(/\/$/, "") + "/api/subscribe", {
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: form.email.value.trim(), language: "en", timeZoneOffset: -new Date().getTimezoneOffset(),
+            tags: form.dataset.tags.split(",").map((t) => t.trim()).filter(Boolean), group: form.dataset.group
+          })
+        });
+        status.textContent = res.ok ? "Check your inbox to confirm your email." : "That didn't go through. Please check the address and try again.";
+        if (res.ok) form.reset();
+      } catch {
+        status.textContent = "Something went wrong. Please try again in a minute.";
+      }
+    });
+  });
+</script>

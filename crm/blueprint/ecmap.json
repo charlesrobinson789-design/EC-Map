@@ -1,0 +1,321 @@
+{
+  "$comment": "EC Map CRM blueprint. Applied by apply.py; safe to re-run (creates what is missing, leaves existing records alone unless --update). Tag and naming rules: see ../STRUCTURE.md.",
+  "version": 1,
+  "language": "en",
+  "sender": {
+    "fromEmail": "hello@executivecapacitymap.com",
+    "fromName": "Charlie at EC Map"
+  },
+  "emailGroups": [
+    {
+      "key": "transactional",
+      "name": "Transactional"
+    },
+    {
+      "key": "nurture",
+      "name": "Capacity Notes",
+      "subscribable": true
+    },
+    {
+      "key": "workshops",
+      "name": "Workshops",
+      "subscribable": true
+    },
+    {
+      "key": "partners",
+      "name": "Partners",
+      "subscribable": true
+    }
+  ],
+  "segments": [
+    {
+      "key": "website",
+      "name": "Website subscribers",
+      "description": "Confirmed opt-ins from any website form.",
+      "anyTags": [
+        "source:website"
+      ]
+    },
+    {
+      "key": "checklist",
+      "name": "Capacity checklist downloads",
+      "description": "Requested the capacity checklist lead magnet.",
+      "anyTags": [
+        "lead-magnet:capacity-checklist"
+      ]
+    },
+    {
+      "key": "nurture-entry",
+      "name": "Welcome sequence entry",
+      "description": "Website subscribers and checklist downloads. Excludes partners, org buyers and workshop registrants, who each get their own track.",
+      "anyTags": [
+        "source:website",
+        "lead-magnet:capacity-checklist"
+      ],
+      "noneTags": [
+        "icp:referral-partner",
+        "icp:org-buyer",
+        "interest:workshop"
+      ]
+    },
+    {
+      "key": "workshop",
+      "name": "Workshop registrants",
+      "description": "Registered for a free capacity workshop.",
+      "anyTags": [
+        "interest:workshop"
+      ]
+    },
+    {
+      "key": "partners",
+      "name": "Referral partners",
+      "description": "Coaches, clinicians and programs who refer clients.",
+      "anyTags": [
+        "icp:referral-partner"
+      ]
+    },
+    {
+      "key": "partnership-prospects",
+      "name": "Partnership prospects",
+      "description": "Raised a hand for the $10K Midlife Capacity Partnership.",
+      "anyTags": [
+        "interest:partnership"
+      ]
+    },
+    {
+      "key": "org-buyers",
+      "name": "Organization buyers",
+      "description": "Employers, programs and practices (workshops, pilots).",
+      "anyTags": [
+        "icp:org-buyer"
+      ]
+    }
+  ],
+  "pipelines": [
+    {
+      "name": "Midlife Capacity Partnership ($10K)",
+      "stages": [
+        "New conversation",
+        "Application received",
+        "Fit call booked",
+        "Fit call completed",
+        "Enrollment offer sent",
+        "Agreement signed - awaiting payment",
+        "Enrolled (won)",
+        "Not now - nurture",
+        "Not a fit (lost)"
+      ]
+    },
+    {
+      "name": "Referral partners",
+      "stages": [
+        "Identified",
+        "Outreach sent",
+        "Intro call booked",
+        "Partner kit sent",
+        "Active - referring",
+        "Dormant"
+      ]
+    },
+    {
+      "name": "Workshops (host organizations)",
+      "stages": [
+        "Prospect organization",
+        "Pitch sent",
+        "Date confirmed",
+        "Delivered",
+        "Follow-up sent",
+        "Converted - leads generated",
+        "Declined"
+      ]
+    },
+    {
+      "name": "Practice pilots (coach / provider)",
+      "stages": [
+        "Interested",
+        "Demo held",
+        "Pilot proposal sent",
+        "Instance provisioned",
+        "Pilot active",
+        "Renewal / expansion",
+        "Closed lost"
+      ]
+    }
+  ],
+  "templates": [
+    {
+      "key": "confirm",
+      "name": "Subscription_Email_Confirmation",
+      "group": "transactional",
+      "subject": "Please confirm your email",
+      "body": "<p>Hi,</p><p>Please confirm you'd like to receive emails from the Executive Capacity Map:</p><p><a href=\"{{ confirmationUrl }}\" style=\"display:inline-block;padding:10px 18px;background:#1f3a5f;color:#ffffff;text-decoration:none;border-radius:6px;\">Confirm my subscription</a></p><p>If you didn't request this, ignore this email and nothing will happen.</p><p>Charlie<br>Executive Capacity Map</p>",
+      "replace": true
+    },
+    {
+      "key": "confirmed",
+      "name": "Subscription_Confirmation",
+      "group": "transactional",
+      "replace": true,
+      "subject": "You're subscribed",
+      "body": "<p>Hi,</p><p>You're confirmed. Your first email from the Executive Capacity Map is on its way: short, practical, and focused on fitting plans to the capacity you actually have.</p><p>Charlie<br>Executive Capacity Map</p>{% if unsubscribe_url %}<p style=\"font-size:12px;color:#888;\"><a href=\"{{ unsubscribe_url }}?email={{ Email | url_encode }}\">Unsubscribe</a></p>{% endif %}"
+    },
+    {
+      "key": "welcome-1",
+      "name": "Welcome 1 - Your capacity checklist",
+      "group": "nurture",
+      "subject": "Your capacity checklist (and how to use it)",
+      "body": "<p>Hi {{ FirstName | default: 'there' }},</p><p>Thanks for confirming. Here's the short version of how the Executive Capacity Map works: we look at the pattern before we make the plan.</p><p>Over the next week I'll send a few short notes on what that means for focus, energy and follow-through in midlife, and why the usual productivity advice often misses the real constraint.</p><p>Charlie</p>{% if unsubscribe_url %}<p style=\"font-size:12px;color:#888;\"><a href=\"{{ unsubscribe_url }}?email={{ Email | url_encode }}\">Unsubscribe</a></p>{% endif %}"
+    },
+    {
+      "key": "welcome-2",
+      "name": "Welcome 2 - The pattern before the plan",
+      "group": "nurture",
+      "subject": "The pattern before the plan",
+      "body": "<p>Hi {{ FirstName | default: 'there' }},</p><p>Most plans fail for a predictable reason: they're built for the capacity you had, not the capacity you have this season.</p><p>The Executive Capacity Map separates longstanding patterns from what's changing now (sleep, load, context) so the plan fits the person, not the other way around.</p><p>Charlie</p>{% if unsubscribe_url %}<p style=\"font-size:12px;color:#888;\"><a href=\"{{ unsubscribe_url }}?email={{ Email | url_encode }}\">Unsubscribe</a></p>{% endif %}"
+    },
+    {
+      "key": "welcome-3",
+      "name": "Welcome 3 - How the Partnership works",
+      "group": "nurture",
+      "subject": "What a capacity-adjusted plan looks like",
+      "body": "<p>Hi {{ FirstName | default: 'there' }},</p><p>In the Midlife Capacity Partnership we map your capacity, set commitments that flex with it, and keep weekly accountability so the plan survives real life.</p><p>It's coaching, not medical or mental health care, and it works alongside any care you already have.</p><p>Charlie</p>{% if unsubscribe_url %}<p style=\"font-size:12px;color:#888;\"><a href=\"{{ unsubscribe_url }}?email={{ Email | url_encode }}\">Unsubscribe</a></p>{% endif %}"
+    },
+    {
+      "key": "welcome-4",
+      "name": "Welcome 4 - Fit call invitation",
+      "group": "nurture",
+      "subject": "Want to see if it's a fit?",
+      "body": "<p>Hi {{ FirstName | default: 'there' }},</p><p>If any of this sounded familiar, the next step is a 15-minute fit call. No pitch deck: we look at whether a capacity-first approach makes sense for you right now.</p><p>Just reply to this email and I'll send times.</p><p>Charlie</p>{% if unsubscribe_url %}<p style=\"font-size:12px;color:#888;\"><a href=\"{{ unsubscribe_url }}?email={{ Email | url_encode }}\">Unsubscribe</a></p>{% endif %}"
+    },
+    {
+      "key": "workshop-1",
+      "name": "Workshop 1 - You're registered",
+      "group": "workshops",
+      "subject": "You're registered for the capacity workshop",
+      "body": "<p>Hi {{ FirstName | default: 'there' }},</p><p>You're on the list for <strong>ADHD, Perimenopause &amp; Performance</strong>. I'll send the link and time before we start.</p><p>Charlie</p>{% if unsubscribe_url %}<p style=\"font-size:12px;color:#888;\"><a href=\"{{ unsubscribe_url }}?email={{ Email | url_encode }}\">Unsubscribe</a></p>{% endif %}"
+    },
+    {
+      "key": "workshop-2",
+      "name": "Workshop 2 - Resources",
+      "group": "workshops",
+      "subject": "Workshop resources",
+      "body": "<p>Hi {{ FirstName | default: 'there' }},</p><p>Here are the resources from the workshop, including the one-page capacity check we walked through.</p><p>Charlie</p>{% if unsubscribe_url %}<p style=\"font-size:12px;color:#888;\"><a href=\"{{ unsubscribe_url }}?email={{ Email | url_encode }}\">Unsubscribe</a></p>{% endif %}"
+    },
+    {
+      "key": "workshop-3",
+      "name": "Workshop 3 - Next step",
+      "group": "workshops",
+      "subject": "If you want to go further",
+      "body": "<p>Hi {{ FirstName | default: 'there' }},</p><p>A few people asked how to apply this one-on-one. That's the Midlife Capacity Partnership. Reply if you'd like to talk through whether it fits.</p><p>Charlie</p>{% if unsubscribe_url %}<p style=\"font-size:12px;color:#888;\"><a href=\"{{ unsubscribe_url }}?email={{ Email | url_encode }}\">Unsubscribe</a></p>{% endif %}"
+    },
+    {
+      "key": "partner-1",
+      "name": "Partner 1 - Partner kit",
+      "group": "partners",
+      "subject": "EC Map partner kit",
+      "body": "<p>Hi {{ FirstName | default: 'there' }},</p><p>Thanks for your interest in referring. Here's how the Executive Capacity Map works, who it's for, and how referrals are handled (scope, safety and communication).</p><p>Charlie</p>{% if unsubscribe_url %}<p style=\"font-size:12px;color:#888;\"><a href=\"{{ unsubscribe_url }}?email={{ Email | url_encode }}\">Unsubscribe</a></p>{% endif %}"
+    },
+    {
+      "key": "partner-2",
+      "name": "Partner 2 - Check-in",
+      "group": "partners",
+      "subject": "Quick check-in",
+      "body": "<p>Hi {{ FirstName | default: 'there' }},</p><p>Checking in: any questions about the kit, or anyone on your caseload you'd like to talk through (no identifying details needed)?</p><p>Charlie</p>{% if unsubscribe_url %}<p style=\"font-size:12px;color:#888;\"><a href=\"{{ unsubscribe_url }}?email={{ Email | url_encode }}\">Unsubscribe</a></p>{% endif %}"
+    }
+  ],
+  "sequences": [
+    {
+      "name": "Welcome - Capacity Notes",
+      "description": "New website and checklist subscribers: 4 emails over 10 days (day 1, 3, 6, 10) ending in a fit-call invitation.",
+      "segments": [
+        "nurture-entry"
+      ],
+      "stopOnReply": true,
+      "steps": [
+        {
+          "template": "welcome-1",
+          "delay": [
+            1,
+            "days"
+          ]
+        },
+        {
+          "template": "welcome-2",
+          "delay": [
+            2,
+            "days"
+          ]
+        },
+        {
+          "template": "welcome-3",
+          "delay": [
+            3,
+            "days"
+          ]
+        },
+        {
+          "template": "welcome-4",
+          "delay": [
+            4,
+            "days"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Workshop registrants",
+      "description": "Registration confirmation, resources, and a soft Partnership invitation.",
+      "segments": [
+        "workshop"
+      ],
+      "stopOnReply": true,
+      "steps": [
+        {
+          "template": "workshop-1",
+          "delay": [
+            0,
+            "minutes"
+          ]
+        },
+        {
+          "template": "workshop-2",
+          "delay": [
+            2,
+            "days"
+          ]
+        },
+        {
+          "template": "workshop-3",
+          "delay": [
+            3,
+            "days"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Referral partner onboarding",
+      "description": "Partner kit, then a check-in one week later.",
+      "segments": [
+        "partners"
+      ],
+      "stopOnReply": true,
+      "steps": [
+        {
+          "template": "partner-1",
+          "delay": [
+            0,
+            "minutes"
+          ]
+        },
+        {
+          "template": "partner-2",
+          "delay": [
+            7,
+            "days"
+          ]
+        }
+      ]
+    }
+  ]
+}
