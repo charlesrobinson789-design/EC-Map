@@ -67,6 +67,12 @@ configs:
       	redir https://{$$SITE_DOMAIN}{uri} permanent
       }
 
+      # The original Executive Capacity Map assessment (static, single file, no backend).
+      assess.{$$SITE_DOMAIN} {
+      	encode zstd gzip
+      	root * /srv/assess
+      	file_server
+      }
 
   site_index:
     content: |
