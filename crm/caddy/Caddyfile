@@ -1,0 +1,13 @@
+{
+	email {$ACME_EMAIL}
+}
+
+{$CRM_DOMAIN} {
+	encode zstd gzip
+	reverse_proxy leadcms:80
+}
+
+{$AUTOMATION_DOMAIN} {
+	encode zstd gzip
+	reverse_proxy n8n:5678
+}

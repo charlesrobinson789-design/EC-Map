@@ -1,0 +1,41 @@
+# Production override for a VPS: Caddy terminates HTTPS (automatic Let's Encrypt) on 80/443.
+# Prereqs: DNS A records for CRM_DOMAIN and AUTOMATION_DOMAIN -> server IP; real SMTP in .env.
+# Run: docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+
+services:
+  caddy:
+    image: caddy:2.11.7-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      CRM_DOMAIN: ${CRM_DOMAIN}
+      AUTOMATION_DOMAIN: ${AUTOMATION_DOMAIN}
+      ACME_EMAIL: ${ACME_EMAIL}
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - leadcms
+      - n8n
+    restart: unless-stopped
+
+  leadcms:
+    environment:
+      CORS__ALLOWEDORIGINS__3: https://${CRM_DOMAIN}
+
+  n8n:
+    environment:
+      N8N_HOST: ${AUTOMATION_DOMAIN}
+      N8N_PROTOCOL: https
+      WEBHOOK_URL: https://${AUTOMATION_DOMAIN}/
+      N8N_SECURE_COOKIE: "true"
+
+  # Local email catcher is dev-only; production sends through the SMTP set in .env.
+  mailpit:
+    profiles: ["dev"]
+
+volumes:
+  caddy_data:
+  caddy_config:
