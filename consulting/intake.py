@@ -1,7 +1,8 @@
 """Executive Capacity intake: receives the landing-page form and emails it to INTAKE_TO.
 
 Standard library only. Behind Caddy at POST /api/intake. Env:
-  SMTP_HOST (default smtp.hostinger.com), SMTP_PORT (465 = SSL), SMTP_USER, SMTP_PASSWORD,
+  SMTP_HOST (default smtp.hostinger.com), SMTP_PORT (465 = SSL), SMTP_USER,
+  SMTP_PASSWORD or SMTP_PASSWORD_FILE (read on every send, so updating the file needs no restart),
   INTAKE_TO (recipient), SMTP_STARTTLS=1 for port 587, SMTP_NO_TLS=1 for local testing only.
 """
 import json
@@ -17,7 +18,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 SMTP_HOST = os.environ.get("SMTP_HOST", "smtp.hostinger.com")
 SMTP_PORT = int(os.environ.get("SMTP_PORT", "465"))
 SMTP_USER = os.environ.get("SMTP_USER", "")
-SMTP_PASSWORD = os.environ.get("SMTP_PASSWORD", "")
+SMTP_PASSWORD_FILE = os.environ.get("SMTP_PASSWORD_FILE", "")
 INTAKE_TO = os.environ.get("INTAKE_TO", SMTP_USER)
 
 QUESTIONS = [
@@ -49,7 +50,20 @@ def clean(value, limit):
     return re.sub(r"[\r\x00]", "", str(value or "")).strip()[:limit]
 
 
+def smtp_password():
+    if os.environ.get("SMTP_PASSWORD"):
+        return os.environ["SMTP_PASSWORD"]
+    try:
+        with open(SMTP_PASSWORD_FILE, encoding="utf-8") as f:
+            return f.read().strip()
+    except OSError:
+        return ""
+
+
 def send(data):
+    password = smtp_password()
+    if not password and os.environ.get("SMTP_NO_TLS") != "1":
+        raise RuntimeError("SMTP password not configured")
     msg = EmailMessage()
     msg["Subject"] = f"New Executive Capacity intake: {data['name']} ({data['role']})"
     msg["From"] = formataddr(("Executive Capacity Map", SMTP_USER))
@@ -64,16 +78,16 @@ def send(data):
     if os.environ.get("SMTP_NO_TLS") == "1":
         with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=20) as s:
             if SMTP_USER:
-                s.login(SMTP_USER, SMTP_PASSWORD)
+                s.login(SMTP_USER, password)
             s.send_message(msg)
     elif os.environ.get("SMTP_STARTTLS") == "1":
         with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=20) as s:
             s.starttls(context=ssl.create_default_context())
-            s.login(SMTP_USER, SMTP_PASSWORD)
+            s.login(SMTP_USER, password)
             s.send_message(msg)
     else:
         with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT, context=ssl.create_default_context(), timeout=20) as s:
-            s.login(SMTP_USER, SMTP_PASSWORD)
+            s.login(SMTP_USER, password)
             s.send_message(msg)
 
 
