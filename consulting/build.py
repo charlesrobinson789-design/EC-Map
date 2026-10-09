@@ -27,9 +27,10 @@ services:
     image: caddy:2.11.7-alpine
     restart: unless-stopped
     ports:
-      - "80:80"
-      - "443:443"
-      - "443:443/udp"
+      # Overridable so a rehearsal can run on hidden local ports beside the live site.
+      - "${{HTTP_BIND:-80}}:80"
+      - "${{HTTPS_BIND:-443}}:443"
+      - "${{HTTPS_BIND:-443}}:443/udp"
     environment:
       SITE_DOMAIN: ${{SITE_DOMAIN:-executivecapacitymap.com}}
       ACME_EMAIL: ${{ACME_EMAIL:-charles@executivecapacitymap.com}}
