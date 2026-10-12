@@ -23,4 +23,16 @@ www.{$SITE_DOMAIN} {
 	redir https://{$SITE_DOMAIN}{uri} permanent
 }
 
+# n8n automations. The whole host sits behind a password at the edge, webhooks included:
+# the intake service reaches n8n over the internal network, so nothing here needs to be public.
+# N8N_EDITOR_HASH comes from the server's edge.env (base64 of `caddy hash-password` output).
+# Until it is set, the default below is a hash of a discarded random secret: the host stays locked.
+automations.{$SITE_DOMAIN} {
+	encode zstd gzip
+	basic_auth {
+		{$N8N_EDITOR_USER:charles} {$N8N_EDITOR_HASH:JDJhJDE0JEJ4aTU4QXQ0UW9pT2RFa29NeGlwZXVrVGVaYThSSGFRTkRRLnNmY1JoRnlET0FtN0RaL1F5}
+	}
+	reverse_proxy n8n:5678
+}
+
 #ASSESS_BLOCK#

@@ -1,16 +1,23 @@
-"""Executive Capacity intake: receives the landing-page form and emails it to INTAKE_TO.
+"""Executive Capacity intake: receives the landing-page form, saves it, emails it to INTAKE_TO.
 
-Standard library only. Behind Caddy at POST /api/intake. Env:
+Standard library only. Behind Caddy at POST /api/intake. A submission is accepted once it is
+saved to disk or emailed, so a mail outage never loses a lead. Env:
   SMTP_HOST (default smtp.hostinger.com), SMTP_PORT (465 = SSL), SMTP_USER,
   SMTP_PASSWORD or SMTP_PASSWORD_FILE (read on every send, so updating the file needs no restart),
-  INTAKE_TO (recipient), SMTP_STARTTLS=1 for port 587, SMTP_NO_TLS=1 for local testing only.
+  INTAKE_TO (recipient), SMTP_STARTTLS=1 for port 587, SMTP_NO_TLS=1 for local testing only,
+  DATA_DIR (submissions.jsonl is appended here), NOTIFY_URL (optional; each saved submission is
+  POSTed here as JSON in the background, e.g. an n8n webhook that texts Charles).
 """
 import json
 import os
 import re
 import smtplib
 import ssl
+import threading
 import time
+import urllib.request
+import uuid
+from datetime import datetime, timezone
 from email.message import EmailMessage
 from email.utils import formataddr
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -20,6 +27,8 @@ SMTP_PORT = int(os.environ.get("SMTP_PORT", "465"))
 SMTP_USER = os.environ.get("SMTP_USER", "")
 SMTP_PASSWORD_FILE = os.environ.get("SMTP_PASSWORD_FILE", "")
 INTAKE_TO = os.environ.get("INTAKE_TO", SMTP_USER)
+DATA_DIR = os.environ.get("DATA_DIR", "")
+NOTIFY_URL = os.environ.get("NOTIFY_URL", "")
 
 QUESTIONS = [
     ("q1", "Practice or business, and who you serve"),
@@ -37,6 +46,7 @@ EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
 MAX_BODY = 32_000
 RATE_LIMIT, RATE_WINDOW = 5, 3600  # submissions per IP per hour
 hits = {}
+save_lock = threading.Lock()
 
 
 def rate_limited(ip):
@@ -58,6 +68,33 @@ def smtp_password():
             return f.read().strip()
     except OSError:
         return ""
+
+
+def save(record):
+    """Append one submission to DATA_DIR/submissions.jsonl (owner-only), durably."""
+    if not DATA_DIR:
+        raise RuntimeError("DATA_DIR not configured")
+    path = os.path.join(DATA_DIR, "submissions.jsonl")
+    line = json.dumps(record, ensure_ascii=False) + "\n"
+    with save_lock:
+        fd = os.open(path, os.O_WRONLY | os.O_APPEND | os.O_CREAT, 0o600)
+        with os.fdopen(fd, "a", encoding="utf-8") as f:
+            f.write(line)
+            f.flush()
+            os.fsync(f.fileno())
+
+
+def notify(record):
+    """POST the submission to NOTIFY_URL. Best effort: failures are logged, never raised."""
+    try:
+        req = urllib.request.Request(
+            NOTIFY_URL, data=json.dumps(record).encode(), headers={"Content-Type": "application/json"}
+        )
+        with urllib.request.urlopen(req, timeout=10) as res:
+            res.read()
+        print(f"intake {record['id']} notify ok", flush=True)
+    except Exception as e:  # noqa: BLE001 - the lead is already accepted; just log
+        print(f"intake {record['id']} notify failed: {type(e).__name__}: {e}", flush=True)
 
 
 def send(data):
@@ -125,12 +162,25 @@ class Handler(BaseHTTPRequestHandler):
         missing = [k for k, v in data.items() if not v]
         if missing or not EMAIL_RE.match(data["email"]):
             return self.reply(400, {"error": "missing or invalid fields", "fields": missing})
+        record = {"id": uuid.uuid4().hex[:12],
+                  "received_at": datetime.now(timezone.utc).isoformat(timespec="seconds"), **data}
+        # Log only the id and outcome: submission contents stay out of the container logs.
+        saved = sent = False
+        try:
+            save(record)
+            saved = True
+        except Exception as e:  # noqa: BLE001
+            print(f"intake {record['id']} save failed: {type(e).__name__}: {e}", flush=True)
         try:
             send(data)
-        except Exception as e:  # noqa: BLE001 - report any SMTP failure as 502, keep details in logs
-            print(f"intake send failed: {type(e).__name__}: {e}", flush=True)
+            sent = True
+        except Exception as e:  # noqa: BLE001
+            print(f"intake {record['id']} send failed: {type(e).__name__}: {e}", flush=True)
+        if not (saved or sent):
             return self.reply(502, {"error": "could not send"})
-        print("intake sent", flush=True)
+        print(f"intake {record['id']} accepted (saved={saved}, emailed={sent})", flush=True)
+        if NOTIFY_URL:
+            threading.Thread(target=notify, args=(record,), daemon=True).start()
         self.reply(200, {"ok": True})
 
     def log_message(self, fmt, *args):
@@ -138,5 +188,6 @@ class Handler(BaseHTTPRequestHandler):
 
 
 if __name__ == "__main__":
-    print(f"intake listening on :8000, delivering to {INTAKE_TO or '(INTAKE_TO not set)'}", flush=True)
+    print(f"intake listening on :8000, delivering to {INTAKE_TO or '(INTAKE_TO not set)'}, "
+          f"saving to {DATA_DIR or '(DATA_DIR not set)'}, notify {'on' if NOTIFY_URL else 'off'}", flush=True)
     ThreadingHTTPServer(("0.0.0.0", 8000), Handler).serve_forever()

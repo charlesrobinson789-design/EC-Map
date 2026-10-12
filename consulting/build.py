@@ -32,6 +32,11 @@ services:
     environment:
       SITE_DOMAIN: ${{SITE_DOMAIN:-executivecapacitymap.com}}
       ACME_EMAIL: ${{ACME_EMAIL:-charles@executivecapacitymap.com}}
+    # N8N_EDITOR_HASH (the automations password) lives in a root-only file on the server, never in git.
+    # Optional: without it the automations host stays locked (see the Caddyfile).
+    env_file:
+      - path: ${{SECRETS_DIR:-/opt/ecm/secrets}}/edge.env
+        required: false
     configs:
       - source: caddyfile
         target: /etc/caddy/Caddyfile
@@ -57,11 +62,33 @@ services:
       SMTP_PASSWORD_FILE: /run/secrets/smtp_password
       INTAKE_TO: ${{INTAKE_TO:-charles@executivecapacitymap.com}}
       SMTP_NO_TLS: ${{SMTP_NO_TLS:-0}}
+      # Every submission is appended to submissions.jsonl here before the email is attempted.
+      DATA_DIR: /data
+      # n8n webhook (internal network only) that texts Charles; inactive until the workflow is on.
+      NOTIFY_URL: ${{NOTIFY_URL:-http://n8n:5678/webhook/ecm-intake}}
     configs:
       - source: intake_py
         target: /app/intake.py
     volumes:
       - ${{SECRETS_DIR:-/opt/ecm/secrets}}:/run/secrets:ro
+      - ${{INTAKE_DATA_DIR:-/opt/ecm/data}}:/data
+
+  n8n:
+    image: n8nio/n8n:2.42.5
+    restart: unless-stopped
+    environment:
+      N8N_HOST: automations.${{SITE_DOMAIN:-executivecapacitymap.com}}
+      N8N_PROTOCOL: https
+      WEBHOOK_URL: https://automations.${{SITE_DOMAIN:-executivecapacitymap.com}}/
+      N8N_PROXY_HOPS: 1
+      N8N_SECURE_COOKIE: "true"
+      GENERIC_TIMEZONE: ${{TIMEZONE:-America/Los_Angeles}}
+      TZ: ${{TIMEZONE:-America/Los_Angeles}}
+      N8N_DIAGNOSTICS_ENABLED: "false"
+      N8N_PERSONALIZATION_ENABLED: "false"
+    # SQLite in this volume, including the generated encryption key for saved credentials.
+    volumes:
+      - n8n_data:/home/node/.n8n
 
 configs:
   caddyfile:
@@ -80,6 +107,7 @@ volumes:
     external: true
     name: ${{CADDY_DATA_VOLUME:-gratitude-wellness_caddy_data}}
   caddy_config:
+  n8n_data:
 """
 
 LIVE_PORTS = '      - "80:80"\n      - "443:443"\n      - "443:443/udp"'
