@@ -1,0 +1,111 @@
+{
+  "name": "Intake alert: text Charles",
+  "nodes": [
+    {
+      "id": "4b0d7f9e-1c35-4d8e-9a5e-2f6c1b7a9d01",
+      "name": "New intake",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [0, 0],
+      "webhookId": "0f3c9a52-6e1b-4f7d-8c2a-5d9e4b1a7c33",
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "ecm-intake",
+        "responseMode": "onReceived",
+        "options": {}
+      }
+    },
+    {
+      "id": "8e2a6c14-3f9b-4a7d-b5c1-6d0e2f8a4b92",
+      "name": "Settings",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [240, 0],
+      "notes": "Edit these two values after import: your mobile number in E.164 form (+1...) and the Inkbox agent identity ID.",
+      "notesInFlow": true,
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1f0c2d3-0001-4c5e-9f1a-000000000001",
+              "name": "alert_to",
+              "value": "+1XXXXXXXXXX",
+              "type": "string"
+            },
+            {
+              "id": "a1f0c2d3-0002-4c5e-9f1a-000000000002",
+              "name": "inkbox_identity_id",
+              "value": "REPLACE_WITH_INKBOX_IDENTITY_ID",
+              "type": "string"
+            },
+            {
+              "id": "a1f0c2d3-0003-4c5e-9f1a-000000000003",
+              "name": "message",
+              "value": "={{ 'New Executive Capacity intake: ' + $json.body.name + ' (' + $json.body.role + '). Full answers are in your email.' }}",
+              "type": "string"
+            },
+            {
+              "id": "a1f0c2d3-0004-4c5e-9f1a-000000000004",
+              "name": "submission_id",
+              "value": "={{ $json.body.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "c7d3e5f1-9a2b-4c6d-8e0f-1a3b5c7d9e24",
+      "name": "Send iMessage (Inkbox)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [480, 0],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 5000,
+      "notes": "Credential: Header Auth, name X-API-Key, value = your Inkbox API key.",
+      "notesInFlow": true,
+      "parameters": {
+        "method": "POST",
+        "url": "https://inkbox.ai/api/v1/imessage/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "agent_identity_id",
+              "value": "={{ $json.inkbox_identity_id }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Idempotency-Key",
+              "value": "={{ 'ecm-intake-' + $json.submission_id }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ to: $json.alert_to, text: $json.message }) }}",
+        "options": {}
+      }
+    }
+  ],
+  "connections": {
+    "New intake": {
+      "main": [[{ "node": "Settings", "type": "main", "index": 0 }]]
+    },
+    "Settings": {
+      "main": [[{ "node": "Send iMessage (Inkbox)", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "active": false
+}
