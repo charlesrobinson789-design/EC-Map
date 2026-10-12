@@ -1,0 +1,6 @@
+# The original Executive Capacity Map assessment (static, single file, no backend).
+assess.{$SITE_DOMAIN} {
+	encode zstd gzip
+	root * /srv/assess
+	file_server
+}
