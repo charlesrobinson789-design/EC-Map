@@ -23,15 +23,20 @@ www.{$SITE_DOMAIN} {
 	redir https://{$SITE_DOMAIN}{uri} permanent
 }
 
-# n8n automations. The whole host sits behind a password at the edge, webhooks included:
-# the intake service reaches n8n over the internal network, so nothing here needs to be public.
-# N8N_EDITOR_HASH comes from the server's edge.env (base64 of `caddy hash-password` output).
-# Until it is set, the default below is a hash of a discarded random secret: the host stays locked.
+# n8n automations. Sign-in is n8n's own: the owner account is created from the server's secrets
+# before n8n first starts (no open setup page), and Charles turns on two-step login.
+# No password prompt at the edge: Claude's n8n connector signs in with OAuth and calls
+# /mcp-server and /mcp-oauth from Anthropic's servers, which a browser-style prompt would block.
+# No `encode` here: it would buffer n8n's streamed MCP responses.
 automations.{$SITE_DOMAIN} {
-	encode zstd gzip
-	basic_auth {
-		{$N8N_EDITOR_USER:charles} {$N8N_EDITOR_HASH:JDJhJDE0JEJ4aTU4QXQ0UW9pT2RFa29NeGlwZXVrVGVaYThSSGFRTkRRLnNmY1JoRnlET0FtN0RaL1F5}
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
 	}
+	# Public n8n forms are not used. Keep them off the internet.
+	@forms path /form/* /form-test/* /form-waiting/*
+	respond @forms 404
 	reverse_proxy n8n:5678
 }
 
