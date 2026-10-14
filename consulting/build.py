@@ -1,5 +1,6 @@
 """Assemble deploy/docker-compose.yml: one self-contained file (configs inlined) for Hostinger Docker Manager."""
 import base64
+import hashlib
 import os
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -28,7 +29,14 @@ assert caddyfile.startswith(GLOBAL), "Caddyfile global block changed; update bui
 caddyfile_rehearsal = caddyfile.replace(GLOBAL, "{\n\temail {$ACME_EMAIL}\n\tlocal_certs\n}\n", 1)
 
 
+def rev(*texts):
+    # Compose doesn't recreate a container when only inline config content changes, so each
+    # service carries a hash of its configs in its environment: new content -> new container.
+    return hashlib.sha256("\0".join(texts).encode()).hexdigest()[:12]
+
+
 def render(project, ports, live):
+    caddy = caddyfile if live else caddyfile_rehearsal
     caddy_data = """  caddy_data:
     external: true
     name: ${CADDY_DATA_VOLUME:-gratitude-wellness_caddy_data}""" if live else """  # Rehearsal keeps its own certificate store so it never touches the live one.
@@ -45,6 +53,7 @@ services:
     environment:
       SITE_DOMAIN: ${{SITE_DOMAIN:-executivecapacitymap.com}}
       ACME_EMAIL: ${{ACME_EMAIL:-charles@executivecapacitymap.com}}
+      CONFIG_REV: "{rev(caddy, index)}"
     configs:
       - source: caddyfile
         target: /etc/caddy/Caddyfile
@@ -75,6 +84,7 @@ services:
       DATA_DIR: /data
       # n8n webhook (internal network only); a 404 in the log just means no workflow listens there yet.
       NOTIFY_URL: ${{NOTIFY_URL:-http://n8n:5678/webhook/ecm-intake}}
+      CONFIG_REV: "{rev(read("intake.py"))}"
     configs:
       - source: intake_py
         target: /app/intake.py
@@ -93,6 +103,7 @@ services:
       OWNER_EMAIL: ${{OWNER_EMAIL:-charles@executivecapacitymap.com}}
       N8N_URL: https://automations.${{SITE_DOMAIN:-executivecapacitymap.com}}
       WELCOME_EMAIL: "{'1' if live else '0'}"
+      CONFIG_REV: "{rev(read("n8n/init.cjs"))}"
     configs:
       - source: automations_init
         target: /init/init.cjs
@@ -168,6 +179,8 @@ services:
     image: {POSTGRES_IMAGE}
     restart: unless-stopped
     command: ["sh", "/backup.sh"]
+    environment:
+      CONFIG_REV: "{rev(read("n8n/pg-backup.sh"))}"
     configs:
       - source: pg_backup
         target: /backup.sh
@@ -181,7 +194,7 @@ services:
 configs:
   caddyfile:
     content: |
-{block(caddyfile if live else caddyfile_rehearsal)}
+{block(caddy)}
   site_index:
     content: |
 {block(index)}

@@ -12,6 +12,7 @@ services:
     environment:
       SITE_DOMAIN: ${SITE_DOMAIN:-executivecapacitymap.com}
       ACME_EMAIL: ${ACME_EMAIL:-charles@executivecapacitymap.com}
+      CONFIG_REV: "934c26046783"
     configs:
       - source: caddyfile
         target: /etc/caddy/Caddyfile
@@ -42,6 +43,7 @@ services:
       DATA_DIR: /data
       # n8n webhook (internal network only); a 404 in the log just means no workflow listens there yet.
       NOTIFY_URL: ${NOTIFY_URL:-http://n8n:5678/webhook/ecm-intake}
+      CONFIG_REV: "a1ada939ddea"
     configs:
       - source: intake_py
         target: /app/intake.py
@@ -60,6 +62,7 @@ services:
       OWNER_EMAIL: ${OWNER_EMAIL:-charles@executivecapacitymap.com}
       N8N_URL: https://automations.${SITE_DOMAIN:-executivecapacitymap.com}
       WELCOME_EMAIL: "1"
+      CONFIG_REV: "188d2e65282c"
     configs:
       - source: automations_init
         target: /init/init.cjs
@@ -135,6 +138,8 @@ services:
     image: postgres:16-alpine
     restart: unless-stopped
     command: ["sh", "/backup.sh"]
+    environment:
+      CONFIG_REV: "b48f32aa848d"
     configs:
       - source: pg_backup
         target: /backup.sh
