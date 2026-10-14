@@ -45,7 +45,7 @@ Hostinger Docker Manager deploys one self-contained compose file from a URL. Pin
 https://cdn.jsdelivr.net/gh/charlesrobinson789-design/EC-Map@<commit>/consulting/deploy/docker-compose.yml
 ```
 
-1. **Rehearsal first:** deploy `deploy/rehearsal.yml` as project `crm-consulting-rehearsal`. It binds only to `127.0.0.1:18080/18443`, uses its own certificate store with Caddy's internal CA (so it never asks Let's Encrypt for certificates it can't prove), and sends no email. Confirm every container starts and `automations-init` exits 0, then stop it.
+1. **Rehearsal first:** deploy `deploy/rehearsal.yml` as project `crm-consulting-rehearsal`. It binds only to `127.0.0.1:18080/18443`, uses its own certificate store with Caddy's internal CA (so it never asks Let's Encrypt for certificates it can't prove), writes to `/opt/ecm/rehearsal/` instead of the live data and backup folders, and sends no email. Confirm every container starts and `automations-init` exits 0, then stop it.
 2. **Live:** deploy `deploy/docker-compose.yml` as project `crm-consulting` (replaces the running project; volumes and certificates are kept).
 3. Check the logs: the `intake` start line names the email recipient, data directory and notify state; `automations-init` lines are listed below.
 
@@ -58,6 +58,8 @@ https://cdn.jsdelivr.net/gh/charlesrobinson789-design/EC-Map@<commit>/consulting
 3. Connect Claude: Settings > Instance-level MCP > Connect a client > Claude > One-click setup. (MCP access is already switched on by the server.)
 
 The owner account is managed by the server (`N8N_INSTANCE_OWNER_*`), so it exists before n8n first starts and there is never an open setup page. A password changed inside n8n is reset on the next restart.
+
+n8n's first run on the live server was on Postgres (14 Oct 2026), with a fresh `n8n_data` volume and the encryption key from `automation_secrets`. Don't deploy an older SQLite version of n8n over it. If one ever runs first, its data and its encryption key (in `n8n_data/config`) must be migrated before switching to this setup, or n8n refuses to start on the mismatched key.
 
 **If the email didn't arrive**, read the password in the hPanel browser terminal:
 ```sh
@@ -75,7 +77,8 @@ sudo docker run --rm -v crm-consulting_automation_secrets:/s alpine rm -f /s/own
 
 ## Backups
 
-- `pg-backup` writes `/opt/ecm/backups/n8n-YYYY-MM-DD.dump` nightly (and once on first start), keeping 14 days.
+- `pg-backup` writes `/opt/ecm/backups/n8n-YYYY-MM-DD.dump` nightly (and once after n8n's first start), keeping 14 days. Dates are UTC; the nightly run starts at 03:00 UTC.
+- `/opt/ecm/backups/n8n-2026-10-14.dump` came from the rehearsal (an empty database), before rehearsal had its own folder. Don't restore it; it ages out after 14 days.
 - Restore into a running stack:
   ```sh
   sudo docker exec -i crm-consulting-pg-backup-1 sh -c 'PGPASSWORD=$(cat /secrets/pg_password) pg_restore -h postgres -U n8n -d n8n --clean' < /opt/ecm/backups/n8n-YYYY-MM-DD.dump

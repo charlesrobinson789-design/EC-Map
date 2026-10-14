@@ -20,8 +20,11 @@ dump() {
   find /backups -name 'n8n-*.dump' -mtime +14 -delete
 }
 
-# First run: wait for the database, then take a baseline dump.
-until pg_isready -h postgres -U n8n -d n8n -q; do sleep 5; done
+# Wait until n8n has finished its first start (migrations run, owner set up), so no dump
+# captures a half-built database. Then take a baseline dump if there is none yet.
+until [ "$(psql -h postgres -U n8n -d n8n -tAc "select value from settings where key = 'userManagement.isInstanceOwnerSetUp'" 2>/dev/null)" = "true" ]; do
+  sleep 15
+done
 ls /backups/n8n-*.dump >/dev/null 2>&1 || dump
 
 while :; do

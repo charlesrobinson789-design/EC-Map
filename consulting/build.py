@@ -37,6 +37,8 @@ def rev(*texts):
 
 def render(project, ports, live):
     caddy = caddyfile if live else caddyfile_rehearsal
+    # Rehearsal writes to its own host folders, never into the live data or backups.
+    host = "/opt/ecm" if live else "/opt/ecm/rehearsal"
     caddy_data = """  caddy_data:
     external: true
     name: ${CADDY_DATA_VOLUME:-gratitude-wellness_caddy_data}""" if live else """  # Rehearsal keeps its own certificate store so it never touches the live one.
@@ -90,7 +92,7 @@ services:
         target: /app/intake.py
     volumes:
       - ${{SECRETS_DIR:-/opt/ecm/secrets}}:/run/secrets:ro
-      - ${{INTAKE_DATA_DIR:-/opt/ecm/data}}:/data
+      - ${{INTAKE_DATA_DIR:-{host}/data}}:/data
 
   # One-shot: generates the stack's secrets on first run, prefills the mailbox credentials,
   # and emails Charles his n8n sign-in once (live only). Safe to re-run on every deploy.
@@ -186,7 +188,7 @@ services:
         target: /backup.sh
     volumes:
       - automation_secrets:/secrets:ro
-      - ${{BACKUP_DIR:-/opt/ecm/backups}}:/backups
+      - ${{BACKUP_DIR:-{host}/backups}}:/backups
     depends_on:
       postgres:
         condition: service_healthy

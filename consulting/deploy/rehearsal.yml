@@ -48,7 +48,7 @@ services:
         target: /app/intake.py
     volumes:
       - ${SECRETS_DIR:-/opt/ecm/secrets}:/run/secrets:ro
-      - ${INTAKE_DATA_DIR:-/opt/ecm/data}:/data
+      - ${INTAKE_DATA_DIR:-/opt/ecm/rehearsal/data}:/data
 
   # One-shot: generates the stack's secrets on first run, prefills the mailbox credentials,
   # and emails Charles his n8n sign-in once (live only). Safe to re-run on every deploy.
@@ -138,13 +138,13 @@ services:
     restart: unless-stopped
     command: ["sh", "/backup.sh"]
     environment:
-      CONFIG_REV: "b48f32aa848d"
+      CONFIG_REV: "7e1bd2060d51"
     configs:
       - source: pg_backup
         target: /backup.sh
     volumes:
       - automation_secrets:/secrets:ro
-      - ${BACKUP_DIR:-/opt/ecm/backups}:/backups
+      - ${BACKUP_DIR:-/opt/ecm/rehearsal/backups}:/backups
     depends_on:
       postgres:
         condition: service_healthy
@@ -895,8 +895,11 @@ configs:
         find /backups -name 'n8n-*.dump' -mtime +14 -delete
       }
 
-      # First run: wait for the database, then take a baseline dump.
-      until pg_isready -h postgres -U n8n -d n8n -q; do sleep 5; done
+      # Wait until n8n has finished its first start (migrations run, owner set up), so no dump
+      # captures a half-built database. Then take a baseline dump if there is none yet.
+      until [ "$$(psql -h postgres -U n8n -d n8n -tAc "select value from settings where key = 'userManagement.isInstanceOwnerSetUp'" 2>/dev/null)" = "true" ]; do
+        sleep 15
+      done
       ls /backups/n8n-*.dump >/dev/null 2>&1 || dump
 
       while :; do
